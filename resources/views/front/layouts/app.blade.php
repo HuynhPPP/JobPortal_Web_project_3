@@ -29,8 +29,15 @@
 					<li class="nav-item">
 						<a class="nav-link" aria-current="page" href="jobs.html">Tìm việc</a>
 					</li>										
-				</ul>				
-				<a class="btn btn-outline-primary me-2" href="login.html" type="submit">Đăng nhập</a>
+				</ul>			
+
+				@if(Auth::check())
+					<a class="btn btn-outline-primary me-2" href="{{ route("account.profile") }}" type="submit">Tài khoản</a>
+					@else
+					<a class="btn btn-outline-primary me-2" href="{{ route("account.login") }}" type="submit">Đăng nhập</a>
+				@endif
+				
+
 				<a class="btn btn-primary" href="post-job.html" type="submit">Đăng bài tuyển dụng</a>
 			</div>
 		</div>
