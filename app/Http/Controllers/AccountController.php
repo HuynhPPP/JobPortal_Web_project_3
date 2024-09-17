@@ -90,8 +90,75 @@ class AccountController extends Controller
     }
 
     public function profile() {
-        return view('front.account.profile');
+
+        $id = Auth::user()->id;
+
+        $user = User::where('id', $id)->first();
+
+        return view('front.account.profile', [
+            'user' => $user,
+        ]);
     }
+
+    public function updateProfile(Request $request) {
+        // Lấy thông tin người dùng hiện tại
+        $id = Auth::user()->id;
+        $currentEmail = Auth::user()->email;
+    
+        // Khởi tạo mảng quy tắc xác thực
+        $rules = [
+            'name' => 'required|min:5|max:20',
+        ];
+    
+        // Nếu email mới khác email hiện tại, áp dụng quy tắc unique
+        if ($request->email !== $currentEmail) {
+            $rules['email'] = 'required|email|unique:users,email,' . $id . ',id';
+        } else {
+            $rules['email'] = 'required|email';
+        }
+    
+        // Tùy chỉnh thông báo lỗi bằng tiếng Việt
+        $messages = [
+            'name.required' => 'Trường tên không được để trống.',
+            'name.min' => 'Tên phải có ít nhất 5 ký tự.',
+            'name.max' => 'Tên không được vượt quá 20 ký tự.',
+            'email.required' => 'Trường email không được để trống.',
+            'email.email' => 'Email phải đúng định dạng.',
+            'email.unique' => 'Email này đã được sử dụng.',
+        ];
+    
+        // Tiến hành xác thực dữ liệu
+        $validator = Validator::make($request->all(), $rules, $messages);
+    
+        // Nếu xác thực thành công
+        if ($validator->passes()) {
+            // Tìm người dùng theo ID và cập nhật thông tin
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->mobile = $request->mobile;
+            $user->designation = $request->designation;
+            $user->save();
+    
+            // Đặt thông báo thành công và trả về JSON
+            session()->flash('success', 'Cập nhật thành công.');
+    
+            return response()->json([
+                'status' => true,
+                'errors' => [],
+            ]);
+    
+        } else {
+            // Nếu xác thực thất bại, trả về lỗi
+            session()->flash('error', 'Cập nhật không thành công! Có lỗi xảy ra.');
+    
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+    }
+    
 
     public function logout() {
         Auth::logout();
