@@ -25,7 +25,7 @@
                             <h3 class="fs-4 mb-1">Thông tin tài khoản</h3>
                             <p>Các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Tên <span style="color: red">*</span></label>
+                                <label for="" class="mb-2">Họ và tên <span style="color: red">*</span></label>
                                 <input type="text" 
                                     name="name" id="name" 
                                     placeholder="Nhập tên..." 

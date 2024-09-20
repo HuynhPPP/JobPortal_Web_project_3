@@ -24,7 +24,7 @@
                 <a href="post-job.html">Đăng công việc</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="my-jobs.html">Công việc của tôi</a>
+                <a href="{{ route("account.myJobs") }}">Công việc của tôi</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="job-applied.html">Công việc đã gửi</a>
