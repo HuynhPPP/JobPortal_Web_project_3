@@ -58,7 +58,8 @@
         <form id="profilePicForm" name="profilePicForm" action="" method="post">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Chọn ảnh đại diện</label>
-                <input type="file" class="form-control" id="image"  name="image">
+                <input type="file" class="form-control" id="image" name="image">
+				<p class="text-danger" id="image-error"></p>
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary mx-3">Cập nhật</button>
@@ -101,7 +102,14 @@
 			contentType: false,
 			processData: false,
 			success: function (response) {
-
+				if (response.status == false) {
+					var errors = response.errors;
+					if (errors.image) {
+						$("#image-error").html(errors.image)
+					}
+				} else {
+					window.location.href = '{{ url()->current() }}';
+				}
 			}
 		})
 	});
