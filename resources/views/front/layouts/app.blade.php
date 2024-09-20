@@ -51,20 +51,19 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title pb-0" id="exampleModalLabel">Change Profile Picture</h5>
+        <h5 class="modal-title pb-0" id="exampleModalLabel">Đổi ảnh đại diện</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="profilePicForm" name="profilePicForm" action="" method="post">
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Profile Image</label>
+                <label for="exampleInputEmail1" class="form-label">Chọn ảnh đại diện</label>
                 <input type="file" class="form-control" id="image"  name="image">
             </div>
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary mx-3">Update</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary mx-3">Cập nhật</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
             </div>
-            
         </form>
       </div>
     </div>
@@ -87,6 +86,24 @@
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
+	});
+
+	$("#profilePicForm").submit(function (e) {
+		e.preventDefault();
+
+		var formData = new FormData(this);
+
+		$.ajax({
+			url: '{{ route("account.updateProfilePicture") }}',
+			type: 'post',
+			data: formData,
+			dataType: 'json',
+			contentType: false,
+			processData: false,
+			success: function (response) {
+
+			}
+		})
 	});
 </script>
 

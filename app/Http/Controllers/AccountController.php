@@ -164,4 +164,8 @@ class AccountController extends Controller
         Auth::logout();
         return redirect()->route('account.login');
     }
+
+    public function updateProfilePicture(Request $request) {
+        dd($request->all());
+    }
 }
