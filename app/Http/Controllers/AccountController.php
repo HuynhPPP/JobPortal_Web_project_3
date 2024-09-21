@@ -309,4 +309,114 @@ class AccountController extends Controller
             'jobs' => $jobs,
         ]);
     }
+
+    public function editJob(Request $request, $id) {
+
+        $careers = Category::orderby('name', 'ASC')->where('status', 1)->get();
+        $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
+
+        $job = Job::where([
+            'user_id' => Auth::user()->id,
+            'id' => $id,
+        ])->first();
+
+        if ($job == null) {
+            abort(404);
+        }
+
+        return view('front.account.job.edit', [
+            'careers' => $careers,
+            'jobtypes' => $jobtype,
+            'job' => $job,
+        ]);
+    }
+
+    public function updateJob(Request $request, $id) {
+
+        $rules = [
+            'title' => 'required|min:5|max:200',
+            'category' => 'required',
+            'jobType' => 'required',
+            'vacancy' => 'required|integer',
+            'location' => 'required|max:50',
+            'description' => 'required',
+            'keywords' => 'required',
+            'company_name' => 'required|min:3|max:75',
+        ];
+
+        $messages = [
+            'title.required' => 'Tiêu đề không được bỏ trống.',
+            'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
+            'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
+            'category.required' => 'Ngành nghề không được bỏ trống.',
+            'jobType.required' => 'Loại công việc không được bỏ trống.',
+            'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
+            'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
+            'location.required' => 'Địa điểm không được để trống.',
+            'location.max' => 'Địa điểm không được dài hơn 50 ký tự.',
+            'description.required' => 'Mô tả công việc không được để trống.',
+            'keywords.required' => 'Từ khóa không được để trống.',
+            'company_name.required' => 'Tên công ty không được để trống.',
+            'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
+            'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->passes()) {
+
+            $job = Job::find($id);
+            $job->title = $request->title;
+            $job->category_id  = $request->category;
+            $job->job_type_id  = $request->jobType;
+            $job->user_id = Auth::user()->id;
+            $job->vacancy = $request->vacancy;
+            $job->salary = $request->salary;
+            $job->location = $request->location;
+            $job->description = $request->description;
+            $job->benefits = $request->benefits;
+            $job->responsibility = $request->responsibility;
+            $job->qualifications = $request->qualifications;
+            $job->keywords = $request->keywords;
+            $job->experience = $request->experience;
+            $job->company_name = $request->company_name;
+            $job->company_location = $request->company_location;
+            $job->company_website = $request->company_website;
+            $job->save();
+
+            session()->flash('success','Việc làm đã được lưu');
+
+            return response()->json([
+                'status' => true,
+                'errors' => [],
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+    }
+
+    public function deleteJob(Request $request) {
+
+        $job = Job::where([
+            'user_id' => Auth::user()->id,
+            'id' => $request->jobId,
+        ])->first();
+
+        if ($job == null) {
+            session()->flash('error','Công việc không tìm thấy hoặc đã bị xoá');
+            return response()->json([
+                'status' => true,
+            ]);
+        }
+
+        Job::where('id',$request->jobId)->delete();
+        session()->flash('success','Xoá thành công');
+        return response()->json([
+            'status' => true,
+        ]);
+    }
 }

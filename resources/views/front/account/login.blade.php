@@ -24,7 +24,7 @@
                     <form action="{{ route('account.authenticate') }}" method="post">
                         @csrf
                         <div class="mb-3">
-                            <label for="" class="mb-2">Email*</label>
+                            <label for="" class="mb-2">Email <span style="color: red">*</span></label>
                             <input type="text" 
                                     name="email" id="email" 
                                     value="{{ old('email') }}"
@@ -37,7 +37,7 @@
 
                         </div> 
                         <div class="mb-3">
-                            <label for="" class="mb-2">Mật khẩu*</label>
+                            <label for="" class="mb-2">Mật khẩu <span style="color: red">*</span></label>
                             <input type="password" 
                                     name="password" 
                                     id="password" 
@@ -56,7 +56,8 @@
                     </form>                    
                 </div>
                 <div class="mt-4 text-center">
-                    <p>Bạn chưa có tài khoản? <a  href="{{ route("account.registration") }}">Đăng ký</a></p>
+                    <p>Bạn muốn tìm một công việc? <a  href="{{ route("account.registration") }}">Đăng ký</a></p>
+                    <p>Bạn là nhà tuyển dụng? <a  href="{{ route("account.registration") }}">Đăng ký</a></p>
                 </div>
             </div>
         </div>

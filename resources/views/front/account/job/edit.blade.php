@@ -20,14 +20,21 @@
             <div class="col-lg-9">
                 @include('front.message')
 
-                <form action="" method="post" id="createJobForm" name="createJobForm">
+                <form action="" method="post" id="editJobForm" name="editJobForm">
                     <div class="card border-0 shadow mb-4">
                         <div class="card-body card-form p-4">
-                            <h3 class="fs-4 mb-1">Chi tiết công việc</h3>
+                            <h3 class="fs-4 mb-1">Chỉnh sửa công việc</h3>
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <label for="" class="mb-2">Tiêu đề<span class="req">*</span></label>
-                                    <input type="text" placeholder="Tiêu đề công việc" id="title" name="title" class="form-control">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Tiêu đề công việc" 
+                                        id="title" 
+                                        name="title" 
+                                        class="form-control"
+                                        value="{{ $job->title }}"
+                                    >
                                     <p></p>
                                 </div>
                                 <div class="col-md-6 mb-4">
@@ -36,7 +43,9 @@
                                         <option value="">Chọn ngành nghề</option>
                                         @if ($careers->isNotEmpty())
                                             @foreach ($careers as $career)
-                                            <option value="{{ $career->id }}">{{ $career->name }}</option>
+                                            <option {{ ($job->category_id == $career->id) ? 'selected' : '' }} value="{{ $career->id }}">
+                                                {{ $career->name }}
+                                            </option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -51,7 +60,9 @@
                                         <option value="">Chọn loại công việc</option>
                                         @if ($jobtypes->isNotEmpty())
                                             @foreach ($jobtypes as $jobtype)
-                                            <option value="{{ $jobtype->id }}">{{ $jobtype->name }}</option>
+                                            <option {{ ($job->job_type_id == $jobtype->id) ? 'selected' : '' }} value="{{ $jobtype->id }}">
+                                                {{ $jobtype->name }}
+                                            </option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -59,7 +70,15 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <label for="" class="mb-2">Số lượng tuyển<span class="req">*</span></label>
-                                    <input type="number" min="1" placeholder="Số lượng tuyển" id="vacancy" name="vacancy" class="form-control">
+                                    <input 
+                                        type="number" 
+                                        min="1" 
+                                        placeholder="Số lượng tuyển" 
+                                        id="vacancy" 
+                                        name="vacancy" 
+                                        class="form-control"
+                                        value="{{ $job->vacancy }}"
+                                    >
                                     <p></p>
                                 </div>
                             </div>
@@ -67,53 +86,82 @@
                             <div class="row">
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Mức lương</label>
-                                    <input type="text" placeholder="Mức lương" id="salary" name="salary" class="form-control">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Mức lương" 
+                                        id="salary" 
+                                        name="salary" 
+                                        class="form-control"
+                                        value="{{ $job->salary }}"
+                                    >
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Địa điểm<span class="req">*</span></label>
-                                    <input type="text" placeholder="Địa điểm" id="location" name="location" class="form-control">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Địa điểm" 
+                                        id="location" 
+                                        name="location" 
+                                        class="form-control"
+                                        value="{{ $job->location }}"
+                                    >
                                     <p></p>
                                 </div>
                             </div>
                 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Mô tả<span class="req">*</span></label>
-                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc"></textarea>
+                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc">
+                                    {{ $job->description }}
+                                </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Phúc lợi</label>
-                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi"></textarea>
+                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi">
+                                    {{ $job->benefits }}
+                                </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Trách nhiệm</label>
-                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm"></textarea>
+                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm">
+                                    {{ $job->responsibility }}
+                                </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Yêu cầu</label>
-                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc..."></textarea>
+                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc...">
+                                    {{ $job->qualifications }}
+                                </textarea>
                             </div>
                 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Kinh nghiệm</label>
                                 <select name="experience" id="experience" class="form-control">
-                                    <option value="1">1 năm</option>
-                                    <option value="2">2 năm</option>
-                                    <option value="3">3 năm</option>
-                                    <option value="4">4 năm</option>
-                                    <option value="5">5 năm</option>
-                                    <option value="6">6 năm</option>
-                                    <option value="7">7 năm</option>
-                                    <option value="8">8 năm</option>
-                                    <option value="9">9 năm</option>
-                                    <option value="10">10 năm</option>
-                                    <option value="10_plus">Trên 10 năm</option>
+                                    <option value="1" {{ ($job->experience == 1) ? 'selected' : '' }}>1 năm</option>
+                                    <option value="2" {{ ($job->experience == 2) ? 'selected' : '' }}>2 năm</option>
+                                    <option value="3" {{ ($job->experience == 3) ? 'selected' : '' }}>3 năm</option>
+                                    <option value="4" {{ ($job->experience == 4) ? 'selected' : '' }}>4 năm</option>
+                                    <option value="5" {{ ($job->experience == 5) ? 'selected' : '' }}>5 năm</option>
+                                    <option value="6" {{ ($job->experience == 6) ? 'selected' : '' }}>6 năm</option>
+                                    <option value="7" {{ ($job->experience == 7) ? 'selected' : '' }}>7 năm</option>
+                                    <option value="8" {{ ($job->experience == 8) ? 'selected' : '' }}>8 năm</option>
+                                    <option value="9" {{ ($job->experience == 9) ? 'selected' : '' }}>9 năm</option>
+                                    <option value="10" {{ ($job->experience == 10) ? 'selected' : '' }}>10 năm</option>
+                                    <option value="10_plus" {{ ($job->experience == '10_plus') ? 'selected' : '' }}>Trên 10 năm</option>
                                 </select>
                             </div>
                 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Từ khóa<span class="req">*</span></label>
-                                <input type="text" placeholder="Nhập từ khóa..." id="keywords" name="keywords" class="form-control">
+                                <input 
+                                    type="text" 
+                                    placeholder="Nhập từ khóa..." 
+                                    id="keywords" 
+                                    name="keywords" 
+                                    class="form-control"
+                                    value="{{ $job->keywords }}"
+                                >
                                 <p></p>
                             </div>
                 
@@ -122,19 +170,40 @@
                             <div class="row">
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Tên công ty<span class="req">*</span></label>
-                                    <input type="text" placeholder="Nhập tên công ty..." id="company_name" name="company_name" class="form-control">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Nhập tên công ty..." 
+                                        id="company_name" 
+                                        name="company_name" 
+                                        class="form-control"
+                                        value="{{ $job->company_name }}"
+                                    >
                                     <p></p>
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Vị trícông ty</label>
-                                    <input type="text" placeholder="Nhập vị trí công ty..." id="company_location" name="company_location" class="form-control">
+                                    <label for="" class="mb-2">Vị trí công ty</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Nhập vị trí công ty..." 
+                                        id="company_location" 
+                                        name="company_location" 
+                                        class="form-control"
+                                        value="{{ $job->company_location }}"
+                                    >
                                 </div>
                             </div>
                 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Website</label>
-                                <input type="text" placeholder="Nhập địa chỉ website..." id="company_website" name="company_website" class="form-control">
+                                <input 
+                                    type="text" 
+                                    placeholder="Nhập địa chỉ website..." 
+                                    id="company_website" 
+                                    name="company_website" 
+                                    class="form-control"
+                                    value="{{ $job->company_website }}"
+                                >
                             </div>
                         </div>
                         <div class="card-footer p-4">
@@ -151,14 +220,14 @@
 
 @section('customJs')
 <script type="text/javascript">
-    $("#createJobForm").submit(function(e){
+    $("#editJobForm").submit(function(e){
         e.preventDefault();
         $("button[type=submit]").prop("disabled", true);
         $.ajax({
-            url: '{{ route("account.saveJob") }}',
+            url: '{{ route("account.updateJob",$job->id) }}',
             type: 'POST',
             dataType: 'json',
-            data: $("#createJobForm").serializeArray(),
+            data: $("#editJobForm").serializeArray(),
             success: function(response){
                 $("button[type=submit]").prop("disabled", false);
                 if(response.status == true) {

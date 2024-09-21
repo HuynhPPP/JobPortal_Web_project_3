@@ -10,22 +10,22 @@
                     <h1 class="h3">Đăng ký</h1>
                     <form action="" name="registrationForm" id="registrationForm">
                         <div class="mb-3">
-                            <label for="" class="mb-2">Tên*</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Nhập tên...">
+                            <label for="" class="mb-2">Họ và tên <span style="color: red">*</span></label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Nhập họ và tên...">
                             <p></p>
                         </div> 
                         <div class="mb-3">
-                            <label for="" class="mb-2">Email*</label>
+                            <label for="" class="mb-2">Email <span style="color: red">*</span></label>
                             <input type="text" name="email" id="email" class="form-control" placeholder="Nhập email...">
                             <p></p>
                         </div> 
                         <div class="mb-3">
-                            <label for="" class="mb-2">Mật khẩu*</label>
+                            <label for="" class="mb-2">Mật khẩu <span style="color: red">*</span></label>
                             <input type="password" name="password" id="password" class="form-control" placeholder="Nhập mật khẩu...">
                             <p></p>
                         </div> 
                         <div class="mb-3">
-                            <label for="" class="mb-2">Xác nhận mật khẩu*</label>
+                            <label for="" class="mb-2">Xác nhận mật khẩu <span style="color: red">*</span></label>
                             <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Nhập lại mật khẩu...">
                             <p></p>
                         </div> 

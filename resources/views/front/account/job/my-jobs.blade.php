@@ -62,13 +62,13 @@
                                             </td>
                                             <td>
                                                 <div class="action-dots float-end">
-                                                    <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                    </a>
+                                                    </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
                                                         <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Xoá</a></li>
+                                                        <li><a class="dropdown-item" href="{{ route("account.editJob", $job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Xoá</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -90,4 +90,21 @@
 @endsection
 
 @section('customJs')
+<script type="text/javascript">
+    function deleteJob(jobId) {
+        if (confirm("Bạn muốn xoá công việc này không ?")) {
+            $.ajax({
+                url: '{{ route("account.deleteJob") }}',
+                type: 'post',
+                data: {jobId: jobId},
+                dataType: 'json',
+                success: function(response) {
+                    window.location.href='{{ route("account.myJobs") }}'
+                }
+            })
+        } else {
+
+        }
+    }
+</script>
 @endsection
