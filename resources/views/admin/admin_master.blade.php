@@ -16,9 +16,10 @@
 
     <!-- App css -->
     <link href="{{ asset("admin/css/app.min.css") }}" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="{{ asset("admin/css/app.css") }}" rel="stylesheet" type="text/css" id="app-style" />
 
     <!-- Icons css -->
-    <link href="{{ asset("admin/css/icons.min.css") }}" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset("admin/css/icons.min.css") }}" rel="stylesheet" type="text/css" /> --}}
   </head>
 
   <body>
@@ -32,7 +33,7 @@
       <!-- Topbar End -->
 
       <!-- Search Modal -->
-      <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+      {{-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content bg-transparent">
             <div class="card mb-1">
@@ -45,13 +46,16 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
 
       <!-- ============================================================== -->
       <!-- Start Page Content here -->
       <!-- ============================================================== -->
-      @yield("content")
-
+      <div class="page-content">
+        <div class="page-container">
+          @yield("content")
+        </div> <!-- container -->
+      </div>
       <!-- ============================================================== -->
       <!-- End Page content -->
       <!-- ============================================================== -->
@@ -72,7 +76,7 @@
     <script src="{{ asset("admin/vendor/apexcharts/apexcharts.min.js") }}"></script>
 
     <!-- Projects Analytics Dashboard App js -->
-    <script src="{{ asset("admin/js/pages/dashboard-sales.js") }}"></script>
+    {{-- <script src="{{ asset("admin/js/pages/dashboard-sales.js") }}"></script> --}}
 
   </body>
 

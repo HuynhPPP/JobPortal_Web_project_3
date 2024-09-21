@@ -26,12 +26,7 @@
       </button>
 
       <!-- Button Trigger Search Modal -->
-      <div class="topbar-search text-muted d-none d-xl-flex gap-2 align-items-center" data-bs-toggle="modal"
-        data-bs-target="#searchModal" type="button">
-        <i class="ti ti-search fs-18"></i>
-        <span class="me-2">Search something..</span>
-        <span class="ms-auto fw-medium">⌘K</span>
-      </div>
+
 
 
     </div>

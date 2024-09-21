@@ -1,6 +1,6 @@
 <div class="sidenav-menu">
   <!-- Brand Logo -->
-  <a href="index.html" class="logo">
+  <a href="{{ route("admin.home") }}" class="logo">
     <span class="logo-light">
       <span class="logo-lg"><img src="{{ asset("admin/images/logo.png") }}" alt="logo"></span>
       <span class="logo-sm"><img src="{{ asset("admin/images/logo-sm.png") }}" alt="small logo"></span>
@@ -12,7 +12,7 @@
   </a>
   <!-- Sidebar Hover Menu Toggle Button -->
   <button class="button-sm-hover">
-    <i class="ti ti-circle align-middle"></i>
+    {!! file_get_contents(public_path("admin/icon/circle-arrow-left.svg")) !!}
   </button>
   <!-- Full Sidebar Menu Close Button -->
   <button class="button-close-fullsidebar">
@@ -21,48 +21,61 @@
   <div data-simplebar>
     <!--- Sidenav Menu -->
     <ul class="side-nav">
-      <li class="side-nav-title">Dash</li>
       <li class="side-nav-item">
-        <a href="index.html" class="side-nav-link">
-          <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
-          <span class="menu-text"> Sales </span>
-          <span class="badge bg-success rounded-pill">5</span>
-        </a>
-      </li>
-      <li class="side-nav-item">
-        <a href="dashboard-clinic.html" class="side-nav-link">
-          <span class="menu-icon"><i class="ti ti-building-hospital"></i></span>
-          <span class="menu-text"> Clinic </span>
-        </a>
-      </li>
-      <li class="side-nav-item">
-        <a href="dashboard-wallet.html" class="side-nav-link">
-          <span class="menu-icon"><i class="ti ti-wallet"></i></span>
-          <span class="menu-text"> eWallet </span>
-          <span class="badge p-0 menu-alert fs-16 text-danger">
-            <i class="ti ti-info-triangle" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top"
-              data-bs-custom-class="tooltip-warning" data-bs-title="Your wallet balance is <b>low!</b>"></i>
+        <a href="{{ route("admin.home") }}" class="side-nav-link">
+          <span class="menu-icon">
+            {!! file_get_contents(public_path("admin/icon/dashboard.svg")) !!}
           </span>
+          <span class="menu-text"> Tổng quan </span>
         </a>
       </li>
-      <li class="side-nav-title mt-2">Apps & Pages</li>
       <li class="side-nav-item">
-        <a href="apps-chat.html" class="side-nav-link">
-          <span class="menu-icon"><i class="ti ti-message"></i></span>
-          <span class="menu-text"> Chat </span>
+        <a href="{{ route("admin.career") }}" class="side-nav-link">
+          <span class="menu-icon">
+            {!! file_get_contents(public_path("admin/icon/dashboard.svg")) !!}
+          </span>
+          <span class="menu-text"> Ngành nghề </span>
+        </a>
+      </li>
+      <li class="side-nav-item">
+        <a href="{{ route("admin.job") }}" class="side-nav-link">
+          <span class="menu-icon">
+            {!! file_get_contents(public_path("admin/icon/dashboard.svg")) !!}
+          </span>
+          <span class="menu-text"> Việc làm </span>
         </a>
       </li>
 
       <li class="side-nav-item">
+        <a href="{{ route("admin.user") }}" class="side-nav-link">
+          <span class="menu-icon">
+            {!! file_get_contents(public_path("admin/icon/dashboard.svg")) !!}
+          </span>
+          <span class="menu-text"> Ứng viên </span>
+        </a>
+      </li>
+      <li class="side-nav-item">
+        <a href="{{ route("admin.employer") }}" class="side-nav-link">
+          <span class="menu-icon">
+            {!! file_get_contents(public_path("admin/icon/dashboard.svg")) !!}
+          </span>
+          <span class="menu-text"> Nhà tuyển dụng </span>
+        </a>
+      </li>
+      <li class="side-nav-item">
         <a href="apps-calendar.html" class="side-nav-link">
-          <span class="menu-icon"><i class="ti ti-calendar"></i></span>
-          <span class="menu-text"> Calendar </span>
+          <span class="menu-icon">
+            {!! file_get_contents(public_path("admin/icon/dashboard.svg")) !!}
+          </span>
+          <span class="menu-text"> Ứng tuyển </span>
         </a>
       </li>
       <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarHospital" aria-expanded="false" aria-controls="sidebarHospital"
           class="side-nav-link">
-          <span class="menu-icon"><i class="ti ti-medical-cross"></i></span>
+          <span class="menu-icon">
+            {!! file_get_contents(public_path("admin/icon/dashboard.svg")) !!}
+          </span>
           <span class="menu-text"> Hospital</span>
           <span class="menu-arrow"></span>
         </a>
