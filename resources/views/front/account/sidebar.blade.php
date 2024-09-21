@@ -18,10 +18,10 @@
     <div class="card-body p-0">
         <ul class="list-group list-group-flush ">
             <li class="list-group-item d-flex justify-content-between p-3">
-                <a href="account.html">Cài đặt tài khoản</a>
+                <a href="{{ route("account.profile") }}">Cài đặt tài khoản</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="post-job.html">Đăng công việc</a>
+                <a href="{{ route("account.createJob") }}">Đăng công việc</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route("account.myJobs") }}">Công việc của tôi</a>

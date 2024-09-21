@@ -224,11 +224,11 @@ class AccountController extends Controller
 
     public function createJob() {
 
-       $categories = Category::orderby('name', 'ASC')->where('status', 1)->get();
+       $careers = Category::orderby('name', 'ASC')->where('status', 1)->get();
 
        $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
         return view('front.account.job.create', [
-            'categories' => $categories,
+            'careers' => $careers,
             'jobtypes' => $jobtype,
         ]);
     }
@@ -246,7 +246,24 @@ class AccountController extends Controller
             'company_name' => 'required|min:3|max:75',
         ];
 
-        $validator = Validator::make($request->all(),$rules);
+        $messages = [
+            'title.required' => 'Tiêu đề không được bỏ trống.',
+            'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
+            'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
+            'category.required' => 'Ngành nghề không được bỏ trống.',
+            'jobType.required' => 'Loại công việc không được bỏ trống.',
+            'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
+            'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
+            'location.required' => 'Địa điểm không được để trống.',
+            'location.max' => 'Địa điểm không được dài hơn 50 ký tự.',
+            'description.required' => 'Mô tả công việc không được để trống.',
+            'keywords.required' => 'Từ khóa không được để trống.',
+            'company_name.required' => 'Tên công ty không được để trống.',
+            'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
+            'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->passes()) {
 
@@ -254,6 +271,7 @@ class AccountController extends Controller
             $job->title = $request->title;
             $job->category_id  = $request->category;
             $job->job_type_id  = $request->jobType;
+            $job->user_id = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
             $job->location = $request->location;
@@ -284,6 +302,11 @@ class AccountController extends Controller
     }
 
     public function myJobs() {
-        return view('front.account.job.my-jobs');
+
+        $jobs = Job::where('user_id', Auth::user()->id)->with('jobType')->paginate(10);
+
+        return view('front.account.job.my-jobs', [
+            'jobs' => $jobs,
+        ]);
     }
 }

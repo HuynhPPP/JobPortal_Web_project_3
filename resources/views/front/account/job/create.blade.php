@@ -34,9 +34,9 @@
                                     <label for="" class="mb-2">Ngành nghề<span class="req">*</span></label>
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Chọn ngành nghề</option>
-                                        @if ($categories->isNotEmpty())
-                                            @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @if ($careers->isNotEmpty())
+                                            @foreach ($careers as $career)
+                                            <option value="{{ $career->id }}">{{ $career->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
