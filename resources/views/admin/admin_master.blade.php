@@ -20,6 +20,7 @@
 
     <!-- Icons css -->
     {{-- <link href="{{ asset("admin/css/icons.min.css") }}" rel="stylesheet" type="text/css" /> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"> --}}
   </head>
 
   <body>
@@ -75,8 +76,10 @@
     <!-- Apex Chart js -->
     <script src="{{ asset("admin/vendor/apexcharts/apexcharts.min.js") }}"></script>
 
-    <!-- Projects Analytics Dashboard App js -->
-    {{-- <script src="{{ asset("admin/js/pages/dashboard-sales.js") }}"></script> --}}
+    {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+    {{-- <script>
+      toastr.success("demo");
+    </script> --}}
 
   </body>
 

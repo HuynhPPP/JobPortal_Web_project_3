@@ -16,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get("/admin/home", [DashboardController::class, "index"])->name('admin.home');
+
 Route::get("/admin/career", [DashboardController::class, "getCareer"])->name('admin.career');
+
+Route::post("/admin/create-career", [DashboardController::class, "postCreateCareer"])->name('admin.create.career');
+
+Route::post("/admin/edit-career/{id}", [DashboardController::class, "postEditCareer"])->name('admin.postEditCareer.career');
+
+Route::get("/admin/edit-career/{id}", [DashboardController::class, "getEditCareer"])->name('admin.getEditCareer.career');
+
 Route::get("/admin/job", [DashboardController::class, "getJob"])->name('admin.job');
+
 Route::get("/admin/user", [DashboardController::class, "getUser"])->name('admin.user');
+
 Route::get("/admin/employer", [DashboardController::class, "getEmployer"])->name('admin.employer');

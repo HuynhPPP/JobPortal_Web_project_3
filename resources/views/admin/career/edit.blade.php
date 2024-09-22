@@ -25,12 +25,12 @@
     <div class="col-xl-5">
       <div class="card">
         <div class="d-flex card-header justify-content-between align-items-center">
-          <h4 class="header-title">Tạo mới</h4>
+          <h4 class="header-title">Cập nhật</h4>
         </div>
       </div>
       <div class="card-body">
         <div class="table-responsive-sm">
-          <form class="needs-validation" method="POST" action="{{ route("admin.create.career") }}">
+          <form class="needs-validation" method="POST" action="{{ route("admin.postEditCareer.career", $career->id) }}">
             @csrf
             <div class="mb-3">
               <label class="form-label" for="validationCustom01">Tên ngành nghề</label>
@@ -38,7 +38,7 @@
                 class="form-control @error("name")
                   is-invalid
               @enderror" name="name"
-                value="{{ old("name") }}">
+                value="{{ $career->name }}">
               @if ($errors->has("name"))
                 <span class="invalid-feedback">{{ $errors->first("name") }}</span>
               @endif
@@ -49,13 +49,12 @@
                   is-invalid
               @enderror"
                 name="status">
-                <option value="" selected>---Vui lòng chọn---</option>
-                <option value="1">Hoạt động</option>
-                <option value="0">Tạm dừng</option>
+                <option value="1" {{ $career->status == env("ACTIVE") ? "selected" : "" }}>Hoạt động</option>
+                <option value="0" {{ $career->status == env("BLOCK") ? "selected" : "" }}>Tạm dừng</option>
               </select>
               <span class="invalid-feedback">{{ $errors->first("status") }}</span>
             </div>
-            <button class="btn btn-primary" type="submit">Xử lý</button>
+            <button class="btn btn-primary" type="submit">Cập nhật</button>
           </form>
         </div>
       </div>
@@ -92,7 +91,8 @@
                   </td>
                   <td>{{ \Carbon\Carbon::parse($item->created_at)->format("d/m/Y") }}</td>
                   <td class="text-muted">
-                    <a href="{{ route("admin.getEditCareer.career", ["id" => $item->id]) }}" class="link-reset fs-20 p-1">
+                    <a href="{{ route("admin.getEditCareer.career", ["id" => $item->id]) }}"
+                      class="link-reset fs-20 p-1">
                       {!! file_get_contents(public_path("admin/icon/pencil.svg")) !!}</i></a>
                     <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path("admin/icon/trash.svg")) !!}</i></a>
                   </td>
