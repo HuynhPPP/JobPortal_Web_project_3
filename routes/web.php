@@ -23,6 +23,8 @@ Route::post("/admin/create-career", [DashboardController::class, "postCreateCare
 
 Route::post("/admin/edit-career/{id}", [DashboardController::class, "postEditCareer"])->name('admin.postEditCareer.career');
 
+Route::delete("/admin/delete-career/{id}", [DashboardController::class, "deleteCareer"])->name('admin.deleteCareer.career');
+
 Route::get("/admin/edit-career/{id}", [DashboardController::class, "getEditCareer"])->name('admin.getEditCareer.career');
 
 Route::get("/admin/job", [DashboardController::class, "getJob"])->name('admin.job');

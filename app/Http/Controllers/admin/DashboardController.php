@@ -44,6 +44,17 @@ class DashboardController extends Controller
       return redirect()->back()->withErrors($validator)->withInput();
     }
   }
+  public function deleteCareer($id)
+  {
+    $career = Career::find($id);
+    if ($career == null) {
+      toastr()->error("Tên ngành nghề không tồn tại.", " ");
+      return redirect()->back();
+    }
+    $career->delete();
+    toastr()->success("Xóa thành công", " ");
+    return redirect()->back();
+  }
   public function getJob()
   {
     return view('admin.job.list');
