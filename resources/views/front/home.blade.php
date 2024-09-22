@@ -48,54 +48,16 @@
     <div class="container">
         <h2>Công việc phổ biến</h2>
         <div class="row pt-5">
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Thiết kế &amp; Sáng tạo</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Tài chính</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Ngân hàng</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Khoa học dữ liệu</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Marketing</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Tiếp thị số</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Tiếp thị số</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="jobs.html"><h4 class="pb-2">Tiếp thị số</h4></a>
-                    <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                </div>
-            </div>
+            @if ($categories->isNotEmpty())
+                @foreach ($categories as $category)
+                    <div class="col-lg-4 col-xl-3 col-md-6">
+                        <div class="single_catagory">
+                            <a href="jobs.html"><h4 class="pb-2">{{ $category->name }}</h4></a>
+                            <p class="mb-0"> <span>50</span> vị trí còn trống</p>
+                        </div>
+                    </div>
+                @endforeach
+            @endif           
         </div>
     </div>
 </section>
@@ -107,171 +69,39 @@
             <div class="job_listing_area">                    
                 <div class="job_lists">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
+                        @if ($featureJobs->isNotEmpty())
+                            @foreach ($featureJobs as $featureJob)
+                                <div class="col-md-4">
+                                    <div class="card border-0 p-3 shadow mb-4">
+                                        <div class="card-body">
+                                            <h3 class="border-0 fs-5 pb-2 mb-0">{{ $featureJob->title }}</h3>
+                                            <p>{{ Str::words($featureJob->description, 5) }}</p>
+                                            <div class="bg-light p-3 border">
+                                                <p class="mb-0">
+                                                    <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                                    <span class="ps-1">{{ $featureJob->location }}</span>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                                    <span class="ps-1">{{ $featureJob->jobType->name }}</span>
+                                                </p>
+                                                @if (is_null($featureJob->salary))
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                                        <span class="ps-1">{{ $featureJob->salary }}</span>
+                                                    </p>
+                                                @endif                                              
+                                            </div>
+        
+                                            <div class="d-grid mt-3">
+                                                <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        
-
-                    </div>
+                                </div> 
+                            @endforeach
+                        @endif              
+                  </div>
                 </div>
             </div>
         </div>
@@ -285,168 +115,40 @@
             <div class="job_listing_area">                    
                 <div class="job_lists">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
 
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
+                        @if ($latesJobs->isNotEmpty())
+                            @foreach ($latesJobs as $latesJob)
+                                <div class="col-md-4">
+                                    <div class="card border-0 p-3 shadow mb-4">
+                                        <div class="card-body">
+                                            <h3 class="border-0 fs-5 pb-2 mb-0">{{ $latesJob->title }}</h3>
+                                            <p>{{ Str::words($latesJob->description, 5) }}</p>
+                                            <div class="bg-light p-3 border">
+                                                <p class="mb-0">
+                                                    <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                                    <span class="ps-1">{{ $latesJob->location }}</span>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                                    <span class="ps-1">{{ $latesJob->jobType->name }}</span>
+                                                </p>
+                                                @if (!is_null($latesJob->salary))
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                                        <span class="ps-1">{{ $latesJob->salary }}</span>
+                                                    </p>
+                                                @endif                                              
+                                            </div>
+        
+                                            <div class="d-grid mt-3">
+                                                <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
+                                </div> 
+                            @endforeach
+                        @endif  
 
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Lập trình viên Web</h3>
-                                    <p>Chúng tôi cần một lập trình viên web cho công ty của mình.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Làm việc từ xa</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 triệu INR/năm</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                                                 	
                     </div>
                 </div>
             </div>
