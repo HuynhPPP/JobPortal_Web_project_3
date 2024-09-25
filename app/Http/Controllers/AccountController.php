@@ -82,17 +82,20 @@ class AccountController extends Controller
         ],$messages);
 
         if ($validator->passes()) {
-            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                session()->flash('toastr', ['success' => 'Chào mừng bạn đến với website tìm kiếm việc làm']);
+                // toastr()->success('Chào mừng bạn đến với website tìm kiếm việc làm');
                 return redirect()->route('account.profile');
             } else {
-                return redirect()->route('account.login')->with('error','Email hoặc mật khẩu không chính xác');
+                session()->flash('toastr', ['error' => 'Email hoặc mật khẩu không chính xác']);
+                return redirect()->route('account.login');
             }
-
         } else {
             return redirect()->route('account.login')
             ->withErrors($validator)
             ->withInput($request->only('email'));
-        }
+            }
+             
     }
 
     public function profile() {
@@ -147,7 +150,7 @@ class AccountController extends Controller
             $user->save();
     
             // Đặt thông báo thành công và trả về JSON
-            session()->flash('success', 'Cập nhật thành công.');
+            session()->flash('toastr', ['success' => 'Cập nhật thành công']);
     
             return response()->json([
                 'status' => true,
@@ -156,7 +159,7 @@ class AccountController extends Controller
     
         } else {
             // Nếu xác thực thất bại, trả về lỗi
-            session()->flash('error', 'Cập nhật không thành công! Có lỗi xảy ra.');
+            session()->flash('toastr', value: ['warning' => 'Cập nhật chưa được thay đổi !']);
     
             return response()->json([
                 'status' => false,
@@ -208,7 +211,8 @@ class AccountController extends Controller
 
             User::where('id',$id)->update(['image' => $imageName]);
 
-            session()->flash('success','Đăng ảnh đại diện thành công.');
+            session()->flash('toastr', ['success' => 'Đăng ảnh đại diện thành công']);
+            // session()->flash('success','Đăng ảnh đại diện thành công.');
 
             return response()->json([
                 'status' => true,
@@ -251,7 +255,7 @@ class AccountController extends Controller
             'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
             'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
             'category.required' => 'Ngành nghề không được bỏ trống.',
-            'jobType.required' => 'Loại công việc không được bỏ trống.',
+            'jobType.required' => 'hình thức làm việc không được bỏ trống.',
             'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
             'location.required' => 'Địa điểm không được để trống.',
@@ -286,7 +290,8 @@ class AccountController extends Controller
             $job->company_website = $request->company_website;
             $job->save();
 
-            session()->flash('success','Thêm việc làm thành công');
+            session()->flash('toastr', ['success' => 'Thêm việc làm thành công']);
+            // session()->flash('success','Thêm việc làm thành công');
 
             return response()->json([
                 'status' => true,
@@ -387,7 +392,9 @@ class AccountController extends Controller
             $job->company_website = $request->company_website;
             $job->save();
 
-            session()->flash('success','Việc làm đã được lưu');
+
+            session()->flash('toastr', ['success' => 'Việc làm đã được lưu']);
+            // session()->flash('success','Việc làm đã được lưu');
 
             return response()->json([
                 'status' => true,
@@ -410,14 +417,15 @@ class AccountController extends Controller
         ])->first();
 
         if ($job == null) {
-            session()->flash('error','Công việc không tìm thấy hoặc đã bị xoá');
+            session()->flash('toastr', ['error' => 'Công việc không tìm thấy hoặc đã bị xoá']);
             return response()->json([
                 'status' => true,
             ]);
         }
 
         Job::where('id',$request->jobId)->delete();
-        session()->flash('success','Xoá thành công');
+
+        session()->flash('toastr', ['success' => 'Xoá thành công']);
         return response()->json([
             'status' => true,
         ]);

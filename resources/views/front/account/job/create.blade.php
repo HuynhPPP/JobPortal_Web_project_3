@@ -46,9 +46,9 @@
                             
                             <div class="row">
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Loại công việc<span class="req">*</span></label>
+                                    <label for="" class="mb-2">Hình thức làm việc<span class="req">*</span></label>
                                     <select name="jobType" id="jobType" class="form-select">
-                                        <option value="">Chọn loại công việc</option>
+                                        <option value="">Chọn hình thức làm việc</option>
                                         @if ($jobtypes->isNotEmpty())
                                             @foreach ($jobtypes as $jobtype)
                                             <option value="{{ $jobtype->id }}">{{ $jobtype->name }}</option>
@@ -127,7 +127,7 @@
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Vị trícông ty</label>
+                                    <label for="" class="mb-2">Vị trí công ty</label>
                                     <input type="text" placeholder="Nhập vị trí công ty..." id="company_location" name="company_location" class="form-control">
                                 </div>
                             </div>

@@ -9,7 +9,7 @@ use App\Models\Job;
 
 class JobsController extends Controller
 {
-    // Show Home Page
+    // Show find job page
     public function index(Request $request) {
 
         $categories = Category::where('status', 1)->get();
