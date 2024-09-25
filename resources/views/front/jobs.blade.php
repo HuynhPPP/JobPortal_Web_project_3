@@ -114,7 +114,7 @@
                                                 </div>
         
                                                 <div class="d-grid mt-3">
-                                                    <a href="job-detail.html" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                    <a href="{{ route('jobDetail',$job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
                                                 </div>
                                             </div>
                                         </div>
