@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\Job;
+use App\Models\JobApplication;
+use Illuminate\Support\Facades\Auth;
 
 class JobsController extends Controller
 {
@@ -82,4 +84,59 @@ class JobsController extends Controller
             'job' => $job,
         ]);
     }
+
+    public function applyJob(Request $request) {
+        $id = $request->id;
+    
+        $job = Job::where('id', $id)->first();
+    
+        // If job not found in db
+        if ($job == null) {
+            $message = "Không tìm thấy công việc";
+            return response()->json([
+                'status' => false,
+                'message' => $message,
+            ]);
+        }
+    
+        // You can't apply on your own job
+        $employer_id = $job->user_id;
+    
+        if ($employer_id == Auth::user()->id) {
+            $message = "Bạn không thể nộp đơn vào công việc của riêng bạn";
+            return response()->json([
+                'status' => false,
+                'message' => $message,
+            ]);
+        }
+    
+        // You can't apply on a job twice
+        $jobApplicationCount = JobApplication::where([
+            'user_id' => Auth::user()->id,
+            'job_id' => $id
+        ])->count();
+    
+        if ($jobApplicationCount > 0) {
+            $message = "Bạn đã nộp đơn công việc này";
+            return response()->json([
+                'status' => false,
+                'message' => $message,
+            ]);
+        }
+    
+        $application = new JobApplication();
+        $application->job_id = $id;
+        $application->user_id = Auth::user()->id;
+        $application->employer_id = $employer_id;
+        $application->applied_date = now();
+        $application->save();
+    
+        $message = "Nộp đơn thành công";
+    
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+        ]);
+    }
+    
 }

@@ -7,7 +7,7 @@
             <div class="col-12 col-xl-8">
                 <h1>Tìm công việc mơ ước của bạn</h1>
                 <p>Hàng ngàn công việc đang chờ bạn.</p>
-                <div class="banner-btn mt-5"><a href="#" class="btn btn-primary mb-4 mb-sm-0">Khám phá ngay</a></div>
+                <div class="banner-btn mt-5"><a href="{{ route("jobs") }}" class="btn btn-primary mb-4 mb-sm-0">Khám phá ngay</a></div>
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
                                     <div class="card border-0 p-3 shadow mb-4">
                                         <div class="card-body">
                                             <h3 class="border-0 fs-5 pb-2 mb-0">{{ $featureJob->title }}</h3>
-                                            <p>{{ Str::words($featureJob->description, 5) }}</p>
+                                            <p>{{ Str::words($featureJob->description, 10) }}</p>
                                             <div class="bg-light p-3 border">
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
@@ -122,7 +122,7 @@
                                     <div class="card border-0 p-3 shadow mb-4">
                                         <div class="card-body">
                                             <h3 class="border-0 fs-5 pb-2 mb-0">{{ $latesJob->title }}</h3>
-                                            <p>{{ Str::words($latesJob->description, 5) }}</p>
+                                            <p>{{ Str::words($latesJob->description, 10) }}</p>
                                             <div class="bg-light p-3 border">
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>

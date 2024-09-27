@@ -16,6 +16,7 @@
     <div class="container job_details_area">
         <div class="row pb-5">
             <div class="col-md-8">
+                @include('front.message')
                 <div class="card shadow border-0">
                     <div class="job_details_header">
                         <div class="single_jobs white-bg d-flex justify-content-between">
@@ -75,7 +76,15 @@
                         <div class="border-bottom"></div>
                         <div class="pt-3 text-end">
                             <a href="#" class="btn btn-secondary">Lưu</a>
-                            <a href="#" class="btn btn-primary">Xin việc</a>
+
+                            @if (Auth::check())
+                                <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Xin việc</a>
+                            @else
+                                <a href="javascript:void(0);" class="btn btn-primary disabled">Đăng nhập để xin việc</a>
+                            @endif
+                           
+
+
                         </div>
                     </div>
                 </div>
@@ -155,4 +164,28 @@
 @endsection
 
 @section('customJs')
+<script type="text/javascript">
+    function applyJob(id) {
+        event.preventDefault();
+        if (confirm("Bạn chắc chắn muốn xin công việc này?")) {
+            $.ajax({
+                url: '{{ route("applyJob") }}',
+                type: 'post',
+                data: {id: id},
+                dataType: 'json',
+                success: function(response) {
+                    // Hiển thị Toastr dựa trên phản hồi
+                    if (response.status === true) {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function() {
+                    toastr.error("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            });
+        }
+    }
+</script>
 @endsection
