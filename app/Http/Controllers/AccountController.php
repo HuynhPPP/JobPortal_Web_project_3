@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\JobType;
+use App\Models\JobApplication;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -426,6 +427,34 @@ class AccountController extends Controller
         Job::where('id',$request->jobId)->delete();
 
         session()->flash('toastr', ['success' => 'Xoá thành công']);
+        return response()->json([
+            'status' => true,
+        ]);
+    }
+
+    public function myJobApplication() {
+        $jobApplications = JobApplication::where('user_id', Auth::user()->id)
+                        ->with(['job','job.jobType','job.applications'])
+                        ->paginate(10);
+        return view('front.account.job.my-job-application', [
+            'jobApplications' => $jobApplications
+        ]);
+    }
+
+    public function removeJobs(Request $request) {
+        $jobApplication = JobApplication::where([
+                'id' => $request->id, 
+                'user_id' => Auth::user()->id] 
+            )->first();
+        if ($jobApplication == null) {
+            session()->flash('toastr', ['error' => 'Không tìm thấy công việc']);
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        JobApplication::find($request->id)->delete();
+        session()->flash('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công.']);
         return response()->json([
             'status' => true,
         ]);

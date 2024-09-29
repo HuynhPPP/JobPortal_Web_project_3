@@ -10,4 +10,8 @@ class JobApplication extends Model
     use HasFactory;
 
     protected $table = 'job_applications';
+
+    public function job() {
+        return $this->belongsTo(Job::class);
+    }
 }

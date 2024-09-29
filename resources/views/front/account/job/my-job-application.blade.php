@@ -23,11 +23,9 @@
                     <div class="card-body card-form">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h3 class="fs-4 mb-1">Quản lý công việc của bạn</h3>
+                                <h3 class="fs-4 mb-1">Quản lý công việc đã ứng tuyển </h3>
                             </div>
-                            <div style="margin-top: -10px;">
-                                <a href="{{ route("account.createJob") }}" class="btn btn-primary">Đăng việc làm</a>
-                            </div>
+                            
                             
                         </div>
                         <div class="table-responsive">
@@ -35,24 +33,24 @@
                                 <thead class="bg-light">
                                     <tr>
                                         <th scope="col">Tiêu đề</th>
-                                        <th scope="col">Ngày tạo</th>
-                                        <th scope="col">Số lượng ứng tuyển</th>
+                                        <th scope="col">Ngày nộp</th>
+                                        <th scope="col">Số lượng ứng viên đã nộp</th>
                                         <th scope="col">Trạng thái</th>
                                         <th scope="col">Các tuỳ chỉnh</th>
                                     </tr>
                                 </thead>
                                 <tbody class="border-0">
-                                    @if ($jobs->isNotEmpty())
-                                        @foreach ($jobs as $job)
+                                    @if ($jobApplications->isNotEmpty())
+                                        @foreach ($jobApplications as $jobApplication)
                                         <tr class="active">
                                             <td>
-                                                <div class="job-name fw-500">{{ $job->title }}</div>
-                                                <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}</div>
+                                                <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
+                                                <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}</div>
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</td>
-                                            <td>{{ $job->vacancy }} người</td>
+                                            <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->format('d M, Y') }}</td>
+                                            <td>{{ $jobApplication->job->applications->count() }} ứng tuyển</td>
                                             <td>
-                                                @if ($job->status == 1)
+                                                @if ($jobApplication->job->status == 1)
                                                     <div class="job-status text-capitalize text-success">Hoạt động</div>
                                                 @elseif ($job->status == 2)
                                                     <div class="job-status text-capitalize text-warning">Đang xử lý</div>
@@ -66,20 +64,23 @@
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
-                                                        <li><a class="dropdown-item" href="{{ route("account.editJob", $job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a></li>
-                                                        <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Xoá</a></li>
+                                                        <li><a class="dropdown-item" href="{{ route("jobDetail",$jobApplication->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="removeJob({{ $jobApplication->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Huỷ ứng tuyển</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
                                         </tr>
                                         @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-danger">Bạn chưa ứng tuyển công việc</td>
+                                        </tr>
                                     @endif
                                 </tbody>                               
                             </table>
                         </div>
                         <div>
-                            {{ $jobs->links() }}
+                            {{ $jobApplications->links() }}
                         </div>
                     </div>
                 </div>            
@@ -91,15 +92,15 @@
 
 @section('customJs')
 <script type="text/javascript">
-    function deleteJob(jobId) {
-        if (confirm("Bạn muốn xoá công việc này không ?")) {
+    function removeJob(id) {
+        if (confirm("Bạn chắc chắn muốn huỷ ứng tuyển công việc này không ?")) {
             $.ajax({
-                url: '{{ route("account.deleteJob") }}',
+                url: '{{ route("account.removeJobs") }}',
                 type: 'post',
-                data: {jobId: jobId},
+                data: {id: id},
                 dataType: 'json',
                 success: function(response) {
-                    window.location.href='{{ route("account.myJobs") }}'
+                    window.location.href='{{ route("account.myJobApplication") }}'
                 }
             })
         } else {

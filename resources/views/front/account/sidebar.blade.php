@@ -27,7 +27,7 @@
                 <a href="{{ route("account.myJobs") }}">Công việc của tôi</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="job-applied.html">Công việc đã gửi</a>
+                <a href="{{ route("account.myJobApplication") }}">Công việc đã ứng tuyển</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="saved-jobs.html">Công việc đã lưu</a>
