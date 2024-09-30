@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\Job;
+use App\Models\SavedJob;
 use App\Models\User;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\Auth;
@@ -83,8 +84,14 @@ class JobsController extends Controller
             abort(404);
         }
 
+        $count = SavedJob::where([
+            'user_id' => Auth::user()->id,
+            'job_id' => $id,
+        ])->count();
+
         return view('front.jobDetail',[
             'job' => $job,
+            'count' => $count,
         ]);
     }
 
@@ -150,6 +157,45 @@ class JobsController extends Controller
             'status' => true,
             'message' => $message,
         ]);
+    }
+
+    public function saveJob(Request $request) {
+        $id = $request->id;
+
+        $job = Job::find($id);
+
+        if ($job == null) {
+            $message = "Không tìm thấy công việc";
+            return response()->json([
+                'status' => false,
+                'message' => $message,
+            ]);
+        }
+
+        // Check if user already saved the job
+        $count = SavedJob::where([
+            'user_id' => Auth::user()->id,
+            'job_id' => $id,
+        ])->count();
+
+        if ($count > 0) {
+            $message = "Bạn đã lưu công việc này";
+            return response()->json([
+                'status' => false,
+                'message' => $message,
+            ]);
+        }
+
+        $savedJob = new SavedJob;
+        $savedJob->job_id = $id;
+        $savedJob->user_id = Auth::user()->id;
+        $savedJob->save();
+
+        $message = "Lưu việc làm thành công";
+            return response()->json([
+                'status' => true,
+                'message' => $message,
+            ]);
     }
     
 }

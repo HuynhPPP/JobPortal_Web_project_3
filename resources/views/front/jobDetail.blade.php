@@ -37,8 +37,8 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now">
-                                    <a class="heart_mark" href="#"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                <div class="apply_now  {{ ($count == 1) ? 'saved-job' : '' }}">
+                                    <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $job->id }})"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,13 @@
                         </div>
                         <div class="border-bottom"></div>
                         <div class="pt-3 text-end">
-                            <a href="#" class="btn btn-secondary">Lưu</a>
+
+                            @if (Auth::check())
+                                <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary">Lưu công việc</a>
+                            @else
+                                <a href="javascript:void(0);" class="btn btn-secondary disabled">Đăng nhập để lưu công việc</a>
+                            @endif
+                            
 
                             @if (Auth::check())
                                 <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Xin việc</a>
@@ -186,6 +192,40 @@
                 }
             });
         }
+    }
+
+    function saveJob(id) {
+        event.preventDefault();
+        $.ajax({
+                url: '{{ route("saveJob") }}',
+                type: 'post',
+                data: {id: id},
+                dataType: 'json',
+                success: function(response) {
+                    // Hiển thị Toastr dựa trên phản hồi
+                    if (response.status === true) {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function() {
+                    toastr.error("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            });
+    }
+
+    function saveJobHeart(id) {
+        event.preventDefault();
+        $.ajax({
+                url: '{{ route("saveJob") }}',
+                type: 'post',
+                data: {id: id},
+                dataType: 'json',
+                success: function(response) {
+                    window.location.href = "{{ url()->current() }}";
+                }
+            });
     }
 </script>
 @endsection

@@ -10629,3 +10629,8 @@ footer .nav-link {
     content: "";
 }
 /* '' */
+
+.saved-job a{
+    background: #00d363 !important;
+    color: #fff !important;
+}
