@@ -20,17 +20,22 @@
             <li class="list-group-item d-flex justify-content-between p-3">
                 <a href="{{ route("account.profile") }}">Cài đặt tài khoản</a>
             </li>
+            @if (Auth::check() && Auth::user()->role === 'employer')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route("account.createJob") }}">Đăng công việc</a>
             </li>
+            @endif
+            @if (Auth::check() && Auth::user()->role === 'employer')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route("account.myJobs") }}">Công việc của tôi</a>
             </li>
+            @endif
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route("account.myJobApplication") }}">Công việc đã ứng tuyển</a>
             </li>
+
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="saved-jobs.html">Công việc đã lưu</a>
+                <a href="{{ route("account.myJobApplication") }}">Công việc yêu thích</a>
             </li>   
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route('account.logout') }}">Đăng xuất</a>

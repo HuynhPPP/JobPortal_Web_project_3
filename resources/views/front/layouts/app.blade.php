@@ -42,13 +42,15 @@
           </ul>
 
           @if (Auth::check())
-            <a class="btn btn-outline-primary me-2" href="{{ route("account.profile") }}" type="submit">Tài khoản</a>
+            <a class="btn btn-outline-primary me-2" href="{{ route("account.profile") }}" type="submit">Thông tin tài khoản</a>
           @else
             <a class="btn btn-outline-primary me-2" href="{{ route("account.login") }}" type="submit">Đăng nhập</a>
           @endif
 
 
-          <a class="btn btn-primary" href="{{ route("account.createJob") }}" type="submit">Đăng bài tuyển dụng</a>
+          @if (Auth::check() && Auth::user()->role === 'employer')
+            <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Đăng bài tuyển dụng</a>
+          @endif
         </div>
       </div>
     </nav>

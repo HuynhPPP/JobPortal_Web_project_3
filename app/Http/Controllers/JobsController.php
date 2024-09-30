@@ -84,10 +84,13 @@ class JobsController extends Controller
             abort(404);
         }
 
-        $count = SavedJob::where([
-            'user_id' => Auth::user()->id,
-            'job_id' => $id,
-        ])->count();
+        $count = 0; 
+        if (Auth::check()) {
+            $count = SavedJob::where([
+                'user_id' => Auth::user()->id,
+                'job_id' => $id,
+            ])->count();
+        }
 
         return view('front.jobDetail',[
             'job' => $job,
@@ -160,6 +163,14 @@ class JobsController extends Controller
     }
 
     public function saveJob(Request $request) {
+        if (!Auth::check()) {
+            $message = "Bạn cần đăng nhập để thực hiện chức năng này.";
+            return response()->json([
+                'status' => false,
+                'message' => $message,
+            ]);
+        }
+
         $id = $request->id;
 
         $job = Job::find($id);

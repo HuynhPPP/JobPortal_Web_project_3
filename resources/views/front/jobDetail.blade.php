@@ -223,7 +223,11 @@
                 data: {id: id},
                 dataType: 'json',
                 success: function(response) {
-                    window.location.href = "{{ url()->current() }}";
+                    if (response.status === false) {
+                        toastr.error(response.message);
+                    } else {
+                        window.location.href = "{{ url()->current() }}";
+                    }
                 }
             });
     }
