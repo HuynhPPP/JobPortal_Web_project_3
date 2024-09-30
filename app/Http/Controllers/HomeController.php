@@ -13,6 +13,8 @@ class HomeController extends Controller
 
         $categories = Category::where('status', 1)->orderBy('name','ASC')->take(8)->get();
 
+        $newCategories = Category::where('status', 1)->orderBy('name','ASC')->get();
+
         $featureJobs = Job::where('status', 1)
                        ->orderBy('created_at','DESC')
                        ->with('jobType')
@@ -27,6 +29,7 @@ class HomeController extends Controller
             'categories' => $categories,
             'featureJobs' => $featureJobs,
             'latesJobs' => $latesJobs,
+            'newCategories' => $newCategories,
         ]);
     }
 }

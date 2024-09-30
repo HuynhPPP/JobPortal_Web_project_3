@@ -26,7 +26,7 @@ class AccountController extends Controller
     public function processRegistration(Request $request)
 {
     $messages = [
-        'name.required' => 'Trường name không được để trống.',
+        'name.required' => 'Trường họ và tên không được để trống.',
         'email.required' => 'Trường email không được để trống.',
         'email.email' => 'Email không hợp lệ.',
         'email.unique' => 'Email đã tồn tại.',
