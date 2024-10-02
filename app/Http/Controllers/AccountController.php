@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\JobType;
 use App\Models\JobApplication;
 use App\Models\Job;
+use App\Models\SavedJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -435,6 +436,7 @@ class AccountController extends Controller
     public function myJobApplication() {
         $jobApplications = JobApplication::where('user_id', Auth::user()->id)
                         ->with(['job','job.jobType','job.applications'])
+                        ->orderBy('created_at', 'DESC')
                         ->paginate(10);
         return view('front.account.job.my-job-application', [
             'jobApplications' => $jobApplications
@@ -455,6 +457,41 @@ class AccountController extends Controller
 
         JobApplication::find($request->id)->delete();
         session()->flash('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công.']);
+        return response()->json([
+            'status' => true,
+        ]);
+    }
+
+    public function savedJobs() {
+        // $jobApplications = JobApplication::where('user_id', Auth::user()->id)
+        //                 ->with(['job','job.jobType','job.applications'])
+        //                 ->paginate(10);
+
+        $savedJobs = SavedJob::where([
+            'user_id' => Auth::user()->id,
+        ])
+            ->with(['job','job.jobType','job.applications'])
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+        return view('front.account.job.saved-jobs', [
+            'savedJobs' => $savedJobs,
+        ]);
+    }
+
+    public function removeSavedJob(Request $request) {
+        $savedJob = SavedJob::where([
+                'id' => $request->id, 
+                'user_id' => Auth::user()->id] 
+            )->first();
+        if ($savedJob == null) {
+            session()->flash('toastr', ['error' => 'Không tìm thấy công việc']);
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        SavedJob::find($request->id)->delete();
+        session()->flash('toastr', ['success' => 'Đã huỷ yêu thích công việc.']);
         return response()->json([
             'status' => true,
         ]);
