@@ -43,6 +43,7 @@
 
           @if (Auth::check())
             <a class="btn btn-outline-primary me-2" href="{{ route("account.profile") }}" type="submit">Thông tin tài khoản</a>
+            {{-- <a href="">Xin chào {{ Auth::user()->name }}</a> --}}
           @else
             <a class="btn btn-outline-primary me-2" href="{{ route("account.login") }}" type="submit">Đăng nhập</a>
           @endif
