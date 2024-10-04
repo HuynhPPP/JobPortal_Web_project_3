@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\JobNotificationEmail;
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Careers;
 use App\Models\JobType;
 use App\Models\Job;
 use App\Models\SavedJob;
@@ -18,7 +18,7 @@ class JobsController extends Controller
     // Show find job page
     public function index(Request $request) {
 
-        $categories = Category::where('status', 1)->get();
+        $categories = Careers::where('status', 1)->get();
         $jobTypes = JobType::where('status', 1)->get();
 
         $jobs = Job::where('status', 1);

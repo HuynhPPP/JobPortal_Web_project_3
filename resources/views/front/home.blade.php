@@ -88,7 +88,7 @@
                                                     <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
                                                     <span class="ps-1">{{ $featureJob->jobType->name }}</span>
                                                 </p>
-                                                @if (is_null($featureJob->salary))
+                                                @if (!is_null($featureJob->salary))
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-usd"></i></span>
                                                         <span class="ps-1">{{ $featureJob->salary }}</span>

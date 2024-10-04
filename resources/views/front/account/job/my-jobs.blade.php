@@ -54,7 +54,7 @@
                                             <td>
                                                 @if ($job->status == 1)
                                                     <div class="job-status text-capitalize text-success">Hoạt động</div>
-                                                @elseif ($job->status == 2)
+                                                @elseif ($job->status == 0)
                                                     <div class="job-status text-capitalize text-warning">Đang xử lý</div>
                                                 @else
                                                     <div class="job-status text-capitalize text-danger">Hết hạn</div>

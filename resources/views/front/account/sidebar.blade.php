@@ -10,7 +10,12 @@
         <h5 class="mt-3 pb-0">{{ Auth::user()->name }}</h5>
         <p class="text-muted mb-1 fs-6">{{ Auth::user()->designation }}</p>
         <div class="d-flex justify-content-center mb-2">
+            @if (Auth::check() && Auth::user()->role === 'user')
             <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn btn-primary">Đổi ảnh đại diện</button>
+            @endif
+            @if (Auth::check() && Auth::user()->role === 'employer')
+            <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn btn-primary">Đổi logo công ty</button>
+            @endif
         </div>
     </div>
 </div>
@@ -27,16 +32,19 @@
             @endif
             @if (Auth::check() && Auth::user()->role === 'employer')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="{{ route("account.myJobs") }}">Công việc của tôi</a>
+                <a href="{{ route("account.myJobs") }}">Công việc đã đăng</a>
             </li>
             @endif
+            @if (Auth::check() && Auth::user()->role === 'user')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route("account.myJobApplication") }}">Công việc đã ứng tuyển</a>
             </li>
-
+            @endif
+            @if (Auth::check() && Auth::user()->role === 'user')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route("account.savedJobs") }}">Công việc yêu thích</a>
             </li>   
+            @endif
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route('account.logout') }}">Đăng xuất</a>
             </li>                                                         

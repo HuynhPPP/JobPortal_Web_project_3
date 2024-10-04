@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Careers;
 use App\Models\Job;
 use Illuminate\Http\Request;
 
@@ -11,9 +11,9 @@ class HomeController extends Controller
     // Show Home Page
     public function index() {
 
-        $categories = Category::where('status', 1)->orderBy('name','ASC')->take(8)->get();
+        $categories = Careers::where('status', 1)->orderBy('name','ASC')->take(8)->get();
 
-        $newCategories = Category::where('status', 1)->orderBy('name','ASC')->get();
+        $newCategories = Careers::where('status', 1)->orderBy('name','ASC')->get();
 
         $featureJobs = Job::where('status', 1)
                        ->orderBy('created_at','DESC')

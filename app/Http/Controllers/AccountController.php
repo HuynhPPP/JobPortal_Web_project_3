@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Category;
+use App\Models\Careers;
 use App\Models\JobType;
 use App\Models\JobApplication;
 use App\Models\Job;
@@ -230,7 +230,7 @@ class AccountController extends Controller
 
     public function createJob() {
 
-       $careers = Category::orderby('name', 'ASC')->where('status', 1)->get();
+       $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
 
        $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
         return view('front.account.job.create', [
@@ -290,6 +290,7 @@ class AccountController extends Controller
             $job->company_name = $request->company_name;
             $job->company_location = $request->company_location;
             $job->company_website = $request->company_website;
+            $job->status = "0";
             $job->save();
 
             session()->flash('toastr', ['success' => 'Thêm việc làm thành công']);
@@ -322,7 +323,7 @@ class AccountController extends Controller
 
     public function editJob(Request $request, $id) {
 
-        $careers = Category::orderby('name', 'ASC')->where('status', 1)->get();
+        $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
         $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
 
         $job = Job::where([
