@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\CareerController;
+use App\Http\Controllers\admin\JobController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,17 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/admin/home", [DashboardController::class, "index"])->name('admin.home');
 
-Route::get("/admin/career", [DashboardController::class, "getCareer"])->name('admin.career');
+Route::get("/admin/career", [CareerController::class, "index"])->name('admin.career');
 
-Route::post("/admin/create-career", [DashboardController::class, "postCreateCareer"])->name('admin.create.career');
+Route::post("/admin/create-career", [CareerController::class, "postCreateCareer"])->name('admin.create.career');
 
-Route::post("/admin/edit-career/{id}", [DashboardController::class, "postEditCareer"])->name('admin.postEditCareer.career');
+Route::post("/admin/edit-career/{id}", [CareerController::class, "postEditCareer"])->name('admin.postEditCareer.career');
 
-Route::delete("/admin/delete-career/{id}", [DashboardController::class, "deleteCareer"])->name('admin.deleteCareer.career');
+Route::delete("/admin/delete-career/{id}", [CareerController::class, "deleteCareer"])->name('admin.deleteCareer.career');
 
-Route::get("/admin/edit-career/{id}", [DashboardController::class, "getEditCareer"])->name('admin.getEditCareer.career');
+Route::get("/admin/edit-career/{id}", [CareerController::class, "getEditCareer"])->name('admin.getEditCareer.career');
 
-Route::get("/admin/job", [DashboardController::class, "getJob"])->name('admin.job');
+Route::get("/admin/job", [JobController::class, "index"])->name('admin.job');
 
 Route::get("/admin/user", [DashboardController::class, "getUser"])->name('admin.user');
 
