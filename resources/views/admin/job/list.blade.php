@@ -1,5 +1,5 @@
-@extends("admin.admin_master")
-@section("content")
+@extends('admin.admin_master')
+@section('content')
   <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
     <div class="flex-grow-1">
       <h4 class="fs-18 fw-semibold mb-0">Quản lý tin tuyển dụng</h4>
@@ -38,19 +38,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Active</td>
-                <td>Lorem, ipsum dolor.</td>
-                <td>Lorem ipsum, dolor sit amet consectetur adipisicing.</td>
-                <td>July 24, 1950</td>
-                <td class="text-muted">
-                  <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path("admin/icon/pencil.svg")) !!}</i></a>
-                  <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path("admin/icon/trash.svg")) !!}</i></a>
-                </td>
-              </tr>
+              @foreach ($jobs as $item)
+                <tr>
+                  <td>{{ $item->id }}</td>
+                  <td>{{ $item->title }}</td>
+                  <td>
+                    @if ($item->status == env('ACTIVE'))
+                      <span class="badge bg-success">Hoạt động</span>
+                    @else
+                      <span class="badge bg-danger">Tạm dừng</span>
+                    @endif
+                  </td>
+                  <td>{{ $item->career->name }}</td>
+                  <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                  <td class="text-muted">
+                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></a>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
+          {{ $jobs->links() }}
         </div> <!-- end table-responsive-->
       </div> <!-- end card body-->
     </div> <!-- end card -->
