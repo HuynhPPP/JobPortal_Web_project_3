@@ -43,16 +43,19 @@
                   <td>{{ $item->id }}</td>
                   <td>{{ $item->title }}</td>
                   <td>
-                    @if ($item->status == env('ACTIVE'))
-                      <span class="badge bg-success">Hoạt động</span>
+                    @if ($item->status == 1)
+                      <span>Đã duyệt</span>
+                    @elseif ($item->status == 0)
+                      <span>Chờ duyệt</span>
                     @else
-                      <span class="badge bg-danger">Tạm dừng</span>
+                      <span>Đã hủy</span>
                     @endif
                   </td>
                   <td>{{ $item->career->name }}</td>
                   <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
                   <td class="text-muted">
-                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                    <a href="{{ route('admin.edit.job', $item->id) }}" class="link-reset fs-20 p-1">
+                      {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
                     <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></a>
                   </td>
                 </tr>

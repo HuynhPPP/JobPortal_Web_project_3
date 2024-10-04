@@ -31,6 +31,9 @@ Route::get("/admin/edit-career/{id}", [CareerController::class, "getEditCareer"]
 
 Route::get("/admin/job", [JobController::class, "index"])->name('admin.job');
 
+Route::get("/admin/edit-job/{id}", [JobController::class, "editJob"])->name('admin.edit.job');
+Route::post("/admin/update-job/{id}", [JobController::class, "updateJob"])->name('admin.update.job');
+
 Route::get("/admin/user", [DashboardController::class, "getUser"])->name('admin.user');
 
 Route::get("/admin/employer", [DashboardController::class, "getEmployer"])->name('admin.employer');

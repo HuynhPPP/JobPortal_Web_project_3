@@ -12,4 +12,8 @@ class Job extends Model
   {
     return $this->belongsTo(Career::class);
   }
+  public function jobType()
+  {
+    return $this->belongsTo(JobType::class);
+  }
 }

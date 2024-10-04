@@ -5,3 +5,24 @@
 findOrFail
 firstOrFail
 $product = Product::findOrFail($id);
+
+<div class="row g-2">
+              <div class="mb-3 col-md-6">
+                <label for="title" class="form-label">Tỉnh/TP</label>
+                <input type="text" class="form-control" id="title" name="title">
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="title" class="form-label">Quận/huyện</label>
+                <input type="text" class="form-control" id="title" name="title">
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="mb-3 col-md-6">
+                <label for="title" class="form-label">Xã/phường</label>
+                <input type="text" class="form-control" id="title" name="title">
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="title" class="form-label">Địa chỉ cụ thể</label>
+                <input type="text" class="form-control" id="title" name="title">
+              </div>
+</div>
