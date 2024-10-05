@@ -50,12 +50,12 @@
                                                 <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}</div>
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</td>
-                                            <td>{{ $job->vacancy }} người</td>
+                                            <td>{{ $job->vacancy }} ứng viên</td>
                                             <td>
                                                 @if ($job->status == 1)
-                                                    <div class="job-status text-capitalize text-success">Hoạt động</div>
+                                                    <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                                                 @elseif ($job->status == 0)
-                                                    <div class="job-status text-capitalize text-warning">Đang xử lý</div>
+                                                    <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
                                                 @else
                                                     <div class="job-status text-capitalize text-danger">Hết hạn</div>
                                                 @endif

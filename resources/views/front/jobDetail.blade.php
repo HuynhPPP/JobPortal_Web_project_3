@@ -53,42 +53,44 @@
                             
                         </div>
                         <div class="single_wrap">
-                            <h4>Trách nhiệm</h4>
+                            <h4>Trách nhiệm công việc</h4>
                             @if (empty($job->responsibility))
                                 <p>Chưa có thông tin</p>
                             @endif
                             {!! nl2br($job->responsibility) !!}
                         </div>
                         <div class="single_wrap">
-                            <h4>Trình độ chuyên môn</h4>
+                            <h4>Kỹ năng & Chuyên môn</h4>
                             @if (empty($job->qualifications))
                                 <p>Chưa có thông tin</p>
                             @endif
                             {!! nl2br($job->qualifications) !!}
                         </div>
                         <div class="single_wrap">
-                            <h4>Phúc lợi</h4>
+                            <h4>Phúc lợi dành cho bạn</h4>
                             @if (empty($job->benefits))
                                 <p>Chưa có thông tin</p>
                             @endif
                             {!! nl2br($job->benefits) !!}
                         </div>
                         <div class="border-bottom"></div>
+                        @if (Auth::check() && Auth::user()->role === 'user')
                         <div class="pt-3 text-end">
 
-                            @if (Auth::check())
+                            @if (Auth::check() && Auth::user()->role === 'user')
                                 <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary">Lưu công việc</a>
                             @else
                                 <a href="javascript:void(0);" class="btn btn-secondary disabled">Đăng nhập để lưu công việc</a>
                             @endif
                             
 
-                            @if (Auth::check())
+                            @if (Auth::check() && Auth::user()->role === 'user')
                                 <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Xin việc</a>
                             @else
                                 <a href="javascript:void(0);" class="btn btn-primary disabled">Đăng nhập để xin việc</a>
                             @endif
                         </div>
+                        @endif
                     </div>
                 </div>
 
@@ -101,7 +103,7 @@
                                         
                                         <div class="jobs_conetent">
                                             <a href="#">
-                                                <h4>Các ứng viên</h4>
+                                                <h4>Danh sách các ứng viên ứng tuyển</h4>
                                             </a>
                                         </div>
                                     </div>
@@ -115,6 +117,7 @@
                                         <th>Email</th>
                                         <th>Số điện thoại</th>
                                         <th>Ngày ứng tuyển</th>
+                                        <th>CV</th>
                                     </tr>
                                     @if ($applications->isNotEmpty())
                                         @foreach ($applications as $application)
@@ -124,6 +127,10 @@
                                                 <td>{{ $application->user->mobile }}</td>
                                                 <td>
                                                     {{ \Carbon\Carbon::parse($application->applied_date)->format('d M, Y') }}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('download-cv', $application->cv_path) }}" class="btn btn-primary">Tải CV</a>
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -142,16 +149,16 @@
                 <div class="card shadow border-0">
                     <div class="job_sumary">
                         <div class="summery_header pb-1 pt-4">
-                            <h3>Tóm tắt công việc</h3>
+                            <h3>Thông tin chung</h3>
                         </div>
                         <div class="job_content pt-3">
                             <ul>
-                                <li>Thời điểm đăng: <span>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</span></li>
+                                <li>Thời điểm đăng: <span>{{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</span></li>
                                 <li>
                                     @if (empty($job->vacancy))
-                                        Vị trí còn trống: <span style="color: red">chưa cập nhật</span>
+                                        Cấp bậc: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Vị trí còn trống: <span>{{ $job->vacancy }}</span>
+                                        Cấp bậc: <span>{{ $job->level }}</span>
                                     @endif
                                 </li>
                                 <li>
@@ -162,17 +169,24 @@
                                     @endif
                                 </li>
                                 <li>
-                                    @if (empty($job->location))
-                                        Nơi làm việc: <span style="color: red">chưa cập nhật</span>
+                                    @if (empty($job->experience))
+                                        Năm kinh nghiệm tối thiểu: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Nơi làm việc: <span>{{ $job->location }}</span>
+                                        Năm kinh nghiệm tối thiểu: <span>{{ $job->experience }} năm</span>
                                     @endif
                                 </li>
                                 <li>
                                     @if (empty($job->jobType->name))
-                                        Hình thức làm việc: <span style="color: red">chưa cập nhật</span>
+                                        Loại hợp đồng: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Hình thức làm việc: <span> {{ $job->jobType->name }}</span>
+                                        Loại hợp đồng: <span> {{ $job->jobType->name }}</span>
+                                    @endif
+                                </li>
+                                <li>
+                                    @if (empty($job->jobType->name))
+                                        Các công nghệ sử dụng: <span style="color: red">chưa cập nhật</span>
+                                    @else
+                                        Các công nghệ sử dụng: <a href="{{ route("jobs").'?keyword='.$job->keywords }}"> {{ $job->keywords }}</a>
                                     @endif
                                 </li>
                             </ul>
@@ -182,7 +196,7 @@
                 <div class="card shadow border-0 my-4">
                     <div class="job_sumary">
                         <div class="summery_header pb-1 pt-4">
-                            <h3>Chi tiết công ty</h3>
+                            <h3>Thông tin chi tiết công ty</h3>
                         </div>
                         <div class="job_content pt-3">
                             <ul>
@@ -210,32 +224,125 @@
         </div>
     </div>
 </section>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="applyJobModal" tabindex="-1" aria-labelledby="applyJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="applyJobModalLabel">Bạn đang ứng tuyển tại công ty {{ $job->company_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <!-- Modal Body: Form -->
+            <div class="modal-body">
+                <form id="applyJobForm" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ $job->id }}">
+                    @csrf
+                    <!-- Họ tên -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}" readonly>
+                    </div>
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}" readonly>
+                    </div>
+                    <!-- Số điện thoại -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ Auth::user()->mobile }}" readonly>
+                    </div>
+                    <!-- Nộp CV -->
+                    <div class="mb-3">
+                        <label for="cv" class="form-label">Nộp CV</label>
+                        <input type="file" class="form-control" id="cv" name="cv" required>
+                        <p></p>
+                    </div>
+                    <!-- Thư giới thiệu -->
+                    {{-- <div class="mb-3">
+                        <label for="cover_letter" class="form-label">Thư giới thiệu</label>
+                        <textarea class="textarea" id="cover_letter" name="cover_letter" rows="4"></textarea>
+                    </div> --}}
+                </form>
+            </div>
+            
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="submitApplication({{ $job->id }})">Nộp đơn</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('customJs')
 <script type="text/javascript">
     function applyJob(id) {
         event.preventDefault();
-        if (confirm("Bạn chắc chắn muốn xin công việc này?")) {
-            $.ajax({
-                url: '{{ route("applyJob") }}',
-                type: 'post',
-                data: {id: id},
-                dataType: 'json',
-                success: function(response) {
-                    // Hiển thị Toastr dựa trên phản hồi
-                    if (response.status === true) {
-                        toastr.success(response.message);
-                    } else {
-                        toastr.error(response.message);
-                    }
-                },
-                error: function() {
-                    toastr.error("Có lỗi xảy ra, vui lòng thử lại.");
-                }
-            });
-        }
+        // Hiển thị modal
+        $('#applyJobModal').modal('show');
     }
+
+    function submitApplication(id) {
+    // Lấy dữ liệu từ form
+    var formData = new FormData($('#applyJobForm')[0]);
+    formData.append('id', id);
+
+    $.ajax({
+        url: '{{ route("applyJob") }}',
+        type: 'POST',
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function(response) {
+            if (response.status === true) {
+                $("#cv").removeClass('is-invalid')
+                    .siblings('p')
+                    .removeClass('invalid-feedback')
+                    .html('');
+                        
+                toastr.success(response.message);
+                $('#applyJobModal').modal('hide');
+            } else {
+                
+                if (response.status === false){
+                    $("#cv").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+                    toastr.error(response.message);
+                    $('#applyJobModal').modal('hide');
+                }
+                var errors = response.errors;
+
+                if (errors.cv) {
+                    $("#cv").addClass('is-invalid')
+                    .siblings('p')
+                    .addClass('invalid-feedback')
+                    .html(errors.cv);
+                } else {
+                    $("#cv").removeClass('is-invalid')
+                    .siblings('p')
+                    .removeClass('invalid-feedback')
+                    .html('');
+                }
+
+               
+            }
+
+        },
+        error: function() {
+            toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
+        }
+    });
+}
+
 
     function saveJob(id) {
         event.preventDefault();

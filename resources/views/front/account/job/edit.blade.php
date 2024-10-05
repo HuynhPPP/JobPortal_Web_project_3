@@ -97,14 +97,14 @@
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Địa điểm<span class="req">*</span></label>
+                                    <label for="" class="mb-2">Vị trí cần tuyển<span class="req">*</span></label>
                                     <input 
                                         type="text" 
-                                        placeholder="Địa điểm" 
-                                        id="location" 
-                                        name="location" 
+                                        placeholder="Cấp bậc" 
+                                        id="level" 
+                                        name="level" 
                                         class="form-control"
-                                        value="{{ $job->location }}"
+                                        value="{{ $job->level }}"
                                     >
                                     <p></p>
                                 </div>
@@ -112,25 +112,25 @@
                 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Mô tả<span class="req">*</span></label>
-                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc">
+                                <textarea class="textarea" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc">
                                     {{ $job->description }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Phúc lợi</label>
-                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi">
+                                <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi">
                                     {{ $job->benefits }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Trách nhiệm</label>
-                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm">
+                                <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm">
                                     {{ $job->responsibility }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Yêu cầu</label>
-                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc...">
+                                <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc...">
                                     {{ $job->qualifications }}
                                 </textarea>
                             </div>

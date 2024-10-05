@@ -10,6 +10,9 @@ use App\Models\Job;
 use App\Models\SavedJob;
 use App\Models\User;
 use App\Models\JobApplication;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -103,67 +106,105 @@ class JobsController extends Controller
     }
 
     public function applyJob(Request $request) {
-        $id = $request->id;
-    
-        $job = Job::where('id', $id)->first();
-    
-        // If job not found in db
-        if ($job == null) {
-            $message = "Không tìm thấy công việc";
-            return response()->json([
-                'status' => false,
-                'message' => $message,
-            ]);
-        }
-    
-        // You can't apply on your own job
-        $employer_id = $job->user_id;
-    
-        if ($employer_id == Auth::user()->id) {
-            $message = "Bạn không thể nộp đơn vào công việc của riêng bạn";
-            return response()->json([
-                'status' => false,
-                'message' => $message,
-            ]);
-        }
-    
-        // You can't apply on a job twice
-        $jobApplicationCount = JobApplication::where([
-            'user_id' => Auth::user()->id,
-            'job_id' => $id
-        ])->count();
-    
-        if ($jobApplicationCount > 0) {
-            $message = "Bạn đã nộp đơn công việc này";
-            return response()->json([
-                'status' => false,
-                'message' => $message,
-            ]);
-        }
-    
-        $application = new JobApplication();
-        $application->job_id = $id;
-        $application->user_id = Auth::user()->id;
-        $application->employer_id = $employer_id;
-        $application->applied_date = now();
-        $application->save();
 
-        // Send Notification Email to Employer
-        $employer = User::where('id',$employer_id)->first();
-
-        $mailData = [
-            'employer' => $employer,
-            'user' => Auth::user(),
-            'job' => $job,
+        $rules = [
+            'cv' => 'required|file|mimes:pdf,doc,docx', // CV phải là file .pdf, .doc, .docx và không quá 2MB
         ];
-        Mail::to($employer->email)->send(new JobNotificationEmail($mailData));
-    
-        $message = "Nộp đơn thành công";
-    
-        return response()->json([
-            'status' => true,
-            'message' => $message,
-        ]);
+        
+        $messages = [
+            'cv.required' => 'Bạn phải nộp CV.',
+            'cv.file' => 'CV phải là một tệp tin hợp lệ.',
+            'cv.mimes' => 'CV phải có định dạng .pdf, .doc hoặc .docx.',
+        ];
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->passes()) {
+
+            $id = $request->id;
+        
+            $job = Job::where('id', $id)->first();
+        
+            // If job not found in db
+            if ($job == null) {
+                $message = "Không tìm thấy công việc";
+                return response()->json([
+                    'status' => false,
+                    'message' => $message,
+                ]);
+            }
+        
+            // You can't apply on your own job
+            $employer_id = $job->user_id;
+        
+            if ($employer_id == Auth::user()->id) {
+                $message = "Bạn không thể nộp đơn vào công việc của riêng bạn";
+                return response()->json([
+                    'status' => false,
+                    'message' => $message,
+                ]);
+            }
+        
+            // You can't apply on a job twice
+            $jobApplicationCount = JobApplication::where([
+                'user_id' => Auth::user()->id,
+                'job_id' => $id
+            ])->count();
+        
+            if ($jobApplicationCount > 0) {
+                $message = "Bạn đã nộp đơn công việc này";
+                return response()->json([
+                    'status' => false,
+                    'message' => $message,
+                ]);
+            }
+
+            // Xử lý file CV (nếu được upload)
+            if ($request->hasFile('cv')) {
+                // Lấy file từ request
+                $file = $request->file('cv');
+
+                // Tạo tên file duy nhất, sử dụng email của người dùng và thời gian hiện tại
+                $filename = Auth::user()->email . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+                // Đường dẫn lưu file
+                $destinationPath = public_path('/CV');
+
+                // Di chuyển file tới thư mục đã chỉ định
+                $file->move($destinationPath, $filename);
+            }
+
+        
+            $application = new JobApplication();
+            $application->job_id = $id;
+            $application->user_id = Auth::user()->id;
+            $application->employer_id = $employer_id;
+            $application->applied_date = now();
+            $application->cv_path = $filename ?? null;
+            $application->save();
+
+            // Send Notification Email to Employer
+            $employer = User::where('id',$employer_id)->first();
+
+            $mailData = [
+                'employer' => $employer,
+                'user' => Auth::user(),
+                'job' => $job,
+            ];
+            Mail::to($employer->email)->send(new JobNotificationEmail($mailData));
+        
+            $message = "Nộp đơn thành công";
+        
+            return response()->json([
+                'status' => true,
+                'message' => $message,
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
     }
 
     public function saveJob(Request $request) {
@@ -211,6 +252,17 @@ class JobsController extends Controller
                 'status' => true,
                 'message' => $message,
             ]);
+    }
+
+    public function downloadCv($cvPath)
+    {
+        $filePath = storage_path('public/CV/' . $cvPath); // Đường dẫn tới file
+
+        if (!file_exists($filePath)) {
+            return session()->flash('toastr', ['error' => 'File không tồn tại']);
+        }
+
+        return Storage::download($filePath); // Tải file
     }
     
 }

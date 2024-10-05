@@ -78,11 +78,11 @@
                                     <div class="card border-0 p-3 shadow mb-4">
                                         <div class="card-body">
                                             <h3 class="border-0 fs-5 pb-2 mb-0">{{ $featureJob->title }}</h3>
-                                            <p>{{ Str::words($featureJob->description, 10) }}</p>
+                                            <p>{{ Str::words(strip_tags($featureJob->description), 10) }}</p>
                                             <div class="bg-light p-3 border">
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                                    <span class="ps-1">{{ $featureJob->location }}</span>
+                                                    <span class="ps-1">{{ $featureJob->company_location }}</span>
                                                 </p>
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
@@ -125,11 +125,11 @@
                                     <div class="card border-0 p-3 shadow mb-4">
                                         <div class="card-body">
                                             <h3 class="border-0 fs-5 pb-2 mb-0">{{ $latesJob->title }}</h3>
-                                            <p>{{ Str::words($latesJob->description, 10) }}</p>
+                                            <p>{{ Str::words(strip_tags($latesJob->description), 10) }}</p>
                                             <div class="bg-light p-3 border">
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                                    <span class="ps-1">{{ $latesJob->location }}</span>
+                                                    <span class="ps-1">{{ $latesJob->company_location }}</span>
                                                 </p>
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>

@@ -246,7 +246,7 @@ class AccountController extends Controller
             'category' => 'required',
             'jobType' => 'required',
             'vacancy' => 'required|integer',
-            'location' => 'required|max:50',
+            'level' => 'required|max:50',
             'description' => 'required',
             'keywords' => 'required',
             'company_name' => 'required|min:3|max:75',
@@ -260,8 +260,8 @@ class AccountController extends Controller
             'jobType.required' => 'hình thức làm việc không được bỏ trống.',
             'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
-            'location.required' => 'Địa điểm không được để trống.',
-            'location.max' => 'Địa điểm không được dài hơn 50 ký tự.',
+            'level.required' => 'Vị trí cần tuyển không được để trống.',
+            'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
             'description.required' => 'Mô tả công việc không được để trống.',
             'keywords.required' => 'Từ khóa không được để trống.',
             'company_name.required' => 'Tên công ty không được để trống.',
@@ -280,7 +280,7 @@ class AccountController extends Controller
             $job->user_id = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
-            $job->location = $request->location;
+            $job->level = $request->level;
             $job->description = $request->description;
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;
@@ -349,7 +349,7 @@ class AccountController extends Controller
             'category' => 'required',
             'jobType' => 'required',
             'vacancy' => 'required|integer',
-            'location' => 'required|max:50',
+            'level' => 'required|max:50',
             'description' => 'required',
             'keywords' => 'required',
             'company_name' => 'required|min:3|max:75',
@@ -363,8 +363,8 @@ class AccountController extends Controller
             'jobType.required' => 'Loại công việc không được bỏ trống.',
             'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
-            'location.required' => 'Địa điểm không được để trống.',
-            'location.max' => 'Địa điểm không được dài hơn 50 ký tự.',
+            'level.required' => 'Vị trí cần tuyển không được để trống.',
+            'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
             'description.required' => 'Mô tả công việc không được để trống.',
             'keywords.required' => 'Từ khóa không được để trống.',
             'company_name.required' => 'Tên công ty không được để trống.',
@@ -383,7 +383,7 @@ class AccountController extends Controller
             $job->user_id = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
-            $job->location = $request->location;
+            $job->level = $request->level;
             $job->description = $request->description;
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;
@@ -496,5 +496,45 @@ class AccountController extends Controller
         return response()->json([
             'status' => true,
         ]);
+    }
+
+    public function updatePassword(Request $request) {
+        $rules = [
+            'old_password' => 'required',
+            'new_password' => 'required|min:5',
+            'confirm_password' => 'required|same:new_password',
+        ];
+
+        $messages = [
+            'old_password.required' => 'Bạn chưa nhập mật khẩu cũ.',
+            'new_password.required' => 'Bạn chưa nhập mật khẩu mới.',
+            'confirm_password.required' => 'Bạn chưa nhập lại mật khẩu mới.',
+            'confirm_password.same' => 'Mật khẩu xác nhận không khớp với mật khẩu mới.',
+        ];
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        if (Hash::check($request->old_password,Auth::user()->password) == false) {
+            session()->flash('toastr', ['error' => 'Mật khẩu cũ không chính xác.']);
+            return response()->json([
+                'status' => true,
+            ]);
+        }
+
+        $user = User::find(Auth::user()->id);
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        session()->flash('toastr', ['success' => 'Đổi mật khẩu thành công.']);
+            return response()->json([
+                'status' => true,
+            ]);
     }
 }

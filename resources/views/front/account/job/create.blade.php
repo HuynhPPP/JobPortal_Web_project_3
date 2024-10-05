@@ -48,7 +48,7 @@
                                 <div class="col-md-6 mb-4">
                                     <label for="" class="mb-2">Hình thức làm việc<span class="req">*</span></label>
                                     <select name="jobType" id="jobType" class="form-select">
-                                        <option value="">Chọn hình thức làm việc</option>
+                                        <option value="">Loại hợp đồng</option>
                                         @if ($jobtypes->isNotEmpty())
                                             @foreach ($jobtypes as $jobtype)
                                             <option value="{{ $jobtype->id }}">{{ $jobtype->name }}</option>
@@ -71,27 +71,27 @@
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Địa điểm<span class="req">*</span></label>
-                                    <input type="text" placeholder="Địa điểm" id="location" name="location" class="form-control">
+                                    <label for="" class="mb-2">Vị trí cần tuyển<span class="req">*</span></label>
+                                    <input type="text" placeholder="Cấp bậc" id="level" name="level" class="form-control">
                                     <p></p>
                                 </div>
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Mô tả<span class="req">*</span></label>
-                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc"></textarea>
+                                <label for="" class="mb-2">Mô tả công việc<span class="req">*</span></label>
+                                <textarea class="textarea" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Phúc lợi</label>
-                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi"></textarea>
+                                <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi"></textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Trách nhiệm</label>
-                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm"></textarea>
+                                <label for="" class="mb-2">Trách nhiệm công việc</label>
+                                <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm"></textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Yêu cầu</label>
-                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc..."></textarea>
+                                <label for="" class="mb-2">Kỹ năng & Chuyên môn</label>
+                                <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc..."></textarea>
                             </div>
                 
                             <div class="mb-4">

@@ -26,6 +26,9 @@ Route::get('/jobs/detail/{id}', [JobsController::class, 'detail'])->name('jobDet
 Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob');
 Route::post('/save-job', [JobsController::class, 'saveJob'])->name('saveJob');
 
+Route::get('/download-cv/{cvPath}', [JobsController::class, 'downloadCv'])->name('download-cv');
+
+
 
 
 Route::group(['prefix' => 'account'], function() {
@@ -51,9 +54,11 @@ Route::group(['prefix' => 'account'], function() {
         Route::post('/update-job/{jobId}', [AccountController::class, 'updateJob'])->name('account.updateJob');
         Route::post('/delete-job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
         Route::get('/my-job-application', [AccountController::class, 'myJobApplication'])->name('account.myJobApplication');
+
         Route::post('/remove-job-application', [AccountController::class, 'removeJobs'])->name('account.removeJobs');
         Route::get('/saved-job', [AccountController::class, 'savedJobs'])->name('account.savedJobs');
         Route::post('/remove-saved-job', [AccountController::class, 'removeSavedJob'])->name('account.removeSavedJob');
+        Route::post('/update-password', [AccountController::class, 'updatePassword'])->name('account.updatePassword');
 
 
     });
