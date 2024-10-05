@@ -84,9 +84,9 @@
                   <td>{{ $item->id }}</td>
                   <td>{{ $item->name }}</td>
                   <td>
-                    @if ($item->status == env('ACTIVE'))
+                    @if ($item->status == env('STATUS_ACTIVE'))
                       <span>Hoạt động</span>
-                    @else
+                    @elseif ($item->status == env('STATUS_INACTIVE'))
                       <span>Tạm dừng</span>
                     @endif
                   </td>

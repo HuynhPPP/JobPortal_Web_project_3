@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\CareerController;
 use App\Http\Controllers\admin\JobController;
+use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,6 @@ Route::get("/admin/job", [JobController::class, "index"])->name('admin.job');
 Route::get("/admin/edit-job/{id}", [JobController::class, "editJob"])->name('admin.edit.job');
 Route::post("/admin/update-job/{id}", [JobController::class, "updateJob"])->name('admin.update.job');
 
-Route::get("/admin/user", [DashboardController::class, "getUser"])->name('admin.user');
+Route::get("/admin/user", [UserController::class, "getUser"])->name('admin.user');
 
 Route::get("/admin/employer", [DashboardController::class, "getEmployer"])->name('admin.employer');

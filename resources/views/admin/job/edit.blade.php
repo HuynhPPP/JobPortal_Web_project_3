@@ -116,10 +116,9 @@
               <div class="mb-3 col-md-3">
                 <label class="form-label">Trạng thái</label>
                 <select class="form-select" name="status">
-                  <option value="0" {{ $job->status == 2 ? 'selected' : '' }}>Chờ duyệt</option>
-                  <option value="1" {{ $job->status == 1 ? 'selected' : '' }}>Đã duyệt</option>
-                  <option value="2" {{ $job->status == 3 ? 'selected' : '' }}>Đã hủy</option>
-                  <option value="2" {{ $job->status == 0 ? 'selected' : '' }}>Ẩn</option>
+                  <option value="0" {{ $job->status == env('STATUS_PENDING') ? 'selected' : '' }}>Chờ duyệt</option>
+                  <option value="1" {{ $job->status == env('STATUS_APPROVED') ? 'selected' : '' }}>Đã duyệt</option>
+                  <option value="2" {{ $job->status == env('STATUS_LOCKED') ? 'selected' : '' }}>Đã khóa</option>
                 </select>
               </div>
               <div class="mb-3 col-md-3">

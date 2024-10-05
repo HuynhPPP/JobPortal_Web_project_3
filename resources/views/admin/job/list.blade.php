@@ -42,14 +42,12 @@
                   <td>{{ $item->id }}</td>
                   <td>{{ $item->title }}</td>
                   <td>
-                    @if ($item->status == 1)
+                    @if ($item->status == env('STATUS_APPROVED'))
                       <span>Đã duyệt</span>
-                    @elseif ($item->status == 2)
+                    @elseif ($item->status == env('STATUS_PENDING'))
                       <span>Chờ duyệt</span>
-                    @elseif ($item->status == 0)
-                      <span>Ẩn</span>
-                    @else
-                      <span>Đã hủy</span>
+                    @elseif ($item->status == env('STATUS_LOCKED'))
+                      <span>Đã khóa</span>
                     @endif
                   </td>
                   <td>{{ $item->career->name }}</td>

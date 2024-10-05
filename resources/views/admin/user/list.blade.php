@@ -39,17 +39,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Nguyễn Văn A</td>
-                <td>nguyenvana@gmail.com</td>
-                <td>0123456789</td>
-                <td>Active</td>
-                <td class="text-muted">
-                  <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                  <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></a>
-                </td>
-              </tr>
+              @foreach ($users as $user)
+                <tr>
+                  <td>{{ $user->id }}</td>
+                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->email }}</td>
+                  <td>{{ $user->phone }}</td>
+                  <td>{{ $user->status }}</td>
+                  <td>Active</td>
+                  <td class="text-muted">
+                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></a>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div> <!-- end table-responsive-->

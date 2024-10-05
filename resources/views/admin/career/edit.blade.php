@@ -1,11 +1,11 @@
-@extends("admin.admin_master")
-@section("content")
+@extends('admin.admin_master')
+@section('content')
   <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
     <div class="flex-grow-1">
       <h4 class="fs-18 fw-semibold mb-0">Quản lý nghề nghiệp</h4>
-      @if (session("success"))
+      @if (session('success'))
         <div class="alert alert-success">
-          {{ session("success") }}
+          {{ session('success') }}
         </div>
       @endif
     </div>
@@ -30,29 +30,29 @@
       </div>
       <div class="card-body">
         <div class="table-responsive-sm">
-          <form class="needs-validation" method="POST" action="{{ route("admin.postEditCareer.career", $career->id) }}">
+          <form class="needs-validation" method="POST" action="{{ route('admin.postEditCareer.career', $career->id) }}">
             @csrf
             <div class="mb-3">
               <label class="form-label" for="validationCustom01">Tên ngành nghề</label>
               <input type="text" placeholder="ví dụ: công nghệ thông tin"
-                class="form-control @error("name")
+                class="form-control @error('name')
                   is-invalid
               @enderror" name="name"
                 value="{{ $career->name }}">
-              @if ($errors->has("name"))
-                <span class="invalid-feedback">{{ $errors->first("name") }}</span>
+              @if ($errors->has('name'))
+                <span class="invalid-feedback">{{ $errors->first('name') }}</span>
               @endif
             </div>
             <div class="mb-3">
               <label class="form-label" for="validationCustom02">Trạng thái</label>
-              <select class="form-select @error("status")
+              <select class="form-select @error('status')
                   is-invalid
               @enderror"
                 name="status">
-                <option value="1" {{ $career->status == env("ACTIVE") ? "selected" : "" }}>Hoạt động</option>
-                <option value="0" {{ $career->status == env("BLOCK") ? "selected" : "" }}>Tạm dừng</option>
+                <option value="1" {{ $career->status == env('STATUS_ACTIVE') ? 'selected' : '' }}>Hoạt động</option>
+                <option value="0" {{ $career->status == env('STATUS_INACTIVE') ? 'selected' : '' }}>Tạm dừng</option>
               </select>
-              <span class="invalid-feedback">{{ $errors->first("status") }}</span>
+              <span class="invalid-feedback">{{ $errors->first('status') }}</span>
             </div>
             <button class="btn btn-primary" type="submit">Cập nhật</button>
           </form>
@@ -83,23 +83,23 @@
                   <td>{{ $item->id }}</td>
                   <td>{{ $item->name }}</td>
                   <td>
-                    @if ($item->status == env("ACTIVE"))
-                      <span class="badge bg-success">Hoạt động</span>
-                    @else
-                      <span class="badge bg-danger">Tạm dừng</span>
+                    @if ($item->status == env('STATUS_ACTIVE'))
+                      <span>Hoạt động</span>
+                    @elseif ($item->status == env('STATUS_INACTIVE'))
+                      <span>Tạm dừng</span>
                     @endif
                   </td>
-                  <td>{{ \Carbon\Carbon::parse($item->created_at)->format("d/m/Y") }}</td>
+                  <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
                   <td class="text-muted">
-                    <a href="{{ route("admin.getEditCareer.career", ["id" => $item->id]) }}"
+                    <a href="{{ route('admin.getEditCareer.career', ['id' => $item->id]) }}"
                       class="link-reset fs-20 p-1">
-                      {!! file_get_contents(public_path("admin/icon/pencil.svg")) !!}</i></a>
-                    <form class="d-inline" method="POST" action="{{ route("admin.deleteCareer.career", $item->id) }}">
+                      {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                    <form class="d-inline" method="POST" action="{{ route('admin.deleteCareer.career', $item->id) }}">
                       @csrf
-                      @method("DELETE")
+                      @method('DELETE')
                       <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
                         class="link-reset fs-20 p-1 border-0 bg-transparent">
-                        {!! file_get_contents(public_path("admin/icon/trash.svg")) !!}</i></button>
+                        {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
                     </form>
                   </td>
                 </tr>
