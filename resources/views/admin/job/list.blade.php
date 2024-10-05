@@ -21,7 +21,6 @@
       <div class="card">
         <div class="d-flex card-header justify-content-between align-items-center">
           <h4 class="header-title">Danh sách</h4>
-          <a href="javascript:void(0);" class="btn btn-sm btn-light">Thêm mới <i class="ti ti-plus ms-1"></i></a>
         </div>
       </div>
       <div class="card-body">
@@ -34,7 +33,7 @@
                 <th>Trạng thái</th>
                 <th>Tên ngành nghề</th>
                 <th>Thời gian</th>
-                <th>Thao tác</th>
+                <th class="text-center">Thao tác</th>
               </tr>
             </thead>
             <tbody>
@@ -45,18 +44,19 @@
                   <td>
                     @if ($item->status == 1)
                       <span>Đã duyệt</span>
-                    @elseif ($item->status == 0)
+                    @elseif ($item->status == 2)
                       <span>Chờ duyệt</span>
+                    @elseif ($item->status == 0)
+                      <span>Ẩn</span>
                     @else
                       <span>Đã hủy</span>
                     @endif
                   </td>
                   <td>{{ $item->career->name }}</td>
                   <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-                  <td class="text-muted">
+                  <td class="text-muted text-center">
                     <a href="{{ route('admin.edit.job', $item->id) }}" class="link-reset fs-20 p-1">
                       {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></a>
                   </td>
                 </tr>
               @endforeach
