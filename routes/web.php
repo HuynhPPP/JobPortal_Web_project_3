@@ -36,5 +36,7 @@ Route::get("/admin/edit-job/{id}", [JobController::class, "editJob"])->name('adm
 Route::post("/admin/update-job/{id}", [JobController::class, "updateJob"])->name('admin.update.job');
 
 Route::get("/admin/user", [UserController::class, "getUser"])->name('admin.user');
-
+Route::get("/admin/edit-user/{id}", [UserController::class, "editUser"])->name('admin.edit.user');
+Route::post('/admin/update-user/{id}', [UserController::class, 'updateUser'])->name('admin.update.user');
+Route::delete('/admin/delete-user/{id}', [UserController::class, 'deleteUser'])->name('admin.delete.user');
 Route::get("/admin/employer", [DashboardController::class, "getEmployer"])->name('admin.employer');

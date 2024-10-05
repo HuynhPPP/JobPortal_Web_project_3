@@ -3,11 +3,6 @@
   <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
     <div class="flex-grow-1">
       <h4 class="fs-18 fw-semibold mb-0">Quản lý việc làm</h4>
-      @if (session('success'))
-        <div class="alert alert-success">
-          {{ session('success') }}
-        </div>
-      @endif
     </div>
     <form class="row row-cols-lg-auto g-2 align-items-center">
       <div class="col">

@@ -23,10 +23,10 @@ class CareerController extends Controller
         'status' => 'required'
       ],
       [
-        'name.required' => 'Không được để trống.',
-        'name.max' => 'Tên không quá 200 ký tự.',
-        'name.unique' => 'Tên bạn nhập đã tồn tại.',
-        'status.required' => 'Bạn chưa chọn trạng thái.'
+        'name.required' => 'Vui lòng nhập tên.',
+        'name.max' => 'Tên không được vượt quá 200 ký tự.',
+        'name.unique' => 'Tên này đã được sử dụng, vui lòng chọn tên khác.',
+        'status.required' => 'Vui lòng chọn trạng thái.'
       ]
     );
     if ($validator->passes()) {
@@ -70,10 +70,10 @@ class CareerController extends Controller
         'status' => 'required',
       ],
       [
-        'name.required' => 'Không được để trống.',
-        'name.max' => 'Tên không quá 200 ký tự.',
-        'name.unique' => 'Tên bạn nhập đã tồn tại.',
-        'status.required' => 'Bạn chưa chọn trạng thái.'
+        'name.required' => 'Vui lòng nhập tên.',
+        'name.max' => 'Tên không được vượt quá 200 ký tự.',
+        'name.unique' => 'Tên này đã được sử dụng, vui lòng chọn tên khác.',
+        'status.required' => 'Vui lòng chọn trạng thái.'
       ]
     );
     if ($validator->passes()) {

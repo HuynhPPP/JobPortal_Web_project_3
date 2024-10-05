@@ -3,11 +3,6 @@
   <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
     <div class="flex-grow-1">
       <h4 class="fs-18 fw-semibold mb-0">Quản lý nghề nghiệp</h4>
-      @if (session('success'))
-        <div class="alert alert-success">
-          {{ session('success') }}
-        </div>
-      @endif
     </div>
     <form class="row row-cols-lg-auto g-2 align-items-center">
       <div class="col">
@@ -38,7 +33,7 @@
                 class="form-control @error('name')
                   is-invalid
               @enderror" name="name"
-                value="{{ $career->name }}">
+                value="{{ $errors->has('name') ? '' : old('name', $career->name) }}">
               @if ($errors->has('name'))
                 <span class="invalid-feedback">{{ $errors->first('name') }}</span>
               @endif
@@ -91,8 +86,7 @@
                   </td>
                   <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
                   <td class="text-muted">
-                    <a href="{{ route('admin.getEditCareer.career', ['id' => $item->id]) }}"
-                      class="link-reset fs-20 p-1">
+                    <a href="{{ route('admin.getEditCareer.career', ['id' => $item->id]) }}" class="link-reset fs-20 p-1">
                       {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
                     <form class="d-inline" method="POST" action="{{ route('admin.deleteCareer.career', $item->id) }}">
                       @csrf

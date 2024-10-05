@@ -42,19 +42,32 @@
               @foreach ($users as $user)
                 <tr>
                   <td>{{ $user->id }}</td>
-                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->fullname }}</td>
                   <td>{{ $user->email }}</td>
-                  <td>{{ $user->phone }}</td>
-                  <td>{{ $user->status }}</td>
-                  <td>Active</td>
+                  <td>{{ $user->mobile }}</td>
+                  <td>
+                    @if ($user->status == env('STATUS_ACTIVE'))
+                      <span>Đã duyệt</span>
+                    @elseif ($user->status == env('STATUS_INACTIVE'))
+                      <span>Đã khóa</span>
+                    @endif
+                  </td>
                   <td class="text-muted">
-                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                    <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></a>
+                    <a href="{{ route('admin.edit.user', $user->id) }}" class="link-reset fs-20 p-1">
+                      {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                    <form class="d-inline" method="POST" action="{{ route('admin.delete.user', $user->id) }}">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                        class="link-reset fs-20 p-1 border-0 bg-transparent">
+                        {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
+                    </form>
                   </td>
                 </tr>
               @endforeach
             </tbody>
           </table>
+          {{ $users->links() }}
         </div> <!-- end table-responsive-->
       </div> <!-- end card body-->
     </div> <!-- end card -->
