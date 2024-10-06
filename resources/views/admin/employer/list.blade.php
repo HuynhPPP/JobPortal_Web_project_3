@@ -39,19 +39,35 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Nguyễn Văn A</td>
-                <td>nguyenvana@gmail.com</td>
-                <td>0123456789</td>
-                <td>Active</td>
-                <td class="text-muted">
-                  <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                  <a href="javascript: void(0);" class="link-reset fs-20 p-1"> {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></a>
-                </td>
-              </tr>
+              @foreach ($employers as $employer)
+                <tr>
+                  <td>{{ $employer->id }}</td>
+                  <td>{{ $employer->fullname }}</td>
+                  <td>{{ $employer->email }}</td>
+                  <td>{{ $employer->mobile }}</td>
+                  <td>
+                    @if ($employer->status == env('STATUS_ACTIVE'))
+                      <span>Hoạt động</span>
+                    @elseif ($employer->status == env('STATUS_INACTIVE'))
+                      <span>Đã khóa</span>
+                    @endif
+                  </td>
+                  <td class="text-muted">
+                    <a href="{{ route('admin.edit.employer', $employer->id) }}" class="link-reset fs-20 p-1">
+                      {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                    <form class="d-inline" method="POST" action="{{ route('admin.delete.employer', $employer->id) }}">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                        class="link-reset fs-20 p-1 border-0 bg-transparent">
+                        {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
+          {{ $employers->links() }}
         </div> <!-- end table-responsive-->
       </div> <!-- end card body-->
     </div> <!-- end card -->

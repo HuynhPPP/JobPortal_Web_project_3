@@ -2,7 +2,7 @@
 @section('content')
   <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
     <div class="flex-grow-1">
-      <h4 class="fs-18 fw-semibold mb-0">Quản lý ứng viên</h4>
+      <h4 class="fs-18 fw-semibold mb-0">Quản lý nhà tuyển dụng</h4>
     </div>
     <form class="row row-cols-lg-auto g-2 align-items-center">
       <div class="col">
@@ -25,7 +25,7 @@
       </div>
       <div class="card-body">
         <div class="table-responsive-sm">
-          <form class="needs-validation" method="POST" action="{{ route('admin.update.user', $user->id) }}">
+          <form class="needs-validation" method="POST" action="{{ route('admin.update.employer', $employer->id) }}">
             @csrf
             <div class="mb-3">
               <label class="form-label" for="validationCustom01">Họ và tên</label>
@@ -33,7 +33,7 @@
                 class="form-control @error('fullname')
                   is-invalid
               @enderror"
-                name="fullname" value="{{ $errors->has('fullname') ? '' : old('fullname', $user->fullname) }}">
+                name="fullname" value="{{ $errors->has('fullname') ? '' : old('fullname', $employer->fullname) }}">
               @if ($errors->has('fullname'))
                 <span class="invalid-feedback">{{ $errors->first('fullname') }}</span>
               @endif
@@ -44,7 +44,7 @@
                 class="form-control @error('email')
                   is-invalid
               @enderror" name="email"
-                value="{{ $errors->has('email') ? '' : old('email', $user->email) }}">
+                value="{{ $errors->has('email') ? '' : old('email', $employer->email) }}">
               @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
               @endif
@@ -55,7 +55,7 @@
                 class="form-control @error('mobile')
                   is-invalid
               @enderror" name="mobile"
-                value="{{ $errors->has('mobile') ? '' : old('mobile', $user->mobile) }}">
+                value="{{ $errors->has('mobile') ? '' : old('mobile', $employer->mobile) }}">
               @if ($errors->has('mobile'))
                 <span class="invalid-feedback">{{ $errors->first('mobile') }}</span>
               @endif
@@ -66,8 +66,10 @@
                   is-invalid
               @enderror"
                 name="status">
-                <option {{ $user->status == env('STATUS_ACTIVE') ? 'selected' : '' }} value="1">Hoạt động</option>
-                <option {{ $user->status == env('STATUS_INACTIVE') ? 'selected' : '' }} value="0">Đã khóa</option>
+                <option {{ $employer->status == env('STATUS_ACTIVE') ? 'selected' : '' }} value="1">Hoạt động
+                </option>
+                <option {{ $employer->status == env('STATUS_INACTIVE') ? 'selected' : '' }} value="0">Đã khóa
+                </option>
               </select>
               <span class="invalid-feedback">{{ $errors->first('status') }}</span>
             </div>
@@ -96,23 +98,23 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($users as $user)
+              @foreach ($employers as $employer)
                 <tr>
-                  <td>{{ $user->id }}</td>
-                  <td>{{ $user->name }}</td>
-                  <td>{{ $user->email }}</td>
-                  <td>{{ $user->mobile }}</td>
+                  <td>{{ $employer->id }}</td>
+                  <td>{{ $employer->fullname }}</td>
+                  <td>{{ $employer->email }}</td>
+                  <td>{{ $employer->mobile }}</td>
                   <td>
-                    @if ($user->status == env('STATUS_ACTIVE'))
+                    @if ($employer->status == env('STATUS_ACTIVE'))
                       <span>Hoạt động</span>
-                    @elseif ($user->status == env('STATUS_INACTIVE'))
+                    @elseif ($employer->status == env('STATUS_INACTIVE'))
                       <span>Đã khóa</span>
                     @endif
                   </td>
                   <td class="text-muted">
-                    <a href="{{ route('admin.edit.user', $user->id) }}" class="link-reset fs-20 p-1">
+                    <a href="{{ route('admin.edit.employer', $employer->id) }}" class="link-reset fs-20 p-1">
                       {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                    <form class="d-inline" method="POST" action="{{ route('admin.delete.user', $user->id) }}">
+                    <form class="d-inline" method="POST" action="{{ route('admin.delete.user', $employer->id) }}">
                       @csrf
                       @method('DELETE')
                       <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
@@ -124,7 +126,7 @@
               @endforeach
             </tbody>
           </table>
-          {{ $users->links() }}
+          {{ $employers->links() }}
         </div> <!-- end table-responsive-->
       </div>
     </div>

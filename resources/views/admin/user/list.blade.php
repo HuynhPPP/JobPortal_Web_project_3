@@ -47,7 +47,7 @@
                   <td>{{ $user->mobile }}</td>
                   <td>
                     @if ($user->status == env('STATUS_ACTIVE'))
-                      <span>Đã duyệt</span>
+                      <span>Hoạt động</span>
                     @elseif ($user->status == env('STATUS_INACTIVE'))
                       <span>Đã khóa</span>
                     @endif

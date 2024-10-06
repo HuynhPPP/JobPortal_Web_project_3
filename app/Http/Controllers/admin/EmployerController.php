@@ -7,20 +7,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class EmployerController extends Controller
 {
-  public function getUser()
+  public function getEmployer()
   {
-    $users = User::where('role', 'user')->latest()->paginate(5);
-    return view('admin.user.list', compact('users'));
+    $employers = User::where('role', 'employer')->latest()->paginate(5);
+    return view('admin.employer.list', compact('employers'));
   }
-  public function editUser($id)
+  public function editEmployer($id)
   {
-    $users = User::where('role', 'user')->latest()->paginate(5);
-    $user = User::where('role', 'user')->where('id', $id)->first();
-    return view('admin.user.edit', compact('users', 'user'));
+    $employers = User::where('role', 'employer')->latest()->paginate(5);
+    $employer = User::where('role', 'employer')->where('id', $id)->first();
+    return view('admin.employer.edit', compact('employers', 'employer'));
   }
-  public function updateUser(Request $request, $id)
+  public function updateEmployer(Request $request, $id)
   {
     $validator = Validator::make(
       $request->all(),
@@ -51,20 +51,20 @@ class UserController extends Controller
       $user->status = $request->status;
       $user->save();
       toastr()->success("Cập nhật thành công.", ' ');
-      return redirect()->route('admin.user');
+      return redirect()->route('admin.employer');
     } else {
       return redirect()->back()->withErrors($validator)->withInput();
     }
   }
-  public function deleteUser($id)
+  public function deleteEmployer($id)
   {
-    $user = User::find($id);
-    if ($user == null) {
+    $employer = User::find($id);
+    if ($employer == null) {
       toastr()->error("Tên người dùng không tồn tại", " ");
       return redirect()->back();
     }
-    $user->delete();
+    $employer->delete();
     toastr()->success("Xóa thành công", " ");
-    return redirect()->route('admin.user');
+    return redirect()->route('admin.employer');
   }
 }

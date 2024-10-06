@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\CareerController;
+use App\Http\Controllers\admin\EmployerController;
 use App\Http\Controllers\admin\JobController;
 use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,8 @@ Route::get("/admin/user", [UserController::class, "getUser"])->name('admin.user'
 Route::get("/admin/edit-user/{id}", [UserController::class, "editUser"])->name('admin.edit.user');
 Route::post('/admin/update-user/{id}', [UserController::class, 'updateUser'])->name('admin.update.user');
 Route::delete('/admin/delete-user/{id}', [UserController::class, 'deleteUser'])->name('admin.delete.user');
-Route::get("/admin/employer", [DashboardController::class, "getEmployer"])->name('admin.employer');
+
+Route::get("/admin/employer", [EmployerController::class, "getEmployer"])->name('admin.employer');
+Route::get('/admin/edit-employer/{id}', [EmployerController::class, 'editEmployer'])->name('admin.edit.employer');
+Route::post('admin/update-employer/{id}', [EmployerController::class, 'updateEmployer'])->name('admin.update.employer');
+Route::delete('admin/delete-employer/{id}', [EmployerController::class, 'deleteEmployer'])->name('admin.delete.employer');
