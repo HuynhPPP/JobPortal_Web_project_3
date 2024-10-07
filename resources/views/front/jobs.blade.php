@@ -97,19 +97,41 @@
                                                 <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
                                                 <p>{{ Str::words(strip_tags($job->description), $word=10, '...') }}</p>
                                                 <div class="bg-light p-3 border">
-                                                    <p class="mb-0">
-                                                        <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                                        <span class="ps-1">{{ $job->location }}</span>
-                                                    </p>
-                                                    <p class="mb-0">
-                                                        <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                                        <span class="ps-1">{{ $job->jobType->name }}</span>
-                                                    </p>
+
+                                                    @if (empty($job->company_location))
+                                                        <p class="mb-0">
+                                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                                            <span class="ps-1" style="color: red">Chưa cập nhật</span>
+                                                        </p>
+                                                    @else
+                                                        <p class="mb-0">
+                                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                                            <span class="ps-1">{{ $job->company_location }}</span>
+                                                        </p>
+                                                    @endif
+
+                                                    @if (empty($job->jobType->name))
+                                                        <p class="mb-0">
+                                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                                            <span class="ps-1" style="color: red">Chưa cập nhật</span>
+                                                        </p>
+                                                    @else
+                                                        <p class="mb-0">
+                                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                                            <span class="ps-1">{{ $job->jobType->name }}</span>
+                                                        </p>
+                                                    @endif
+
                                                     @if (!is_null($job->salary))
-                                                    <p class="mb-0">
-                                                        <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                                        <span class="ps-1">{{ $job->salary }}</span>
-                                                    </p>
+                                                        <p class="mb-0">
+                                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                                            <span class="ps-1">{{ $job->salary }}</span>
+                                                        </p>
+                                                    @else
+                                                        <p class="mb-0">
+                                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                                            <span class="ps-1" style="color: red">Chưa cập nhật</span>
+                                                        </p>
                                                     @endif
                                                 </div>
         

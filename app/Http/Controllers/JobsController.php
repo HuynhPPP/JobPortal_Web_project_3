@@ -77,6 +77,7 @@ class JobsController extends Controller
 
     // Show job detail page
     public function detail($id) {
+        
 
         $job = Job::where([
                                     'id' => $id, 
@@ -95,13 +96,31 @@ class JobsController extends Controller
             ])->count();
         }
 
+        $userHasApplied = false;
+        $userHasSaved = false;
+        
+        if (Auth::check() && Auth::user()->role === 'user') {
+            // Kiểm tra xem người dùng đã nộp đơn xin việc chưa
+            $userHasApplied = JobApplication::where([
+                'user_id' => Auth::user()->id,
+                'job_id' => $id
+            ])->count();
+    
+            // Kiểm tra xem người dùng đã lưu công việc này chưa
+            $userHasSaved = ($count > 0);
+        }
+
         // Fetch applications
         $applications = JobApplication::where('job_id',$id)->with('user')->get();
+
+        
 
         return view('front.jobDetail',[
             'job' => $job,
             'count' => $count,
             'applications' => $applications,
+            'userHasApplied' => $userHasApplied,
+            'userHasSaved' => $userHasSaved,
         ]);
     }
 

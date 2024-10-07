@@ -28,7 +28,7 @@
                                     </a>
                                     <div class="links_locat d-flex align-items-center">
                                         <div class="location">
-                                            <p> <i class="fa fa-map-marker"></i> {{ $job->location }}</p>
+                                            <p> <i class="fa fa-map-marker"></i> {{ $job->company_location }}</p>
                                         </div>
                                         <div class="location">
                                             <p> <i class="fa fa-clock-o"></i> {{ $job->jobType->name }}</p>
@@ -74,22 +74,33 @@
                             {!! nl2br($job->benefits) !!}
                         </div>
                         <div class="border-bottom"></div>
+                        
+                        <!-- Employer -->
+                        @if (Auth::check() && Auth::user()->role === 'employer')
+                            <div class="pt-3 text-end">
+                            </div>
+                        @endif
+
+                        <!-- User -->
                         @if (Auth::check() && Auth::user()->role === 'user')
-                        <div class="pt-3 text-end">
-
-                            @if (Auth::check() && Auth::user()->role === 'user')
-                                <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary">Lưu công việc</a>
-                            @else
-                                <a href="javascript:void(0);" class="btn btn-secondary disabled">Đăng nhập để lưu công việc</a>
-                            @endif
-                            
-
-                            @if (Auth::check() && Auth::user()->role === 'user')
-                                <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Xin việc</a>
-                            @else
-                                <a href="javascript:void(0);" class="btn btn-primary disabled">Đăng nhập để xin việc</a>
-                            @endif
-                        </div>
+                            <div class="pt-3 text-end">
+                                @if ($userHasSaved)
+                                    <button class="btn btn-secondary" disabled>Bạn đã lưu công việc này</button>
+                                @else
+                                    <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary">Lưu công việc</a>
+                                @endif
+                        
+                                @if ($userHasApplied)
+                                    <button class="btn btn-primary" disabled>Bạn đã nộp đơn cho công việc này</button>
+                                @else
+                                    <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Xin việc</a>
+                                @endif
+                            </div>
+                        @else
+                            <div class="pt-3 text-end">
+                                <a href="{{ route("account.login") }}" class="btn btn-secondary">Đăng nhập để lưu công việc</a>
+                                <a href="{{ route("account.login") }}" class="btn btn-primary">Đăng nhập để xin việc</a>       
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -225,6 +236,7 @@
     </div>
 </section>
 
+@if (Auth::check() && Auth::user()->role === 'user')
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="applyJobModal" tabindex="-1" aria-labelledby="applyJobModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -278,6 +290,7 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 @section('customJs')
@@ -289,59 +302,56 @@
     }
 
     function submitApplication(id) {
-    // Lấy dữ liệu từ form
-    var formData = new FormData($('#applyJobForm')[0]);
-    formData.append('id', id);
+        // Lấy dữ liệu từ form
+        var formData = new FormData($('#applyJobForm')[0]);
+        formData.append('id', id);
 
-    $.ajax({
-        url: '{{ route("applyJob") }}',
-        type: 'POST',
-        dataType: 'json',
-        processData: false,
-        contentType: false,
-        data: formData,
-        success: function(response) {
-            if (response.status === true) {
-                $("#cv").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback')
-                    .html('');
-                        
-                toastr.success(response.message);
-                $('#applyJobModal').modal('hide');
-            } else {
-                
-                if (response.status === false){
+        toastr.info('Đang xử lý, vui lòng đợi...');
+
+        $.ajax({
+            url: '{{ route("applyJob") }}',
+            type: 'POST',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function(response) {
+                toastr.clear(); 
+                if (response.status === true) {
                     $("#cv").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
-                    toastr.error(response.message);
+                            
+                    toastr.success(response.message);
                     $('#applyJobModal').modal('hide');
-                }
-                var errors = response.errors;
 
-                if (errors.cv) {
-                    $("#cv").addClass('is-invalid')
-                    .siblings('p')
-                    .addClass('invalid-feedback')
-                    .html(errors.cv);
+                    
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
                 } else {
-                    $("#cv").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback')
-                    .html('');
+                    // Nếu có lỗi server trả về
+                    var errors = response.errors;
+
+                    if (errors.cv) {
+                        $("#cv").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback')
+                            .html(errors.cv);
+                    } else {
+                        $("#cv").removeClass('is-invalid')
+                            .siblings('p')
+                            .removeClass('invalid-feedback')
+                            .html('');
+                    }
                 }
-
-               
+            },
+            error: function() {
+                toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
             }
-
-        },
-        error: function() {
-            toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
-        }
-    });
-}
+        });
+    }
 
 
     function saveJob(id) {
