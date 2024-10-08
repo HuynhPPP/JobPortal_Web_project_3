@@ -33,20 +33,20 @@ class AccountController extends Controller
         'email.unique' => 'Email đã tồn tại.',
         'password.required' => 'Trường mật khẩu không được để trống.',
         'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
-        'password.same' => 'Mật khẩu xác nhận không khớp.',
+        'confirm_password.same' => 'Mật khẩu xác nhận không khớp.',
         'confirm_password.required' => 'Trường xác nhận mật khẩu không được để trống.',
     ];
 
     $validator = Validator::make($request->all(), [
         'name' => 'required',
         'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:5|same:confirm_password',
-        'confirm_password' => 'required',
+        'password' => 'required|min:5',
+        'confirm_password' => 'required|same:password',
     ], $messages);
 
     if ($validator->passes()) {
         $user = new User();
-        $user->name = $request->name;
+        $user->fullname = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
@@ -145,7 +145,7 @@ class AccountController extends Controller
         if ($validator->passes()) {
             // Tìm người dùng theo ID và cập nhật thông tin
             $user = User::find($id);
-            $user->name = $request->name;
+            $user->fullname = $request->name;
             $user->email = $request->email;
             $user->mobile = $request->mobile;
             $user->designation = $request->designation;

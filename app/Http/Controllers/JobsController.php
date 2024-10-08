@@ -96,18 +96,13 @@ class JobsController extends Controller
             ])->count();
         }
 
-        $userHasApplied = false;
-        $userHasSaved = false;
-        
-        if (Auth::check() && Auth::user()->role === 'user') {
+        $userHasApplied = false;  
+        if (Auth::check()) {
             // Kiểm tra xem người dùng đã nộp đơn xin việc chưa
             $userHasApplied = JobApplication::where([
                 'user_id' => Auth::user()->id,
                 'job_id' => $id
             ])->count();
-    
-            // Kiểm tra xem người dùng đã lưu công việc này chưa
-            $userHasSaved = ($count > 0);
         }
 
         // Fetch applications
@@ -120,7 +115,6 @@ class JobsController extends Controller
             'count' => $count,
             'applications' => $applications,
             'userHasApplied' => $userHasApplied,
-            'userHasSaved' => $userHasSaved,
         ]);
     }
 
@@ -248,29 +242,34 @@ class JobsController extends Controller
         }
 
         // Check if user already saved the job
-        $count = SavedJob::where([
+        $savedJob = SavedJob::where([
             'user_id' => Auth::user()->id,
             'job_id' => $id,
-        ])->count();
+        ])->first();
 
-        if ($count > 0) {
-            $message = "Bạn đã lưu công việc này";
+        if ($savedJob) {
+            // Nếu đã lưu thì xóa công việc khỏi danh sách yêu thích
+            $savedJob->delete();
+            $message = "Đã hủy yêu thích";
             return response()->json([
-                'status' => false,
+                'status' => true,
+                'action' => 'unsaved',
+                'message' => $message,
+            ]);
+        } else {
+            // Nếu chưa lưu thì thêm vào danh sách yêu thích
+            $newSavedJob = new SavedJob;
+            $newSavedJob->job_id = $id;
+            $newSavedJob->user_id = Auth::user()->id;
+            $newSavedJob->save();
+
+            $message = "Đã thêm vào mục công việc yêu thích";
+            return response()->json([
+                'status' => true,
+                'action' => 'saved',
                 'message' => $message,
             ]);
         }
-
-        $savedJob = new SavedJob;
-        $savedJob->job_id = $id;
-        $savedJob->user_id = Auth::user()->id;
-        $savedJob->save();
-
-        $message = "Lưu việc làm thành công";
-            return response()->json([
-                'status' => true,
-                'message' => $message,
-            ]);
     }
 
     public function downloadCv($cvPath)

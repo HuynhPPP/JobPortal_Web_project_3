@@ -37,9 +37,12 @@
                                 </div>
                             </div>
                             <div class="jobs_right">
-                                <div class="apply_now  {{ ($count == 1) ? 'saved-job' : '' }}">
-                                    <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $job->id }})"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                <div class="apply_now">
+                                    <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $job->id }}, this)">
+                                        <i class="fa {{ ($count == 1) ? 'fa-heart' : 'fa-heart-o' }}" aria-hidden="true"></i>
+                                    </a>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -84,17 +87,19 @@
                         <!-- User -->
                         @if (Auth::check() && Auth::user()->role === 'user')
                             <div class="pt-3 text-end">
-                                @if ($userHasSaved)
-                                    <button class="btn btn-secondary" disabled>Bạn đã lưu công việc này</button>
-                                @else
-                                    <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary">Lưu công việc</a>
-                                @endif
-                        
-                                @if ($userHasApplied)
-                                    <button class="btn btn-primary" disabled>Bạn đã nộp đơn cho công việc này</button>
-                                @else
-                                    <a href="#" onclick="applyJob({{ $job->id }})" class="btn btn-primary">Xin việc</a>
-                                @endif
+                                
+                                    <a href="#" 
+                                        onclick="saveJob({{ $job->id }})" 
+                                        class="btn btn-secondary {{ ($count == 1) ? 'disabled' : '' }}">
+                                        {{ ($count == 1) ? 'Bạn đã lưu công việc này' : 'Lưu công việc' }}
+                                    </a>
+                                
+                                    <a href="#" 
+                                        onclick="applyJob({{ $job->id }})" 
+                                        class="btn btn-primary {{ ($userHasApplied == 1) ? 'disabled' : '' }}">
+                                        {{ ($userHasApplied == 1) ? 'Bạn đã nộp đơn cho công việc này' : 'Xin việc'}}
+                                    </a>
+                               
                             </div>
                         @else
                             <div class="pt-3 text-end">
@@ -133,7 +138,7 @@
                                     @if ($applications->isNotEmpty())
                                         @foreach ($applications as $application)
                                             <tr>
-                                                <td>{{ $application->user->name }}</td>
+                                                <td>{{ $application->user->fullname }}</td>
                                                 <td>{{ $application->user->email }}</td>
                                                 <td>{{ $application->user->mobile }}</td>
                                                 <td>
@@ -255,7 +260,7 @@
                     <!-- Họ tên -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Họ tên</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}" readonly>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->fullname }}" readonly>
                     </div>
                     <!-- Email -->
                     <div class="mb-3">
@@ -291,6 +296,17 @@
     </div>
 </div>
 @endif
+
+<!-- Notification -->
+<div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255, 255, 255, 0.7); z-index:9999; text-align:center;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Đang xử lý...</span>
+        </div>
+        <p>Đang xử lý, vui lòng đợi...</p>
+    </div>
+</div>
+
 @endsection
 
 @section('customJs')
@@ -302,11 +318,13 @@
     }
 
     function submitApplication(id) {
+        event.preventDefault();
         // Lấy dữ liệu từ form
         var formData = new FormData($('#applyJobForm')[0]);
         formData.append('id', id);
 
-        toastr.info('Đang xử lý, vui lòng đợi...');
+        // Hiển thị overlay "Đang xử lý"
+        $('#loading-overlay').show();
 
         $.ajax({
             url: '{{ route("applyJob") }}',
@@ -316,7 +334,11 @@
             contentType: false,
             data: formData,
             success: function(response) {
-                toastr.clear(); 
+                // Ẩn overlay khi có phản hồi
+                $('#loading-overlay').hide();
+
+                toastr.clear(); // Xóa tất cả thông báo trước khi hiển thị mới
+
                 if (response.status === true) {
                     $("#cv").removeClass('is-invalid')
                         .siblings('p')
@@ -326,13 +348,13 @@
                     toastr.success(response.message);
                     $('#applyJobModal').modal('hide');
 
-                    
                     setTimeout(function() {
                         location.reload();
                     }, 1500);
                 } else {
                     // Nếu có lỗi server trả về
                     var errors = response.errors;
+                    toastr.warning('Có lỗi xảy ra...');
 
                     if (errors.cv) {
                         $("#cv").addClass('is-invalid')
@@ -348,10 +370,14 @@
                 }
             },
             error: function() {
+                // Ẩn overlay khi có lỗi
+                $('#loading-overlay').hide();
+                toastr.clear();
                 toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
             }
         });
     }
+
 
 
     function saveJob(id) {
@@ -375,7 +401,7 @@
             });
     }
 
-    function saveJobHeart(id) {
+    function saveJobHeart(id, element) {
         event.preventDefault();
         $.ajax({
                 url: '{{ route("saveJob") }}',
@@ -386,7 +412,13 @@
                     if (response.status === false) {
                         toastr.error(response.message);
                     } else {
-                        window.location.href = "{{ url()->current() }}";
+                        if (response.action === 'saved') {
+                            $(element).find('i').removeClass('fa-heart-o').addClass('fa-heart'); // Thay đổi icon thành trái tim đầy
+                            toastr.success('Đã thêm vào yêu thích');
+                        } else {
+                            $(element).find('i').removeClass('fa-heart').addClass('fa-heart-o'); // Thay đổi icon thành trái tim rỗng
+                            toastr.success('Đã hủy yêu thích');
+                        }
                     }
                 }
             });

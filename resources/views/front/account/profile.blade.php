@@ -30,7 +30,7 @@
                                     name="name" id="name" 
                                     placeholder="Nhập tên..." 
                                     class="form-control" 
-                                    value="{{ $user->name }}"
+                                    value="{{ $user->fullname }}"
                                     >
                                 <p></p>
                             </div>

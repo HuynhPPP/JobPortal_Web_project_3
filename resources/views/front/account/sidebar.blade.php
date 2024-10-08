@@ -7,7 +7,7 @@
             <img src="{{ asset('assets/images/avatar7.png') }}" alt="avatar"  class="rounded-circle img-fluid" style="width: 150px;">
         @endif
         
-        <h5 class="mt-3 pb-0">{{ Auth::user()->name }}</h5>
+        <h5 class="mt-3 pb-0">{{ Auth::user()->fullname }}</h5>
         <p class="text-muted mb-1 fs-6">{{ Auth::user()->designation }}</p>
         <div class="d-flex justify-content-center mb-2">
             @if (Auth::check() && Auth::user()->role === 'user')
