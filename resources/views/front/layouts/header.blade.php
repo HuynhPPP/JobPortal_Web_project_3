@@ -1,7 +1,10 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow py-3">
       <div class="container">
-        <a class="navbar-brand" href="{{ route("home") }}">CareerVibe</a>
+        <a class="navbar-brand" href="{{ route('home') }}">
+          <img src="{{ asset('assets/images/logo_web.jpg') }}" alt="Logo" class="navbar-logo">
+        </a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -9,10 +12,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-0 ms-sm-0 me-auto mb-2 mb-lg-0 ms-lg-4">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="{{ route("home") }}">Trang chủ</a>
+              <a class="nav-link fs-5" aria-current="page" href="{{ route("home") }}">Trang chủ</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="{{ route("jobs") }}">Tìm việc</a>
+              <a class="nav-link fs-5" aria-current="page" href="{{ route("jobs") }}">Tìm việc</a>
             </li>
           </ul>
 

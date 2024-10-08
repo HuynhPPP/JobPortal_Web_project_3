@@ -43,7 +43,7 @@
                                         <option value="">Chọn ngành nghề</option>
                                         @if ($careers->isNotEmpty())
                                             @foreach ($careers as $career)
-                                            <option {{ ($job->category_id == $career->id) ? 'selected' : '' }} value="{{ $career->id }}">
+                                            <option {{ ($job->career_id  == $career->id) ? 'selected' : '' }} value="{{ $career->id }}">
                                                 {{ $career->name }}
                                             </option>
                                             @endforeach
@@ -104,14 +104,14 @@
                                         id="level" 
                                         name="level" 
                                         class="form-control"
-                                        value="{{ $job->level }}"
+                                        value="{{ $job->job_level }}"
                                     >
                                     <p></p>
                                 </div>
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Mô tả<span class="req">*</span></label>
+                                <label for="" class="mb-2">Mô tả</label>
                                 <textarea class="textarea" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc">
                                     {{ $job->description }}
                                 </textarea>

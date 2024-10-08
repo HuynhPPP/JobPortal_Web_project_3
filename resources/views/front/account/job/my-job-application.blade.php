@@ -25,7 +25,14 @@
                             <div>
                                 <h3 class="fs-4 mb-1">Quản lý công việc đã ứng tuyển </h3>
                             </div>
-                            
+                            <div style="margin-top: -10px;">
+                                <div class="input-group">
+                                    <form action="" class="d-flex">
+                                        <input value="" type="text" name="keyword" id="keyword" placeholder="Nhập tiêu đề..." class="form-control me-2">
+                                        <button type="submit" class="btn btn-primary w-50">Tìm kiếm</button>
+                                      </form>                                      
+                                  </div>
+                            </div>
                             
                         </div>
                         <div class="table-responsive">
@@ -47,7 +54,7 @@
                                                 <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
                                                 <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}</div>
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->format('d M, Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->locale('vi')->translatedFormat('d F, Y') }}</td>
                                             <td>{{ $jobApplication->job->applications->count() }} ứng tuyển</td>
                                             <td>
                                                 @if ($jobApplication->job->status == 1)

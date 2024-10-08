@@ -78,7 +78,7 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Mô tả công việc<span class="req">*</span></label>
+                                <label for="" class="mb-2">Mô tả công việc</label>
                                 <textarea class="textarea" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc"></textarea>
                             </div>
                             <div class="mb-4">
@@ -182,12 +182,7 @@
                         .removeClass('invalid-feedback')
                         .html('');
 
-                    $("#location").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#description").removeClass('is-invalid')
+                    $("#level").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
@@ -254,30 +249,19 @@
                         .removeClass('invalid-feedback')
                         .html('');
                     }
-                    // Location
-                    if (errors.location) {
-                        $("#location").addClass('is-invalid')
+                    // Job_Level
+                    if (errors.level) {
+                        $("#level").addClass('is-invalid')
                         .siblings('p')
                         .addClass('invalid-feedback')
-                        .html(errors.location);
+                        .html(errors.level);
                     } else {
-                        $("#location").removeClass('is-invalid')
+                        $("#level").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
                     }
-                    // Description
-                    if (errors.description) {
-                        $("#description").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.description);
-                    } else {
-                        $("#description").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-                    }
+                    
                     // Keywords
                     if (errors.keyword) {
                         $("#keyword").addClass('is-invalid')

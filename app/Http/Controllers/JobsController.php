@@ -36,7 +36,7 @@ class JobsController extends Controller
 
         // Search using location
         if (!empty($request->location)) {
-            $jobs = $jobs->where('location',$request->location);
+            $jobs = $jobs->where('company_location',$request->location);
         }
 
         // Search using careers

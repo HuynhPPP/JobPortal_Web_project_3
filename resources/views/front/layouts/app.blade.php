@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>JobEverywhere | Tìm việc làm tốt nhất</title>
+  <title>TopWord - Việc làm hàng đầu</title>
   <meta name="description" content="" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no" />
@@ -15,7 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/style.css") }}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <!-- Fav Icon -->
-  <link rel="shortcut icon" type="image/x-icon" href="#" />
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo_web.jpg') }}" />
 </head>
 
 <body data-instant-intensity="mousedown">

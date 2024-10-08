@@ -149,6 +149,7 @@
                         </div>
                     </div>
                 </div>
+                {{ $jobs->links() }}
             </div>
             
         </div>

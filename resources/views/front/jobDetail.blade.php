@@ -88,11 +88,11 @@
                         @if (Auth::check() && Auth::user()->role === 'user')
                             <div class="pt-3 text-end">
                                 
-                                    <a href="#" 
+                                    {{-- <a href="#" 
                                         onclick="saveJob({{ $job->id }})" 
                                         class="btn btn-secondary {{ ($count == 1) ? 'disabled' : '' }}">
                                         {{ ($count == 1) ? 'Bạn đã lưu công việc này' : 'Lưu công việc' }}
-                                    </a>
+                                    </a> --}}
                                 
                                     <a href="#" 
                                         onclick="applyJob({{ $job->id }})" 
@@ -103,7 +103,6 @@
                             </div>
                         @else
                             <div class="pt-3 text-end">
-                                <a href="{{ route("account.login") }}" class="btn btn-secondary">Đăng nhập để lưu công việc</a>
                                 <a href="{{ route("account.login") }}" class="btn btn-primary">Đăng nhập để xin việc</a>       
                             </div>
                         @endif
@@ -171,10 +170,10 @@
                             <ul>
                                 <li>Thời điểm đăng: <span>{{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</span></li>
                                 <li>
-                                    @if (empty($job->vacancy))
+                                    @if (empty($job->job_level))
                                         Cấp bậc: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Cấp bậc: <span>{{ $job->level }}</span>
+                                        Cấp bậc: <span>{{ $job->job_level }}</span>
                                     @endif
                                 </li>
                                 <li>
@@ -199,7 +198,7 @@
                                     @endif
                                 </li>
                                 <li>
-                                    @if (empty($job->jobType->name))
+                                    @if (empty($job->keywords))
                                         Các công nghệ sử dụng: <span style="color: red">chưa cập nhật</span>
                                     @else
                                         Các công nghệ sử dụng: <a href="{{ route("jobs").'?keyword='.$job->keywords }}"> {{ $job->keywords }}</a>
@@ -270,7 +269,11 @@
                     <!-- Số điện thoại -->
                     <div class="mb-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" id="phone" name="phone" value="{{ Auth::user()->mobile }}" readonly>
+                        @if (Auth::user()->mobile)
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ Auth::user()->mobile }}" readonly>
+                        @else
+                            <input type="text" class="form-control text-danger" id="phone" name="phone" value="Bạn chưa cập nhật số điện thoại" readonly>
+                        @endif
                     </div>
                     <!-- Nộp CV -->
                     <div class="mb-3">
@@ -350,7 +353,7 @@
 
                     setTimeout(function() {
                         location.reload();
-                    }, 1500);
+                    }, 1000);
                 } else {
                     // Nếu có lỗi server trả về
                     var errors = response.errors;
@@ -417,7 +420,7 @@
                             toastr.success('Đã thêm vào yêu thích');
                         } else {
                             $(element).find('i').removeClass('fa-heart').addClass('fa-heart-o'); // Thay đổi icon thành trái tim rỗng
-                            toastr.success('Đã hủy yêu thích');
+                            toastr.warning('Đã hủy yêu thích');
                         }
                     }
                 }

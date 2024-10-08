@@ -10656,3 +10656,15 @@ footer .nav-link {
     }
 }
 
+.navbar-logo {
+    width: 80px; /* Chiều rộng tối đa của logo */
+    height: 80px; /* Tự động điều chỉnh chiều cao theo tỉ lệ */
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-logo {
+      max-width: 120px; /* Logo nhỏ hơn trên thiết bị di động */
+    }
+  }
+  
+

@@ -275,12 +275,12 @@ class AccountController extends Controller
 
             $job = new Job();
             $job->title = $request->title;
-            $job->category_id  = $request->category;
+            $job->career_id   = $request->category;
             $job->job_type_id  = $request->jobType;
             $job->user_id = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
-            $job->level = $request->level;
+            $job->job_level = $request->level;
             $job->description = $request->description;
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;
@@ -350,7 +350,6 @@ class AccountController extends Controller
             'jobType' => 'required',
             'vacancy' => 'required|integer',
             'level' => 'required|max:50',
-            'description' => 'required',
             'keywords' => 'required',
             'company_name' => 'required|min:3|max:75',
         ];
@@ -365,7 +364,6 @@ class AccountController extends Controller
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
             'level.required' => 'Vị trí cần tuyển không được để trống.',
             'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
-            'description.required' => 'Mô tả công việc không được để trống.',
             'keywords.required' => 'Từ khóa không được để trống.',
             'company_name.required' => 'Tên công ty không được để trống.',
             'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
@@ -378,12 +376,12 @@ class AccountController extends Controller
 
             $job = Job::find($id);
             $job->title = $request->title;
-            $job->category_id  = $request->category;
+            $job->career_id  = $request->category;
             $job->job_type_id  = $request->jobType;
             $job->user_id = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
-            $job->level = $request->level;
+            $job->job_level = $request->level;
             $job->description = $request->description;
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;

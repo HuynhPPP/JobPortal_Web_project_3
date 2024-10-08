@@ -26,7 +26,12 @@
                                 <h3 class="fs-4 mb-1">Quản lý công việc của bạn</h3>
                             </div>
                             <div style="margin-top: -10px;">
-                                <a href="{{ route("account.createJob") }}" class="btn btn-primary">Đăng việc làm</a>
+                                <div class="input-group">
+                                    <form action="" class="d-flex">
+                                        <input value="" type="text" name="keyword" id="keyword" placeholder="Nhập tiêu đề..." class="form-control me-2">
+                                        <button type="submit" class="btn btn-primary w-50">Tìm kiếm</button>
+                                      </form>                                      
+                                  </div>
                             </div>
                             
                         </div>
@@ -35,7 +40,7 @@
                                 <thead class="bg-light">
                                     <tr>
                                         <th scope="col">Tiêu đề</th>
-                                        <th scope="col">Ngày tạo</th>
+                                        <th scope="col">Ngày đăng</th>
                                         <th scope="col">Số lượng ứng tuyển</th>
                                         <th scope="col">Trạng thái</th>
                                         <th scope="col">Các tuỳ chỉnh</th>
@@ -49,7 +54,7 @@
                                                 <div class="job-name fw-500">{{ $job->title }}</div>
                                                 <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}</div>
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($job->created_at)->locale('vi')->translatedFormat('d F, Y') }}</td>
                                             <td>{{ $job->vacancy }} ứng viên</td>
                                             <td>
                                                 @if ($job->status == 1)
