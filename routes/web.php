@@ -24,15 +24,11 @@ Route::get("/admin/home", [DashboardController::class, "index"])->name('admin.ho
 Route::get("/admin/career", [CareerController::class, "index"])->name('admin.career');
 
 Route::post("/admin/create-career", [CareerController::class, "postCreateCareer"])->name('admin.create.career');
-
 Route::post("/admin/edit-career/{id}", [CareerController::class, "postEditCareer"])->name('admin.postEditCareer.career');
-
 Route::delete("/admin/delete-career/{id}", [CareerController::class, "deleteCareer"])->name('admin.deleteCareer.career');
-
 Route::get("/admin/edit-career/{id}", [CareerController::class, "getEditCareer"])->name('admin.getEditCareer.career');
 
 Route::get("/admin/job", [JobController::class, "index"])->name('admin.job');
-
 Route::get("/admin/edit-job/{id}", [JobController::class, "editJob"])->name('admin.edit.job');
 Route::post("/admin/update-job/{id}", [JobController::class, "updateJob"])->name('admin.update.job');
 

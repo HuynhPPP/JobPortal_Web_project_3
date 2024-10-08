@@ -9,14 +9,21 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-  public function getUser()
+  public function getUser(Request $request)
   {
-    $users = User::where('role', 'user')->latest()->paginate(5);
+    $users = User::where('role', 'user');
+    if (!empty($request->keyword)) {
+      $users = $users->where('fullname', 'like', '%' . $request->keyword . '%');
+    }
+    if (!empty($request->date)) {
+      $users = $users->whereDate('created_at', $request->date);
+    }
+    $users = $users->latest()->paginate(5);
     return view('admin.user.list', compact('users'));
   }
   public function editUser($id)
   {
-    $users = User::where('role', 'user')->latest()->paginate(5);
+    $users = User::where('role', 'user')->orderBy('updated_at', 'DESC')->paginate(5);
     $user = User::where('role', 'user')->where('id', $id)->first();
     return view('admin.user.edit', compact('users', 'user'));
   }
@@ -51,7 +58,7 @@ class UserController extends Controller
       $user->status = $request->status;
       $user->save();
       toastr()->success("Cập nhật thành công.", ' ');
-      return redirect()->route('admin.user');
+      return redirect()->back();
     } else {
       return redirect()->back()->withErrors($validator)->withInput();
     }

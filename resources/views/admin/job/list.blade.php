@@ -4,12 +4,13 @@
     <div class="flex-grow-1">
       <h4 class="fs-18 fw-semibold mb-0">Quản lý tin tuyển dụng</h4>
     </div>
-    <form class="row row-cols-lg-auto g-2 align-items-center">
+    <form action="{{ route('admin.job') }}" class="row row-cols-lg-auto g-2 align-items-center">
       <div class="col">
-        <input type="password" class="form-control" id="inputPassword2" placeholder="Tên việc cần tìm?">
+        <input type="text" class="form-control" name="keyword" placeholder="Tên việc cần tìm ?"
+          value="{{ Request::get('keyword') }}">
       </div>
       <div class="col">
-        <input class="form-control" id="example-date" type="date" name="date">
+        <input class="form-control" value="{{ Request::get('date') }}" id="example-date" type="date" name="date">
       </div>
       <div class="col">
         <button type="submit" class="btn btn-success">Tìm kiếm</button>
@@ -25,42 +26,48 @@
       </div>
       <div class="card-body">
         <div class="table-responsive-sm">
-          <table class="table table-striped mb-0">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tiêu đề</th>
-                <th>Trạng thái</th>
-                <th>Tên ngành nghề</th>
-                <th>Thời gian</th>
-                <th class="text-center">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($jobs as $item)
+          @if ($jobs->isNotEmpty())
+            <table class="table table-striped mb-0">
+              <thead>
                 <tr>
-                  <td>{{ $item->id }}</td>
-                  <td>{{ $item->title }}</td>
-                  <td>
-                    @if ($item->status == env('STATUS_APPROVED'))
-                      <span>Đã duyệt</span>
-                    @elseif ($item->status == env('STATUS_PENDING'))
-                      <span>Chờ duyệt</span>
-                    @elseif ($item->status == env('STATUS_LOCKED'))
-                      <span>Đã khóa</span>
-                    @endif
-                  </td>
-                  <td>{{ $item->career->name }}</td>
-                  <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-                  <td class="text-muted text-center">
-                    <a href="{{ route('admin.edit.job', $item->id) }}" class="link-reset fs-20 p-1">
-                      {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                  </td>
+                  <th>ID</th>
+                  <th>Tiêu đề</th>
+                  <th>Trạng thái</th>
+                  <th>Tên ngành nghề</th>
+                  <th>Thời gian</th>
+                  <th class="text-center">Thao tác</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
-          {{ $jobs->links() }}
+              </thead>
+              <tbody>
+                @foreach ($jobs as $item)
+                  <tr>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->title }}</td>
+                    <td>
+                      @if ($item->status == env('STATUS_APPROVED'))
+                        <span>Đã duyệt</span>
+                      @elseif ($item->status == env('STATUS_PENDING'))
+                        <span>Chờ duyệt</span>
+                      @elseif ($item->status == env('STATUS_LOCKED'))
+                        <span>Đã khóa</span>
+                      @endif
+                    </td>
+                    <td>{{ $item->career->name }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                    <td class="text-muted text-center">
+                      <a href="{{ route('admin.edit.job', $item->id) }}" class="link-reset fs-20 p-1">
+                        {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+            {{ $jobs->links() }}
+          @else
+            <div class="text-center">
+              <span>Không có dữ liệu</span>
+            </div>
+          @endif
         </div> <!-- end table-responsive-->
       </div> <!-- end card body-->
     </div> <!-- end card -->

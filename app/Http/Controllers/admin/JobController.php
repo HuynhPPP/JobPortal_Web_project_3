@@ -12,9 +12,16 @@ use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    $jobs = Job::orderBy('created_at', 'DESC')->with('career')->paginate(7);
+    $jobs = Job::orderBy('created_at', 'DESC');
+    if (!empty($request->keyword)) {
+      $jobs = $jobs->where('title', 'like', '%' . $request->keyword . '%');
+    }
+    if (!empty($request->date)) {
+      $jobs = $jobs->whereDate('created_at', $request->date);
+    }
+    $jobs = $jobs->with('career')->paginate(7);
     return view('admin.job.list', compact('jobs'));
   }
   public function editJob($id)

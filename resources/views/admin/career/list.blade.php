@@ -4,12 +4,14 @@
     <div class="flex-grow-1">
       <h4 class="fs-18 fw-semibold mb-0">Quản lý nghề nghiệp</h4>
     </div>
-    <form class="row row-cols-lg-auto g-2 align-items-center">
+    <form action="{{ route('admin.career') }}" class="row row-cols-lg-auto g-2 align-items-center">
       <div class="col">
-        <input type="password" class="form-control" id="inputPassword2" placeholder="Tên việc cần tìm?">
+        <input type="text" class="form-control" name="keyword" placeholder="Tên ngành nghề cần tìm ?"
+          value="{{ Request::get('keyword') }}">
       </div>
       <div class="col">
-        <input class="form-control" id="example-date" type="date" name="date">
+        <input class="form-control" id="example-date" type="date" name="date" lang="vi-VN"
+          value="{{ Request::get('date') }}">
       </div>
       <div class="col">
         <button type="submit" class="btn btn-success">Tìm kiếm</button>
@@ -63,45 +65,52 @@
       </div>
       <div class="card-body">
         <div class="table-responsive-sm">
-          <table class="table table-striped mb-0">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tên ngành nghề</th>
-                <th>Trạng thái</th>
-                <th>Thời gian</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($careers as $item)
+          @if ($careers->isNotEmpty())
+            <table class="table table-striped mb-0">
+              <thead>
                 <tr>
-                  <td>{{ $item->id }}</td>
-                  <td>{{ $item->name }}</td>
-                  <td>
-                    @if ($item->status == env('STATUS_ACTIVE'))
-                      <span>Hoạt động</span>
-                    @elseif ($item->status == env('STATUS_INACTIVE'))
-                      <span>Tạm dừng</span>
-                    @endif
-                  </td>
-                  <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
-                  <td class="text-muted">
-                    <a href="{{ route('admin.getEditCareer.career', ['id' => $item->id]) }}" class="link-reset fs-20 p-1">
-                      {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                    <form class="d-inline" method="POST" action="{{ route('admin.deleteCareer.career', $item->id) }}">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                        class="link-reset fs-20 p-1 border-0 bg-transparent">
-                        {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
-                    </form>
-                  </td>
+                  <th>ID</th>
+                  <th>Tên ngành nghề</th>
+                  <th>Trạng thái</th>
+                  <th>Thời gian</th>
+                  <th>Thao tác</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
-          {{ $careers->links() }}
+              </thead>
+              <tbody>
+                @foreach ($careers as $item)
+                  <tr>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>
+                      @if ($item->status == env('STATUS_ACTIVE'))
+                        <span>Hoạt động</span>
+                      @elseif ($item->status == env('STATUS_INACTIVE'))
+                        <span>Tạm dừng</span>
+                      @endif
+                    </td>
+                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}</td>
+                    <td class="text-muted">
+                      <a href="{{ route('admin.getEditCareer.career', ['id' => $item->id]) }}"
+                        class="link-reset fs-20 p-1">
+                        {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
+                      <form class="d-inline" method="POST" action="{{ route('admin.deleteCareer.career', $item->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                          class="link-reset fs-20 p-1 border-0 bg-transparent">
+                          {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
+                      </form>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+            {{ $careers->links() }}
+          @else
+            <div class="text-center">
+              <span>Không có dữ liệu</span>
+            </div>
+          @endif
         </div> <!-- end table-responsive-->
       </div>
     </div>

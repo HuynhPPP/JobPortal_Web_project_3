@@ -4,17 +4,11 @@
     <div class="flex-grow-1">
       <h4 class="fs-18 fw-semibold mb-0">Quản lý nhà tuyển dụng</h4>
     </div>
-    <form class="row row-cols-lg-auto g-2 align-items-center">
+    <div class="row row-cols-lg-auto g-2 align-items-center">
       <div class="col">
-        <input type="password" class="form-control" id="inputPassword2" placeholder="Tên việc cần tìm?">
+        <a href="{{ route('admin.employer') }}" class="btn btn-success">Nhà tuyển dụng</a>
       </div>
-      <div class="col">
-        <input class="form-control" id="example-date" type="date" name="date">
-      </div>
-      <div class="col">
-        <button type="submit" class="btn btn-success">Tìm kiếm</button>
-      </div>
-    </form>
+    </div>
   </div>
   <div class="row">
     <div class="col-xl-4">

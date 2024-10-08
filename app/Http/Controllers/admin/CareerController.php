@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\Validator;
 
 class CareerController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    $careers = Career::orderBy('created_at', 'DESC')->paginate(5);
+    $careers = Career::orderBy('created_at', 'DESC');
+    if (!empty($request->keyword)) {
+      $careers = $careers->where('name', 'like', '%' . $request->keyword . '%');
+    }
+    if (!empty($request->date)) {
+      $careers = $careers->whereDate('created_at', $request->date);
+    }
+    $careers = $careers->paginate(5);
     return view('admin.career.list', compact('careers'));
   }
   public function postCreateCareer(Request $request)

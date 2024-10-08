@@ -9,14 +9,21 @@ use Illuminate\Support\Facades\Validator;
 
 class EmployerController extends Controller
 {
-  public function getEmployer()
+  public function getEmployer(Request $request)
   {
-    $employers = User::where('role', 'employer')->latest()->paginate(5);
+    $employers = User::where('role', 'employer');
+    if (!empty($request->keyword)) {
+      $employers = $employers->where('fullname', 'like', '%' . $request->keyword . '%');
+    }
+    if (!empty($request->date)) {
+      $employers = $employers->whereDate('created_at', $request->date);
+    }
+    $employers = $employers->latest()->paginate(5);
     return view('admin.employer.list', compact('employers'));
   }
   public function editEmployer($id)
   {
-    $employers = User::where('role', 'employer')->latest()->paginate(5);
+    $employers = User::where('role', 'employer')->orderBy('updated_at', 'DESC')->paginate(5);
     $employer = User::where('role', 'employer')->where('id', $id)->first();
     return view('admin.employer.edit', compact('employers', 'employer'));
   }
@@ -51,7 +58,7 @@ class EmployerController extends Controller
       $user->status = $request->status;
       $user->save();
       toastr()->success("Cập nhật thành công.", ' ');
-      return redirect()->route('admin.employer');
+      return redirect()->back();
     } else {
       return redirect()->back()->withErrors($validator)->withInput();
     }
