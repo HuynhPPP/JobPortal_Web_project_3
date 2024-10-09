@@ -25,11 +25,11 @@
                         <input type="text" class="form-control" name="location" id="location" placeholder="Địa điểm">
                     </div>
                     <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
-                        <select name="category" id="category" class="form-control">
+                        <select name="career" id="career" class="form-control">
                             <option value="">Chọn lĩnh vực</option>
-                            @if ($newCategories->isNotEmpty())
-                                @foreach ($newCategories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @if ($newCareers->isNotEmpty())
+                                @foreach ($newCareers as $career)
+                                    <option value="{{ $career->id }}">{{ $career->name }}</option>
                                 @endforeach 
                             @endif
                         </select>
@@ -51,11 +51,11 @@
     <div class="container">
         <h2>Công việc phổ biến</h2>
         <div class="row pt-5">
-            @if ($categories->isNotEmpty())
-                @foreach ($categories as $category)
+            @if ($careers->isNotEmpty())
+                @foreach ($careers as $career)
                     <div class="col-lg-4 col-xl-3 col-md-6">
                         <div class="single_catagory">
-                            <a href="{{ route("jobs").'?category='.$category->id }}"><h4 class="pb-2">{{ $category->name }}</h4></a>
+                            <a href="{{ route("jobs").'?career='.$career->id }}"><h4 class="pb-2">{{ $career->name }}</h4></a>
                             <p class="mb-0"> <span>50</span> vị trí còn trống</p>
                         </div>
                     </div>

@@ -15,7 +15,7 @@ class Job extends Model
         return $this->belongsTo(JobType::class);
     }
 
-    public function category() {
+    public function career() {
         return $this->belongsTo(Careers::class);
     }
 

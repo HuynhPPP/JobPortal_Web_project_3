@@ -27,7 +27,7 @@
                             </div>
                             <div style="margin-top: -10px;">
                                 <div class="input-group">
-                                    <form action="" class="d-flex">
+                                    <form action="" name="searchForm" id="searchForm" class="d-flex">
                                         <input value="" type="text" name="keyword" id="keyword" placeholder="Nhập tiêu đề..." class="form-control me-2">
                                         <button type="submit" class="btn btn-primary w-50">Tìm kiếm</button>
                                       </form>                                      
@@ -49,7 +49,7 @@
                                 <tbody class="border-0">
                                     @if ($savedJobs->isNotEmpty())
                                         @foreach ($savedJobs as $savedJob)
-                                        <tr class="active">
+                                        <tr id="saved-job-{{ $savedJob->id }}" class="active">
                                             <td>
                                                 <div class="job-name fw-500">{{ $savedJob->job->title }}</div>
                                                 <div class="info1">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->location }}</div>
@@ -99,19 +99,44 @@
 @section('customJs')
 <script type="text/javascript">
     function removeSavedJob(id) {
-        if (confirm("Bạn chắc chắn muốn huỷ yêu thích công việc này không ?")) {
-            $.ajax({
-                url: '{{ route("account.removeSavedJob") }}',
-                type: 'post',
-                data: {id: id},
-                dataType: 'json',
-                success: function(response) {
-                    window.location.href='{{ route("account.savedJobs") }}';
+    if (confirm("Bạn chắc chắn muốn huỷ yêu thích công việc này không?")) {
+        $.ajax({
+            url: '{{ route("account.removeSavedJob") }}',
+            type: 'post',
+            data: {
+                id: id,
+                _token: '{{ csrf_token() }}' // Đảm bảo thêm CSRF token
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    // Xóa công việc khỏi danh sách trong giao diện mà không cần tải lại trang
+                    $('#saved-job-' + id).remove();
+                    toastr.success('Đã huỷ yêu thích công việc thành công.');
+                } else {
+                    toastr.error('Không tìm thấy công việc.');
                 }
-            });
-        } else {
-
-        }
+            },
+            error: function(xhr) {
+                toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
+            }
+        });
     }
+}
+
+
+    $("#searchForm").submit(function(e){
+        e.preventDefault();
+
+        var url = '{{ route("account.savedJobs") }}?';
+
+        var keyword = $("#keyword").val();
+        
+        // If keyword has a value
+        if (keyword != ""){
+            url += '&keyword='+keyword;
+        }
+        window.location.href=url;
+    });
 </script>
 @endsection

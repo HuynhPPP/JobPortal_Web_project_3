@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\JobsController;
+use App\Http\Controllers\user\HomeController;
+use App\Http\Controllers\user\AccountController;
+use App\Http\Controllers\user\JobsController;
 use Illuminate\Support\Facades\Route;
 
 /*

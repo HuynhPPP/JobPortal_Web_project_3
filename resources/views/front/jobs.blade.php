@@ -33,12 +33,12 @@
 
                         <div class="mb-4">
                             <h2>Ngành nghề</h2>
-                            <select name="category" id="category" class="form-control">
+                            <select name="career" id="career" class="form-control">
                                 <option value="">Chọn ngành nghề</option>
-                                @if ($categories)
-                                    @foreach ($categories as $category)
-                                        <option {{ (Request::get('category') == $category->id) ? 'selected' : '' }} 
-                                                value="{{ $category->id }}">{{ $category->name }}</option>
+                                @if ($careers->isNotEmpty())
+                                    @foreach ($careers as $career)
+                                        <option {{ (Request::get('career') == $career->id) ? 'selected' : '' }} 
+                                                value="{{ $career->id }}">{{ $career->name }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -166,7 +166,7 @@
 
         var keyword = $("#keyword").val();
         var location = $("#location").val();
-        var category = $("#category").val();
+        var career = $("#career").val();
         var experience = $("#experience").val();
         var sort = $("#sort").val();
 
@@ -184,9 +184,9 @@
             url += '&location='+location;
         }
 
-        // If category has a value
-        if (category != ""){
-            url += '&category='+category;
+        // If career has a value
+        if (career != ""){
+            url += '&career='+career;
         }
 
         // If experience has a value

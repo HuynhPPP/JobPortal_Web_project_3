@@ -27,7 +27,7 @@
                             </div>
                             <div style="margin-top: -10px;">
                                 <div class="input-group">
-                                    <form action="" class="d-flex">
+                                    <form action="" name="searchForm" id="searchForm" class="d-flex">
                                         <input value="" type="text" name="keyword" id="keyword" placeholder="Nhập tiêu đề..." class="form-control me-2">
                                         <button type="submit" class="btn btn-primary w-50">Tìm kiếm</button>
                                       </form>                                      
@@ -114,5 +114,19 @@
 
         }
     }
+
+    $("#searchForm").submit(function(e){
+        e.preventDefault();
+
+        var url = '{{ route("account.myJobApplication") }}?';
+
+        var keyword = $("#keyword").val();
+        
+        // If keyword has a value
+        if (keyword != ""){
+            url += '&keyword='+keyword;
+        }
+        window.location.href=url;
+    });
 </script>
 @endsection
