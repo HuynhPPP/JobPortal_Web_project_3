@@ -10,10 +10,13 @@
   <meta name="HandheldFriendly" content="True" />
   <meta name="pinterest" content="nopin" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css">
+  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" /> --}}
+  <link rel="stylesheet" href="{{ asset("assets/css/font-awesome.css") }}"/>
+  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"/> --}}
+  <link rel="stylesheet" href="{{ asset('assets/trumbowyg/trumbowyg.min.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/style.css") }}" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
+  <link rel="stylesheet" href="{{ asset("assets/css/toastr.min.css") }}"/>
   <!-- Fav Icon -->
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo_web.jpg') }}" />
 </head>
@@ -84,9 +87,10 @@
   <script src="{{ asset("assets/js/instantpages.5.1.0.min.js") }}"></script>
   <script src="{{ asset("assets/js/lazyload.17.6.0.min.js") }}"></script>
   <script src="{{ asset("assets/js/custom.js") }}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"></script> --}}
+  <script src="{{ asset('assets/trumbowyg/trumbowyg.min.js') }}"></script>
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+  <script src="{{ asset("assets/js/toastr.min.js") }}"></script>
 
   @if (session()->has("toastr"))
     <script>
