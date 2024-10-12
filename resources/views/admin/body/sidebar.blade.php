@@ -63,7 +63,7 @@
         </a>
       </li>
       <li class="side-nav-item">
-        <a href="apps-calendar.html" class="side-nav-link">
+        <a href="{{ route('admin.apply.job') }}" class="side-nav-link">
           <span class="menu-icon">
             {!! file_get_contents(public_path('admin/icon/dashboard.svg')) !!}
           </span>

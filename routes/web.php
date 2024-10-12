@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\CareerController;
 use App\Http\Controllers\admin\EmployerController;
+use App\Http\Controllers\admin\JobApplyController;
 use App\Http\Controllers\admin\JobController;
 use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -41,3 +42,6 @@ Route::get("/admin/employer", [EmployerController::class, "getEmployer"])->name(
 Route::get('/admin/edit-employer/{id}', [EmployerController::class, 'editEmployer'])->name('admin.edit.employer');
 Route::post('admin/update-employer/{id}', [EmployerController::class, 'updateEmployer'])->name('admin.update.employer');
 Route::delete('admin/delete-employer/{id}', [EmployerController::class, 'deleteEmployer'])->name('admin.delete.employer');
+
+Route::get('/admin/apply-job', [JobApplyController::class, 'index'])->name('admin.apply.job');
+Route::delete('/admin/delete-apply-job/{id}', [JobApplyController::class, 'deleteApllyJob'])->name('admin.delete.applyjob');
