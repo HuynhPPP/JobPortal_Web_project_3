@@ -2,9 +2,9 @@
     <div class="s-body text-center mt-3">
 
         @if (Auth::user()->image != '')
-            <img src="{{ asset('profile_picture/thumb/'.Auth::user()->image) }}" alt="avatar"  class="rounded-circle img-fluid" style="width: 150px;">
+            <img src="{{ asset('assets/user/profile_picture/thumb/'.Auth::user()->image) }}" alt="avatar"  class="rounded-circle img-fluid" style="width: 150px;">
         @else
-            <img src="{{ asset('assets/images/avatar7.png') }}" alt="avatar"  class="rounded-circle img-fluid" style="width: 150px;">
+            <img src="{{ asset('assets/user/images/avatar7.png') }}" alt="avatar"  class="rounded-circle img-fluid" style="width: 150px;">
         @endif
         
         <h5 class="mt-3 pb-0">{{ Auth::user()->fullname }}</h5>

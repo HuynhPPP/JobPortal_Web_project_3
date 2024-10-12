@@ -118,6 +118,27 @@ class JobsController extends Controller
         ]);
     }
 
+    public function detail_employer($id) {
+        $job = Job::where([
+            'id' => $id, 
+            'status' => 1,
+        ])->with(['jobType','career'])->first();
+
+        if ($job == null) {
+            abort(404);
+        }
+
+        // Fetch applications
+        $applications = JobApplication::where('job_id',$id)->with('user')->get();
+
+        
+
+        return view('front.jobDetail_employer',[
+            'job' => $job,
+            'applications' => $applications,
+        ]);
+    }
+
     public function applyJob(Request $request) {
 
         $rules = [
@@ -181,7 +202,7 @@ class JobsController extends Controller
                 $filename = Auth::user()->email . '_' . time() . '.' . $file->getClientOriginalExtension();
 
                 // Đường dẫn lưu file
-                $destinationPath = public_path('/CV');
+                $destinationPath = public_path('/assets/user/CV');
 
                 // Di chuyển file tới thư mục đã chỉ định
                 $file->move($destinationPath, $filename);

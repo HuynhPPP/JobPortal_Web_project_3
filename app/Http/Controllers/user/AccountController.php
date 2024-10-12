@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
+
 class AccountController extends Controller
 {
     // Show user registration page
@@ -63,7 +64,7 @@ class AccountController extends Controller
             'errors' => $validator->errors()
         ]);
     }
-}
+    }
 
 
     // Show user login page
@@ -85,9 +86,14 @@ class AccountController extends Controller
 
         if ($validator->passes()) {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                session()->flash('toastr', ['success' => 'Chào mừng bạn đến với website tìm kiếm việc làm']);
-                // toastr()->success('Chào mừng bạn đến với website tìm kiếm việc làm');
-                return redirect()->route('account.profile');
+                $user = Auth::user();
+                if ($user->role === 'admin') {
+                    // Nếu là admin, chuyển hướng đến trang admin
+                    return redirect()->route('admin.dashboard');
+                } else
+                    session()->flash('toastr', ['success' => 'Chào mừng bạn đến với website tìm kiếm việc làm']);
+                    // toastr()->success('Chào mừng bạn đến với website tìm kiếm việc làm');
+                    return redirect()->route('account.profile');
             } else {
                 session()->flash('toastr', ['error' => 'Email hoặc mật khẩu không chính xác']);
                 return redirect()->route('account.login');
@@ -196,20 +202,24 @@ class AccountController extends Controller
             $image = $request->image;
             $ext = $image->getClientOriginalExtension();
             $imageName = $id.'-'.time().'.'.$ext; 
-            $image->move(public_path('/profile_picture/'), $imageName);
+
+            $profilePicturePath = public_path('/assets/user/profile_picture/');
+            $thumbPath = public_path('/assets/user/profile_picture/thumb/');
+
+             $image->move($profilePicturePath, $imageName);
 
             // Create a small thumbnail
-            $sourcePath = public_path('/profile_picture/'.$imageName);
+            $sourcePath = public_path('/assets/user/profile_picture/'.$imageName);
             $manager = new ImageManager(Driver::class);
             $image = $manager->read($sourcePath);
 
             // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
             $image->cover(150, 150);
-            $image->toPng()->save(public_path('/profile_picture/thumb/'.$imageName));
+            $image->toPng()->save($thumbPath . $imageName);
 
             // Delete Old Profile Pic
-            File::delete(public_path('/profile_picture/thumb/'.Auth::user()->image));
-            File::delete(public_path('/profile_picture/'.Auth::user()->image));
+            File::delete(public_path('/assets/user/profile_picture/thumb/'.Auth::user()->image));
+            File::delete(public_path('/assets/user/profile_picture/'.Auth::user()->image));
 
             User::where('id',$id)->update(['image' => $imageName]);
 
@@ -456,21 +466,17 @@ class AccountController extends Controller
     public function removeJobs(Request $request) {
         $jobApplication = JobApplication::where([
                 'id' => $request->id, 
-                'user_id' => Auth::user()->id] 
-            )->first();
+                'user_id' => Auth::user()->id
+            ])->first();
+    
         if ($jobApplication == null) {
-            session()->flash('toastr', ['error' => 'Không tìm thấy công việc']);
-            return response()->json([
-                'status' => false,
-            ]);
+            return redirect()->route('account.myJobApplication')->with('toastr', ['error' => 'Không tìm thấy công việc']);
         }
-
-        JobApplication::find($request->id)->delete();
-        session()->flash('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công.']);
-        return response()->json([
-            'status' => true,
-        ]);
+    
+        $jobApplication->delete();
+        return redirect()->route('account.myJobApplication')->with('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công']);
     }
+    
 
     public function savedJobs(Request $request) {
         // $jobApplications = JobApplication::where('user_id', Auth::user()->id)
@@ -504,17 +510,11 @@ class AccountController extends Controller
                 'user_id' => Auth::user()->id] 
             )->first();
         if ($savedJob == null) {
-            session()->flash('toastr', ['error' => 'Không tìm thấy công việc']);
-            return response()->json([
-                'status' => false,
-            ]);
+            return redirect()->route('account.savedJobs')->with('toastr', ['error' => 'Không tìm thấy công việc']);
         }
-
-        SavedJob::find($request->id)->delete();
-        session()->flash('toastr', ['success' => 'Đã huỷ yêu thích công việc.']);
-        return response()->json([
-            'status' => true,
-        ]);
+    
+        $savedJob->delete();
+        return redirect()->route('account.savedJobs')->with('toastr', ['success' => 'Huỷ yêu thích công việc thành công']);
     }
 
     public function updatePassword(Request $request) {

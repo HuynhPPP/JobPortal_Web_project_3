@@ -49,34 +49,43 @@
                                 <tbody class="border-0">
                                     @if ($jobApplications->isNotEmpty())
                                         @foreach ($jobApplications as $jobApplication)
-                                        <tr class="active">
-                                            <td>
-                                                <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
-                                                <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}</div>
-                                            </td>
-                                            <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->locale('vi')->translatedFormat('d F, Y') }}</td>
-                                            <td>{{ $jobApplication->job->applications->count() }} ứng tuyển</td>
-                                            <td>
-                                                @if ($jobApplication->job->status == 1)
-                                                    <div class="job-status text-capitalize text-success">Hoạt động</div>
-                                                @elseif ($job->status == 2)
-                                                    <div class="job-status text-capitalize text-warning">Đang xử lý</div>
-                                                @else
-                                                    <div class="job-status text-capitalize text-danger">Hết hạn</div>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="action-dots float-end">
-                                                    <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="{{ route("jobDetail",$jobApplication->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
-                                                        <li><a class="dropdown-item" href="#" onclick="removeJob({{ $jobApplication->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Huỷ ứng tuyển</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <form action="{{ route('account.removeJobs') }}" method="POST">
+                                            @csrf
+                                            <tr class="active">
+                                                <td style="display: none"><input type="hidden" name="id" value="{{ $jobApplication->id }}"></td>
+                                                <td>
+                                                    <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
+                                                    <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}</div>
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->locale('vi')->translatedFormat('d F, Y') }}</td>
+                                                <td>{{ $jobApplication->job->applications->count() }} ứng tuyển</td>
+                                                <td>
+                                                    @if ($jobApplication->job->status == 1)
+                                                        <div class="job-status text-capitalize text-success">Hoạt động</div>
+                                                    @elseif ($job->status == 2)
+                                                        <div class="job-status text-capitalize text-warning">Đang xử lý</div>
+                                                    @else
+                                                        <div class="job-status text-capitalize text-danger">Hết hạn</div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="action-dots float-end">
+                                                        <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li><a class="dropdown-item" href="{{ route("jobDetail",$jobApplication->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
+                                                            
+                                                            <li>
+                                                                <button type="submit" class="dropdown-item" onclick="return confirm('Bạn chắc chắn muốn huỷ ứng tuyển công việc này không?')">
+                                                                    <i class="fa fa-trash me-3" aria-hidden="true"></i> Huỷ ứng tuyển
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </form>
                                         @endforeach
                                     @else
                                         <tr>
@@ -99,22 +108,6 @@
 
 @section('customJs')
 <script type="text/javascript">
-    function removeJob(id) {
-        if (confirm("Bạn chắc chắn muốn huỷ ứng tuyển công việc này không ?")) {
-            $.ajax({
-                url: '{{ route("account.removeJobs") }}',
-                type: 'post',
-                data: {id: id},
-                dataType: 'json',
-                success: function(response) {
-                    window.location.href='{{ route("account.myJobApplication") }}'
-                }
-            })
-        } else {
-
-        }
-    }
-
     $("#searchForm").submit(function(e){
         e.preventDefault();
 

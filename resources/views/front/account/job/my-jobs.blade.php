@@ -55,7 +55,7 @@
                                                 <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}</div>
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($job->created_at)->locale('vi')->translatedFormat('d F, Y') }}</td>
-                                            <td>{{ $job->vacancy }} ứng viên</td>
+                                            <td>{{ $job->vacancy }}</td>
                                             <td>
                                                 @if ($job->status == 1)
                                                     <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
@@ -71,7 +71,7 @@
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="{{ route("jobDetail",$job->id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
+                                                        <li><a class="dropdown-item" href="{{ route("JobDetail_employer",$job->id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
                                                         <li><a class="dropdown-item" href="{{ route("account.editJob", $job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a></li>
                                                         <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Xoá</a></li>
                                                     </ul>

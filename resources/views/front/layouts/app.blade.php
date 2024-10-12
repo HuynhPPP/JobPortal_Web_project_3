@@ -11,14 +11,14 @@
   <meta name="pinterest" content="nopin" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" /> --}}
-  <link rel="stylesheet" href="{{ asset("assets/css/font-awesome.css") }}"/>
+  <link rel="stylesheet" href="{{ asset("assets/user/css/font-awesome.css") }}"/>
   {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"/> --}}
-  <link rel="stylesheet" href="{{ asset('assets/trumbowyg/trumbowyg.min.css') }}" />
-  <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/style.css") }}" />
+  <link rel="stylesheet" href="{{ asset('assets/user/trumbowyg/trumbowyg.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ asset("assets/user/css/style.css") }}" />
   {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
-  <link rel="stylesheet" href="{{ asset("assets/css/toastr.min.css") }}"/>
+  <link rel="stylesheet" href="{{ asset("assets/user/css/toastr.min.css") }}"/>
   <!-- Fav Icon -->
-  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo_web.jpg') }}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
 </head>
 
 <body data-instant-intensity="mousedown">
@@ -82,15 +82,15 @@
   @include('front.layouts.footer')
   
 
-  <script src="{{ asset("assets/js/jquery-3.6.0.min.js") }}"></script>
-  <script src="{{ asset("assets/js/bootstrap.bundle.5.1.3.min.js") }}"></script>
-  <script src="{{ asset("assets/js/instantpages.5.1.0.min.js") }}"></script>
-  <script src="{{ asset("assets/js/lazyload.17.6.0.min.js") }}"></script>
-  <script src="{{ asset("assets/js/custom.js") }}"></script>
+  <script src="{{ asset("assets/user/js/jquery-3.6.0.min.js") }}"></script>
+  <script src="{{ asset("assets/user/js/bootstrap.bundle.5.1.3.min.js") }}"></script>
+  <script src="{{ asset("assets/user/js/instantpages.5.1.0.min.js") }}"></script>
+  <script src="{{ asset("assets/user/js/lazyload.17.6.0.min.js") }}"></script>
+  <script src="{{ asset("assets/user/js/custom.js") }}"></script>
   {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"></script> --}}
-  <script src="{{ asset('assets/trumbowyg/trumbowyg.min.js') }}"></script>
+  <script src="{{ asset('assets/user/trumbowyg/trumbowyg.min.js') }}"></script>
   {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
-  <script src="{{ asset("assets/js/toastr.min.js") }}"></script>
+  <script src="{{ asset("assets/user/js/toastr.min.js") }}"></script>
 
   @if (session()->has("toastr"))
     <script>

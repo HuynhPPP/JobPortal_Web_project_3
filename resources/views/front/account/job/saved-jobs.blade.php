@@ -49,33 +49,44 @@
                                 <tbody class="border-0">
                                     @if ($savedJobs->isNotEmpty())
                                         @foreach ($savedJobs as $savedJob)
-                                        <tr id="saved-job-{{ $savedJob->id }}" class="active">
-                                            <td>
-                                                <div class="job-name fw-500">{{ $savedJob->job->title }}</div>
-                                                <div class="info1">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->location }}</div>
-                                            </td>
-                                            <td>{{ $savedJob->job->applications->count() }} ứng tuyển</td>
-                                            <td>
-                                                @if ($savedJob->job->status == 1)
-                                                    <div class="job-status text-capitalize text-success">Hoạt động</div>
-                                                @elseif ($job->status == 2)
-                                                    <div class="job-status text-capitalize text-warning">Đang xử lý</div>
-                                                @else
-                                                    <div class="job-status text-capitalize text-danger">Hết hạn</div>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="action-dots float-end">
-                                                    <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="{{ route("jobDetail",$savedJob->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
-                                                        <li><a class="dropdown-item" href="#" onclick="removeSavedJob({{ $savedJob->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Huỷ yêu thích</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <form action="{{ route('account.removeSavedJob') }}" method="POST">
+                                            @csrf 
+                                            <tr id="saved-job-{{ $savedJob->id }}" class="active">
+                                                <td style="display: none"><input type="hidden" name="id" value="{{ $savedJob->id }}"></td>
+                                                <td>
+                                                    <div class="job-name fw-500">{{ $savedJob->job->title }}</div>
+                                                    <div class="info1">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->location }}</div>
+                                                </td>
+                                                <td>{{ $savedJob->job->applications->count() }} ứng tuyển</td>
+                                                <td>
+                                                    @if ($savedJob->job->status == 1)
+                                                        <div class="job-status text-capitalize text-success">Hoạt động</div>
+                                                    @elseif ($savedJob->job->status == 2)
+                                                        <div class="job-status text-capitalize text-warning">Đang xử lý</div>
+                                                    @else
+                                                        <div class="job-status text-capitalize text-danger">Hết hạn</div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="action-dots float-end">
+                                                        <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li><a class="dropdown-item" href="{{ route("jobDetail", $savedJob->job_id) }}"> 
+                                                                <i class="fa fa-eye" aria-hidden="true"></i> Xem
+                                                            </a></li>
+                                                            <li>
+                                                                <button type="submit" class="dropdown-item" onclick="return confirm('Bạn chắc chắn muốn huỷ yêu thích công việc này không?')">
+                                                                    <i class="fa fa-trash me-3" aria-hidden="true"></i> Huỷ yêu thích
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </form>
+                                        
                                         @endforeach
                                     @else
                                         <tr>
@@ -98,33 +109,6 @@
 
 @section('customJs')
 <script type="text/javascript">
-    function removeSavedJob(id) {
-    if (confirm("Bạn chắc chắn muốn huỷ yêu thích công việc này không?")) {
-        $.ajax({
-            url: '{{ route("account.removeSavedJob") }}',
-            type: 'post',
-            data: {
-                id: id,
-                _token: '{{ csrf_token() }}' // Đảm bảo thêm CSRF token
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status) {
-                    // Xóa công việc khỏi danh sách trong giao diện mà không cần tải lại trang
-                    $('#saved-job-' + id).remove();
-                    toastr.success('Đã huỷ yêu thích công việc thành công.');
-                } else {
-                    toastr.error('Không tìm thấy công việc.');
-                }
-            },
-            error: function(xhr) {
-                toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
-            }
-        });
-    }
-}
-
-
     $("#searchForm").submit(function(e){
         e.preventDefault();
 
