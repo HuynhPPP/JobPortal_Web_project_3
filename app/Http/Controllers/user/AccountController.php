@@ -31,19 +31,23 @@ class AccountController extends Controller
   {
     $messages = [
       'name.required' => 'Trường họ và tên không được để trống.',
+      'name.regex' => 'Tên người dùng chỉ được phép bao gồm các chữ cái và số',
       'email.required' => 'Trường email không được để trống.',
       'email.email' => 'Email không hợp lệ.',
       'email.unique' => 'Email đã tồn tại.',
       'password.required' => 'Trường mật khẩu không được để trống.',
-      'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
+      'password.regex' => 'Mật khẩu phải chứa ít nhất 6 ký tự, có ít nhất 1 chữ cái in hoa, 1 số, và 1 ký tự đặc biệt.',
       'confirm_password.same' => 'Mật khẩu xác nhận không khớp.',
       'confirm_password.required' => 'Trường xác nhận mật khẩu không được để trống.',
     ];
 
     $validator = Validator::make($request->all(), [
-      'name' => 'required',
+      'name' => 'required|regex:/^(?!\s)(?!.*\s{2,})[a-zA-Z0-9\s]+(?<!\s)$/',
       'email' => 'required|email|unique:users,email',
-      'password' => 'required|min:5',
+      'password' => [
+        'required',
+        'regex:/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/'
+      ],
       'confirm_password' => 'required|same:password',
     ], $messages);
 
@@ -52,6 +56,7 @@ class AccountController extends Controller
       $user->fullname = $request->name;
       $user->email = $request->email;
       $user->password = Hash::make($request->password);
+      $user->role = $request->input('role', 'user');
       $user->save();
 
       session()->flash('success', 'Bạn đã đăng ký thành công.');

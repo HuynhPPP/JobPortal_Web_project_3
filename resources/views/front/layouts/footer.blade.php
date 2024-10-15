@@ -25,7 +25,7 @@
             </ul>
         </div>
 
-        <div class="col-md-6 pt-5">
+        <div class="col-md-6 pt-5 ">
             <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
             <ul class="list-unstyled text-light footer-link-list">
                 <li><a class="text-decoration-none" href="#">Home</a></li>

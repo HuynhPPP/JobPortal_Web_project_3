@@ -57,7 +57,6 @@
                 </div>
                 <div class="mt-4 text-center">
                     <p>Bạn muốn tìm một công việc? <a  href="{{ route("account.registration") }}">Đăng ký</a></p>
-                    <p>Bạn là nhà tuyển dụng? <a  href="{{ route("account.registration") }}">Đăng ký</a></p>
                 </div>
             </div>
         </div>
