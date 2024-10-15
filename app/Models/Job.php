@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
-    use HasFactory;
-
-    protected $table = 'jobs';
-
-    public function jobType() {
-        return $this->belongsTo(JobType::class);
-    }
-
-    public function career() {
-        return $this->belongsTo(Careers::class);
-    }
-
-    public function applications() {
-        return $this->hasMany(JobApplication::class);
-    }
+  use HasFactory;
+  protected $table = 'jobs';
+  public function applications()
+  {
+    return $this->hasMany(JobApplication::class);
+  }
+  use HasFactory;
+  public function career()
+  {
+    return $this->belongsTo(Career::class);
+  }
+  public function jobType()
+  {
+    return $this->belongsTo(JobType::class);
+  }
 }

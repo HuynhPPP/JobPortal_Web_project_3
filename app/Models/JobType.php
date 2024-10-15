@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobType extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $table = 'job_types';
+  protected $table = 'job_types';
 }

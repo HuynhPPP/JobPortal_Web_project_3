@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\user;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Careers;
 use App\Models\JobType;
@@ -19,541 +20,557 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class AccountController extends Controller
 {
-    // Show user registration page
-    public function registration() {
-        return view('front.account.registration');
-    }
+  // Show user registration page
+  public function registration()
+  {
+    return view('front.account.registration');
+  }
 
-    // Save a user
-    public function processRegistration(Request $request)
-{
+  // Save a user
+  public function processRegistration(Request $request)
+  {
     $messages = [
-        'name.required' => 'Trường họ và tên không được để trống.',
-        'email.required' => 'Trường email không được để trống.',
-        'email.email' => 'Email không hợp lệ.',
-        'email.unique' => 'Email đã tồn tại.',
-        'password.required' => 'Trường mật khẩu không được để trống.',
-        'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
-        'confirm_password.same' => 'Mật khẩu xác nhận không khớp.',
-        'confirm_password.required' => 'Trường xác nhận mật khẩu không được để trống.',
+      'name.required' => 'Trường họ và tên không được để trống.',
+      'email.required' => 'Trường email không được để trống.',
+      'email.email' => 'Email không hợp lệ.',
+      'email.unique' => 'Email đã tồn tại.',
+      'password.required' => 'Trường mật khẩu không được để trống.',
+      'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
+      'confirm_password.same' => 'Mật khẩu xác nhận không khớp.',
+      'confirm_password.required' => 'Trường xác nhận mật khẩu không được để trống.',
     ];
 
     $validator = Validator::make($request->all(), [
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:5',
-        'confirm_password' => 'required|same:password',
+      'name' => 'required',
+      'email' => 'required|email|unique:users,email',
+      'password' => 'required|min:5',
+      'confirm_password' => 'required|same:password',
     ], $messages);
 
     if ($validator->passes()) {
-        $user = new User();
-        $user->fullname = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+      $user = new User();
+      $user->fullname = $request->name;
+      $user->email = $request->email;
+      $user->password = Hash::make($request->password);
+      $user->save();
 
-        session()->flash('success', 'Bạn đã đăng ký thành công.');
+      session()->flash('success', 'Bạn đã đăng ký thành công.');
 
-        return response()->json([
-            'status' => true,
-            'errors' => []
-        ]);
+      return response()->json([
+        'status' => true,
+        'errors' => []
+      ]);
     } else {
-        return response()->json([
-            'status' => false,
-            'errors' => $validator->errors()
-        ]);
+      return response()->json([
+        'status' => false,
+        'errors' => $validator->errors()
+      ]);
     }
-    }
+  }
 
 
-    // Show user login page
-    public function login() {
-        return view('front.account.login');
-    }
+  // Show user login page
+  public function login()
+  {
+    return view('front.account.login');
+  }
 
-    public function authenticate(Request $request) {
-        $messages = [
-            'email.required' => 'Trường email không được để trống.',
-            'email.email' => 'Email không hợp lệ.',
-            'password.required' => 'Trường mật khẩu không được để trống.',
-        ];
+  public function authenticate(Request $request)
+  {
+    $messages = [
+      'email.required' => 'Trường email không được để trống.',
+      'email.email' => 'Email không hợp lệ.',
+      'password.required' => 'Trường mật khẩu không được để trống.',
+    ];
 
-        $validator = Validator::make($request->all(),[
-            'email' => 'required|email',
-            'password' => 'required',
-        ],$messages);
+    $validator = Validator::make($request->all(), [
+      'email' => 'required|email',
+      'password' => 'required',
+    ], $messages);
 
-        if ($validator->passes()) {
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                $user = Auth::user();
-                if ($user->role === 'admin') {
-                    // Nếu là admin, chuyển hướng đến trang admin
-                    return redirect()->route('admin.dashboard');
-                } else
-                    session()->flash('toastr', ['success' => 'Chào mừng bạn đến với website tìm kiếm việc làm']);
-                    // toastr()->success('Chào mừng bạn đến với website tìm kiếm việc làm');
-                    return redirect()->route('account.profile');
-            } else {
-                session()->flash('toastr', ['error' => 'Email hoặc mật khẩu không chính xác']);
-                return redirect()->route('account.login');
-            }
-        } else {
-            return redirect()->route('account.login')
-            ->withErrors($validator)
-            ->withInput($request->only('email'));
-            }
-             
-    }
-
-    public function profile() {
-
-        $id = Auth::user()->id;
-
-        $user = User::where('id', $id)->first();
-
-        return view('front.account.profile', [
-            'user' => $user,
-        ]);
-    }
-
-    public function updateProfile(Request $request) {
-        // Lấy thông tin người dùng hiện tại
-        $id = Auth::user()->id;
-        $currentEmail = Auth::user()->email;
-    
-        // Khởi tạo mảng quy tắc xác thực
-        $rules = [
-            'name' => 'required|min:5|max:20',
-        ];
-    
-        // Nếu email mới khác email hiện tại, áp dụng quy tắc unique
-        if ($request->email !== $currentEmail) {
-            $rules['email'] = 'required|email|unique:users,email,' . $id . ',id';
-        } else {
-            $rules['email'] = 'required|email';
-        }
-    
-        // Tùy chỉnh thông báo lỗi bằng tiếng Việt
-        $messages = [
-            'name.required' => 'Trường tên không được để trống.',
-            'name.min' => 'Tên phải có ít nhất 5 ký tự.',
-            'name.max' => 'Tên không được vượt quá 20 ký tự.',
-            'email.required' => 'Trường email không được để trống.',
-            'email.email' => 'Email phải đúng định dạng.',
-            'email.unique' => 'Email này đã được sử dụng.',
-        ];
-    
-        // Tiến hành xác thực dữ liệu
-        $validator = Validator::make($request->all(), $rules, $messages);
-    
-        // Nếu xác thực thành công
-        if ($validator->passes()) {
-            // Tìm người dùng theo ID và cập nhật thông tin
-            $user = User::find($id);
-            $user->fullname = $request->name;
-            $user->email = $request->email;
-            $user->mobile = $request->mobile;
-            $user->designation = $request->designation;
-            $user->save();
-    
-            // Đặt thông báo thành công và trả về JSON
-            session()->flash('toastr', ['success' => 'Cập nhật thành công']);
-    
-            return response()->json([
-                'status' => true,
-                'errors' => [],
-            ]);
-    
-        } else {
-            // Nếu xác thực thất bại, trả về lỗi
-            session()->flash('toastr', value: ['warning' => 'Cập nhật chưa được thay đổi !']);
-    
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-    }
-    
-
-    public function logout() {
-        Auth::logout();
+    if ($validator->passes()) {
+      if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+          // Nếu là admin, chuyển hướng đến trang admin
+          return redirect()->route('admin.home');
+        } else
+          session()->flash('toastr', ['success' => 'Chào mừng bạn đến với website tìm kiếm việc làm']);
+        // toastr()->success('Chào mừng bạn đến với website tìm kiếm việc làm');
+        return redirect()->route('account.profile');
+      } else {
+        session()->flash('toastr', ['error' => 'Email hoặc mật khẩu không chính xác']);
         return redirect()->route('account.login');
+      }
+    } else {
+      return redirect()->route('account.login')
+        ->withErrors($validator)
+        ->withInput($request->only('email'));
+    }
+  }
+
+  public function profile()
+  {
+
+    $id = Auth::user()->id;
+
+    $user = User::where('id', $id)->first();
+
+    return view('front.account.profile', [
+      'user' => $user,
+    ]);
+  }
+
+  public function updateProfile(Request $request)
+  {
+    // Lấy thông tin người dùng hiện tại
+    $id = Auth::user()->id;
+    $currentEmail = Auth::user()->email;
+
+    // Khởi tạo mảng quy tắc xác thực
+    $rules = [
+      'name' => 'required|min:5|max:20',
+    ];
+
+    // Nếu email mới khác email hiện tại, áp dụng quy tắc unique
+    if ($request->email !== $currentEmail) {
+      $rules['email'] = 'required|email|unique:users,email,' . $id . ',id';
+    } else {
+      $rules['email'] = 'required|email';
     }
 
-    public function updateProfilePicture(Request $request) {
-        // dd($request->all());
+    // Tùy chỉnh thông báo lỗi bằng tiếng Việt
+    $messages = [
+      'name.required' => 'Trường tên không được để trống.',
+      'name.min' => 'Tên phải có ít nhất 5 ký tự.',
+      'name.max' => 'Tên không được vượt quá 20 ký tự.',
+      'email.required' => 'Trường email không được để trống.',
+      'email.email' => 'Email phải đúng định dạng.',
+      'email.unique' => 'Email này đã được sử dụng.',
+    ];
 
-        $id = Auth::user()->id;
+    // Tiến hành xác thực dữ liệu
+    $validator = Validator::make($request->all(), $rules, $messages);
 
-        $messages = [
-            'image.required' => 'Vui lòng chọn ảnh để tải lên.',
-            'image.image' => 'Định dạng tệp phải là một hình ảnh (jpeg, png, bmp, gif, hoặc svg).',
-        ];
-        
-        $validator = Validator::make($request->all(),[
-            'image' => 'required|image',
-        ], $messages);
-        
+    // Nếu xác thực thành công
+    if ($validator->passes()) {
+      // Tìm người dùng theo ID và cập nhật thông tin
+      $user = User::find($id);
+      $user->fullname = $request->name;
+      $user->email = $request->email;
+      $user->mobile = $request->mobile;
+      $user->designation = $request->designation;
+      $user->save();
 
-        if ($validator->passes()) {
+      // Đặt thông báo thành công và trả về JSON
+      session()->flash('toastr', ['success' => 'Cập nhật thành công']);
 
-            $image = $request->image;
-            $ext = $image->getClientOriginalExtension();
-            $imageName = $id.'-'.time().'.'.$ext; 
+      return response()->json([
+        'status' => true,
+        'errors' => [],
+      ]);
+    } else {
+      // Nếu xác thực thất bại, trả về lỗi
+      session()->flash('toastr', value: ['warning' => 'Cập nhật chưa được thay đổi !']);
 
-            $profilePicturePath = public_path('/assets/user/profile_picture/');
-            $thumbPath = public_path('/assets/user/profile_picture/thumb/');
+      return response()->json([
+        'status' => false,
+        'errors' => $validator->errors(),
+      ]);
+    }
+  }
 
-             $image->move($profilePicturePath, $imageName);
 
-            // Create a small thumbnail
-            $sourcePath = public_path('/assets/user/profile_picture/'.$imageName);
-            $manager = new ImageManager(Driver::class);
-            $image = $manager->read($sourcePath);
+  public function logout()
+  {
+    Auth::logout();
+    return redirect()->route('account.login');
+  }
 
-            // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
-            $image->cover(150, 150);
-            $image->toPng()->save($thumbPath . $imageName);
+  public function updateProfilePicture(Request $request)
+  {
+    // dd($request->all());
 
-            // Delete Old Profile Pic
-            File::delete(public_path('/assets/user/profile_picture/thumb/'.Auth::user()->image));
-            File::delete(public_path('/assets/user/profile_picture/'.Auth::user()->image));
+    $id = Auth::user()->id;
 
-            User::where('id',$id)->update(['image' => $imageName]);
+    $messages = [
+      'image.required' => 'Vui lòng chọn ảnh để tải lên.',
+      'image.image' => 'Định dạng tệp phải là một hình ảnh (jpeg, png, bmp, gif, hoặc svg).',
+    ];
 
-            session()->flash('toastr', ['success' => 'Đăng ảnh đại diện thành công']);
-            // session()->flash('success','Đăng ảnh đại diện thành công.');
+    $validator = Validator::make($request->all(), [
+      'image' => 'required|image',
+    ], $messages);
 
-            return response()->json([
-                'status' => true,
-                'errors' => [],
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
+
+    if ($validator->passes()) {
+
+      $image = $request->image;
+      $ext = $image->getClientOriginalExtension();
+      $imageName = $id . '-' . time() . '.' . $ext;
+
+      $profilePicturePath = public_path('/assets/user/profile_picture/');
+      $thumbPath = public_path('/assets/user/profile_picture/thumb/');
+
+      $image->move($profilePicturePath, $imageName);
+
+      // Create a small thumbnail
+      $sourcePath = public_path('/assets/user/profile_picture/' . $imageName);
+      $manager = new ImageManager(Driver::class);
+      $image = $manager->read($sourcePath);
+
+      // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
+      $image->cover(150, 150);
+      $image->toPng()->save($thumbPath . $imageName);
+
+      // Delete Old Profile Pic
+      File::delete(public_path('/assets/user/profile_picture/thumb/' . Auth::user()->image));
+      File::delete(public_path('/assets/user/profile_picture/' . Auth::user()->image));
+
+      User::where('id', $id)->update(['image' => $imageName]);
+
+      session()->flash('toastr', ['success' => 'Đăng ảnh đại diện thành công']);
+      // session()->flash('success','Đăng ảnh đại diện thành công.');
+
+      return response()->json([
+        'status' => true,
+        'errors' => [],
+      ]);
+    } else {
+      return response()->json([
+        'status' => false,
+        'errors' => $validator->errors(),
+      ]);
+    }
+  }
+
+  public function createJob()
+  {
+
+    $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
+
+    $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
+    return view('front.account.job.create', [
+      'careers' => $careers,
+      'jobtypes' => $jobtype,
+    ]);
+  }
+
+  public function saveJob(Request $request)
+  {
+
+    $rules = [
+      'title' => 'required|min:5|max:200',
+      'category' => 'required',
+      'jobType' => 'required',
+      'vacancy' => 'required|integer',
+      'level' => 'required|max:50',
+      'description' => 'required',
+      'keywords' => 'required',
+      'company_name' => 'required|min:3|max:75',
+    ];
+
+    $messages = [
+      'title.required' => 'Tiêu đề không được bỏ trống.',
+      'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
+      'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
+      'category.required' => 'Ngành nghề không được bỏ trống.',
+      'jobType.required' => 'hình thức làm việc không được bỏ trống.',
+      'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
+      'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
+      'level.required' => 'Vị trí cần tuyển không được để trống.',
+      'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
+      'description.required' => 'Mô tả công việc không được để trống.',
+      'keywords.required' => 'Từ khóa không được để trống.',
+      'company_name.required' => 'Tên công ty không được để trống.',
+      'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
+      'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+    ];
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->passes()) {
+
+      $job = new Job();
+      $job->title = $request->title;
+      $job->career_id   = $request->category;
+      $job->job_type_id  = $request->jobType;
+      $job->user_id = Auth::user()->id;
+      $job->vacancy = $request->vacancy;
+      $job->salary = $request->salary;
+      $job->job_level = $request->level;
+      $job->description = $request->description;
+      $job->benefits = $request->benefits;
+      $job->responsibility = $request->responsibility;
+      $job->qualifications = $request->qualifications;
+      $job->keywords = $request->keywords;
+      $job->experience = $request->experience;
+      $job->company_name = $request->company_name;
+      $job->company_location = $request->company_location;
+      $job->company_website = $request->company_website;
+      $job->status = "0";
+      $job->save();
+
+      session()->flash('toastr', ['success' => 'Thêm việc làm thành công']);
+      // session()->flash('success','Thêm việc làm thành công');
+
+      return response()->json([
+        'status' => true,
+        'errors' => [],
+      ]);
+    } else {
+      return response()->json([
+        'status' => false,
+        'errors' => $validator->errors(),
+      ]);
+    }
+  }
+
+  public function myJobs()
+  {
+
+    $jobs = Job::where('user_id', Auth::user()->id)
+      ->with('jobType')
+      ->orderBy('created_at', 'DESC')
+      ->paginate(10);
+
+    return view('front.account.job.my-jobs', [
+      'jobs' => $jobs,
+    ]);
+  }
+
+  public function editJob(Request $request, $id)
+  {
+
+    $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
+    $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
+
+    $job = Job::where([
+      'user_id' => Auth::user()->id,
+      'id' => $id,
+    ])->first();
+
+    if ($job == null) {
+      abort(404);
     }
 
-    public function createJob() {
+    return view('front.account.job.edit', [
+      'careers' => $careers,
+      'jobtypes' => $jobtype,
+      'job' => $job,
+    ]);
+  }
 
-       $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
+  public function updateJob(Request $request, $id)
+  {
 
-       $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
-        return view('front.account.job.create', [
-            'careers' => $careers,
-            'jobtypes' => $jobtype,
-        ]);
+    $rules = [
+      'title' => 'required|min:5|max:200',
+      'category' => 'required',
+      'jobType' => 'required',
+      'vacancy' => 'required|integer',
+      'level' => 'required|max:50',
+      'keywords' => 'required',
+      'company_name' => 'required|min:3|max:75',
+    ];
+
+    $messages = [
+      'title.required' => 'Tiêu đề không được bỏ trống.',
+      'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
+      'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
+      'category.required' => 'Ngành nghề không được bỏ trống.',
+      'jobType.required' => 'Loại công việc không được bỏ trống.',
+      'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
+      'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
+      'level.required' => 'Vị trí cần tuyển không được để trống.',
+      'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
+      'keywords.required' => 'Từ khóa không được để trống.',
+      'company_name.required' => 'Tên công ty không được để trống.',
+      'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
+      'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+    ];
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->passes()) {
+
+      $job = Job::find($id);
+      $job->title = $request->title;
+      $job->career_id  = $request->category;
+      $job->job_type_id  = $request->jobType;
+      $job->user_id = Auth::user()->id;
+      $job->vacancy = $request->vacancy;
+      $job->salary = $request->salary;
+      $job->job_level = $request->level;
+      $job->description = $request->description;
+      $job->benefits = $request->benefits;
+      $job->responsibility = $request->responsibility;
+      $job->qualifications = $request->qualifications;
+      $job->keywords = $request->keywords;
+      $job->experience = $request->experience;
+      $job->company_name = $request->company_name;
+      $job->company_location = $request->company_location;
+      $job->company_website = $request->company_website;
+      $job->save();
+
+
+      session()->flash('toastr', ['success' => 'Việc làm đã được lưu']);
+      // session()->flash('success','Việc làm đã được lưu');
+
+      return response()->json([
+        'status' => true,
+        'errors' => [],
+      ]);
+    } else {
+      return response()->json([
+        'status' => false,
+        'errors' => $validator->errors(),
+      ]);
+    }
+  }
+
+  public function deleteJob(Request $request)
+  {
+
+    $job = Job::where([
+      'user_id' => Auth::user()->id,
+      'id' => $request->jobId,
+    ])->first();
+
+    if ($job == null) {
+      session()->flash('toastr', ['error' => 'Công việc không tìm thấy hoặc đã bị xoá']);
+      return response()->json([
+        'status' => true,
+      ]);
     }
 
-    public function saveJob(Request $request) {
+    Job::where('id', $request->jobId)->delete();
 
-        $rules = [
-            'title' => 'required|min:5|max:200',
-            'category' => 'required',
-            'jobType' => 'required',
-            'vacancy' => 'required|integer',
-            'level' => 'required|max:50',
-            'description' => 'required',
-            'keywords' => 'required',
-            'company_name' => 'required|min:3|max:75',
-        ];
+    session()->flash('toastr', ['success' => 'Xoá thành công']);
+    return response()->json([
+      'status' => true,
+    ]);
+  }
 
-        $messages = [
-            'title.required' => 'Tiêu đề không được bỏ trống.',
-            'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
-            'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
-            'category.required' => 'Ngành nghề không được bỏ trống.',
-            'jobType.required' => 'hình thức làm việc không được bỏ trống.',
-            'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
-            'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
-            'level.required' => 'Vị trí cần tuyển không được để trống.',
-            'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
-            'description.required' => 'Mô tả công việc không được để trống.',
-            'keywords.required' => 'Từ khóa không được để trống.',
-            'company_name.required' => 'Tên công ty không được để trống.',
-            'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
-            'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
-        ];
+  public function myJobApplication(Request $request)
+  {
+    $jobApplicationsQuery = JobApplication::where('user_id', Auth::user()->id)
+      ->with(['job', 'job.jobType', 'job.applications'])
+      ->orderBy('created_at', 'DESC');
 
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->passes()) {
-
-            $job = new Job();
-            $job->title = $request->title;
-            $job->career_id   = $request->category;
-            $job->job_type_id  = $request->jobType;
-            $job->user_id = Auth::user()->id;
-            $job->vacancy = $request->vacancy;
-            $job->salary = $request->salary;
-            $job->job_level = $request->level;
-            $job->description = $request->description;
-            $job->benefits = $request->benefits;
-            $job->responsibility = $request->responsibility;
-            $job->qualifications = $request->qualifications;
-            $job->keywords = $request->keywords;
-            $job->experience = $request->experience;
-            $job->company_name = $request->company_name;
-            $job->company_location = $request->company_location;
-            $job->company_website = $request->company_website;
-            $job->status = "0";
-            $job->save();
-
-            session()->flash('toastr', ['success' => 'Thêm việc làm thành công']);
-            // session()->flash('success','Thêm việc làm thành công');
-
-            return response()->json([
-                'status' => true,
-                'errors' => [],
-            ]);
-
-        } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
+    // Nếu người dùng nhập từ khóa tìm kiếm
+    if (!empty($request->keyword)) {
+      // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
+      $jobApplicationsQuery->whereHas('job', function ($query) use ($request) {
+        $query->where('title', 'like', '%' . $request->keyword . '%');
+      });
     }
 
-    public function myJobs() {
+    $jobApplications = $jobApplicationsQuery->paginate(10);
 
-        $jobs = Job::where('user_id', Auth::user()->id)
-                ->with('jobType')
-                ->orderBy('created_at','DESC')
-                ->paginate(10);
+    return view('front.account.job.my-job-application', [
+      'jobApplications' => $jobApplications
+    ]);
+  }
 
-        return view('front.account.job.my-jobs', [
-            'jobs' => $jobs,
-        ]);
+
+  public function removeJobs(Request $request)
+  {
+    $jobApplication = JobApplication::where([
+      'id' => $request->id,
+      'user_id' => Auth::user()->id
+    ])->first();
+
+    if ($jobApplication == null) {
+      return redirect()->route('account.myJobApplication')->with('toastr', ['error' => 'Không tìm thấy công việc']);
     }
 
-    public function editJob(Request $request, $id) {
+    $jobApplication->delete();
+    return redirect()->route('account.myJobApplication')->with('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công']);
+  }
 
-        $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
-        $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
 
-        $job = Job::where([
-            'user_id' => Auth::user()->id,
-            'id' => $id,
-        ])->first();
+  public function savedJobs(Request $request)
+  {
+    // $jobApplications = JobApplication::where('user_id', Auth::user()->id)
+    //                 ->with(['job','job.jobType','job.applications'])
+    //                 ->paginate(10);
 
-        if ($job == null) {
-            abort(404);
-        }
+    $savedJobsQuery = SavedJob::where('user_id', Auth::user()->id)
+      ->with(['job', 'job.jobType', 'job.applications'])
+      ->orderBy('created_at', 'DESC');
 
-        return view('front.account.job.edit', [
-            'careers' => $careers,
-            'jobtypes' => $jobtype,
-            'job' => $job,
-        ]);
+    // Nếu người dùng nhập từ khóa tìm kiếm
+    if (!empty($request->keyword)) {
+      // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
+      $savedJobsQuery->whereHas('job', function ($query) use ($request) {
+        $query->where('title', 'like', '%' . $request->keyword . '%');
+      });
     }
 
-    public function updateJob(Request $request, $id) {
+    // Phân trang kết quả tìm kiếm
+    $savedJobs = $savedJobsQuery->paginate(8);
 
-        $rules = [
-            'title' => 'required|min:5|max:200',
-            'category' => 'required',
-            'jobType' => 'required',
-            'vacancy' => 'required|integer',
-            'level' => 'required|max:50',
-            'keywords' => 'required',
-            'company_name' => 'required|min:3|max:75',
-        ];
+    // Trả về view với kết quả tìm kiếm
+    return view('front.account.job.saved-jobs', [
+      'savedJobs' => $savedJobs,
+    ]);
+  }
 
-        $messages = [
-            'title.required' => 'Tiêu đề không được bỏ trống.',
-            'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
-            'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
-            'category.required' => 'Ngành nghề không được bỏ trống.',
-            'jobType.required' => 'Loại công việc không được bỏ trống.',
-            'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
-            'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
-            'level.required' => 'Vị trí cần tuyển không được để trống.',
-            'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
-            'keywords.required' => 'Từ khóa không được để trống.',
-            'company_name.required' => 'Tên công ty không được để trống.',
-            'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
-            'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->passes()) {
-
-            $job = Job::find($id);
-            $job->title = $request->title;
-            $job->career_id  = $request->category;
-            $job->job_type_id  = $request->jobType;
-            $job->user_id = Auth::user()->id;
-            $job->vacancy = $request->vacancy;
-            $job->salary = $request->salary;
-            $job->job_level = $request->level;
-            $job->description = $request->description;
-            $job->benefits = $request->benefits;
-            $job->responsibility = $request->responsibility;
-            $job->qualifications = $request->qualifications;
-            $job->keywords = $request->keywords;
-            $job->experience = $request->experience;
-            $job->company_name = $request->company_name;
-            $job->company_location = $request->company_location;
-            $job->company_website = $request->company_website;
-            $job->save();
-
-
-            session()->flash('toastr', ['success' => 'Việc làm đã được lưu']);
-            // session()->flash('success','Việc làm đã được lưu');
-
-            return response()->json([
-                'status' => true,
-                'errors' => [],
-            ]);
-
-        } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
+  public function removeSavedJob(Request $request)
+  {
+    $savedJob = SavedJob::where(
+      [
+        'id' => $request->id,
+        'user_id' => Auth::user()->id
+      ]
+    )->first();
+    if ($savedJob == null) {
+      return redirect()->route('account.savedJobs')->with('toastr', ['error' => 'Không tìm thấy công việc']);
     }
 
-    public function deleteJob(Request $request) {
+    $savedJob->delete();
+    return redirect()->route('account.savedJobs')->with('toastr', ['success' => 'Huỷ yêu thích công việc thành công']);
+  }
 
-        $job = Job::where([
-            'user_id' => Auth::user()->id,
-            'id' => $request->jobId,
-        ])->first();
+  public function updatePassword(Request $request)
+  {
+    $rules = [
+      'old_password' => 'required',
+      'new_password' => 'required|min:5',
+      'confirm_password' => 'required|same:new_password',
+    ];
 
-        if ($job == null) {
-            session()->flash('toastr', ['error' => 'Công việc không tìm thấy hoặc đã bị xoá']);
-            return response()->json([
-                'status' => true,
-            ]);
-        }
+    $messages = [
+      'old_password.required' => 'Bạn chưa nhập mật khẩu cũ.',
+      'new_password.required' => 'Bạn chưa nhập mật khẩu mới.',
+      'confirm_password.required' => 'Bạn chưa nhập lại mật khẩu mới.',
+      'confirm_password.same' => 'Mật khẩu xác nhận không khớp với mật khẩu mới.',
+    ];
 
-        Job::where('id',$request->jobId)->delete();
+    $validator = Validator::make($request->all(), $rules, $messages);
 
-        session()->flash('toastr', ['success' => 'Xoá thành công']);
-        return response()->json([
-            'status' => true,
-        ]);
+    if ($validator->fails()) {
+      return response()->json([
+        'status' => false,
+        'errors' => $validator->errors(),
+      ]);
     }
 
-    public function myJobApplication(Request $request) {
-        $jobApplicationsQuery = JobApplication::where('user_id', Auth::user()->id)
-                            ->with(['job', 'job.jobType', 'job.applications'])
-                            ->orderBy('created_at', 'DESC');
-                            
-        // Nếu người dùng nhập từ khóa tìm kiếm
-        if (!empty($request->keyword)) {
-            // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
-            $jobApplicationsQuery->whereHas('job', function($query) use ($request) {
-                $query->where('title', 'like', '%' . $request->keyword . '%');
-            });
-        }
-            
-        $jobApplications = $jobApplicationsQuery->paginate(10);
-        
-        return view('front.account.job.my-job-application', [
-            'jobApplications' => $jobApplications
-        ]);
-    }
-    
-
-    public function removeJobs(Request $request) {
-        $jobApplication = JobApplication::where([
-                'id' => $request->id, 
-                'user_id' => Auth::user()->id
-            ])->first();
-    
-        if ($jobApplication == null) {
-            return redirect()->route('account.myJobApplication')->with('toastr', ['error' => 'Không tìm thấy công việc']);
-        }
-    
-        $jobApplication->delete();
-        return redirect()->route('account.myJobApplication')->with('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công']);
-    }
-    
-
-    public function savedJobs(Request $request) {
-        // $jobApplications = JobApplication::where('user_id', Auth::user()->id)
-        //                 ->with(['job','job.jobType','job.applications'])
-        //                 ->paginate(10);
-
-        $savedJobsQuery = SavedJob::where('user_id', Auth::user()->id)
-                        ->with(['job', 'job.jobType', 'job.applications'])
-                        ->orderBy('created_at', 'DESC');
-    
-        // Nếu người dùng nhập từ khóa tìm kiếm
-        if (!empty($request->keyword)) {
-            // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
-            $savedJobsQuery->whereHas('job', function($query) use ($request) {
-                $query->where('title', 'like', '%' . $request->keyword . '%');
-            });
-        }
-        
-        // Phân trang kết quả tìm kiếm
-        $savedJobs = $savedJobsQuery->paginate(8);
-        
-        // Trả về view với kết quả tìm kiếm
-        return view('front.account.job.saved-jobs', [
-            'savedJobs' => $savedJobs,
-        ]);
+    if (Hash::check($request->old_password, Auth::user()->password) == false) {
+      session()->flash('toastr', ['error' => 'Mật khẩu cũ không chính xác.']);
+      return response()->json([
+        'status' => true,
+      ]);
     }
 
-    public function removeSavedJob(Request $request) {
-        $savedJob = SavedJob::where([
-                'id' => $request->id, 
-                'user_id' => Auth::user()->id] 
-            )->first();
-        if ($savedJob == null) {
-            return redirect()->route('account.savedJobs')->with('toastr', ['error' => 'Không tìm thấy công việc']);
-        }
-    
-        $savedJob->delete();
-        return redirect()->route('account.savedJobs')->with('toastr', ['success' => 'Huỷ yêu thích công việc thành công']);
-    }
+    $user = User::find(Auth::user()->id);
+    $user->password = Hash::make($request->new_password);
+    $user->save();
 
-    public function updatePassword(Request $request) {
-        $rules = [
-            'old_password' => 'required',
-            'new_password' => 'required|min:5',
-            'confirm_password' => 'required|same:new_password',
-        ];
-
-        $messages = [
-            'old_password.required' => 'Bạn chưa nhập mật khẩu cũ.',
-            'new_password.required' => 'Bạn chưa nhập mật khẩu mới.',
-            'confirm_password.required' => 'Bạn chưa nhập lại mật khẩu mới.',
-            'confirm_password.same' => 'Mật khẩu xác nhận không khớp với mật khẩu mới.',
-        ];
-        
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
-        if (Hash::check($request->old_password,Auth::user()->password) == false) {
-            session()->flash('toastr', ['error' => 'Mật khẩu cũ không chính xác.']);
-            return response()->json([
-                'status' => true,
-            ]);
-        }
-
-        $user = User::find(Auth::user()->id);
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        session()->flash('toastr', ['success' => 'Đổi mật khẩu thành công.']);
-            return response()->json([
-                'status' => true,
-            ]);
-    }
+    session()->flash('toastr', ['success' => 'Đổi mật khẩu thành công.']);
+    return response()->json([
+      'status' => true,
+    ]);
+  }
 }
