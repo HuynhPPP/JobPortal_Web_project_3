@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\user;
-
+use App\Http\Controllers\Controller;
 use App\Mail\JobNotificationEmail;
 use Illuminate\Http\Request;
 use App\Models\Careers;

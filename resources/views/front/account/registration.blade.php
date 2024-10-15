@@ -29,6 +29,14 @@
                             <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Nhập lại mật khẩu...">
                             <p></p>
                         </div> 
+                        <div class="mb-3">
+                            <label for="role" class="mb-2">Đăng ký với tư cách <span style="color: red">*</span></label>
+                            <select name="role" id="role" class="form-control">
+                                <option value="user">Người tìm việc</option>
+                                <option value="employer">Nhà tuyển dụng</option>
+                            </select>
+                            <p></p>
+                        </div>
                         <button class="btn btn-primary mt-2">Đăng ký</button>
                     </form>                    
                 </div>
@@ -52,80 +60,26 @@
             data: $('#registrationForm').serializeArray(),
             dataType: 'json',
             success: function (response) {
-                if (response.status == false) {
-                    var errors = response.errors;
-                    // Name
-                    if (errors.name) {
-                        $("#name").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.name);
-                    } else {
-                        $("#name").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-                    }
-                     // Email
-                    if (errors.email) {
-                        $("#email").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.email);
-                    } else {
-                        $("#email").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-                    }
-                    // Password
-                    if (errors.password) {
-                        $("#password").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.password);
-                    } else {
-                        $("#password").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-                    }
-                    // Comfirm_password
-                    if (errors.confirm_password) {
-                        $("#confirm_password").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.confirm_password);
-                    } else {
-                        $("#confirm_password").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-                    }
+                // Reset validation states
+                ['name', 'email', 'password', 'confirm_password'].forEach(function (field) {
+                    $("#" + field).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
+                });
+
+                // If there are validation errors
+                if (response.status === false) {
+                    $.each(response.errors, function (field, message) {
+                        $("#" + field).addClass('is-invalid')
+                                      .siblings('p')
+                                      .addClass('invalid-feedback')
+                                      .html(message);
+                    });
                 } else {
-                    $("#name").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#email").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#password").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#confirm_password").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-                    window.location.href='{{ route("account.login") }}';
+                    // Success, redirect to login
+                    window.location.href = '{{ route("account.login") }}';
                 }
             }
         });
-    })
+    });
 </script>
+
 @endsection

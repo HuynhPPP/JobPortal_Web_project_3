@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\user;
-
+use App\Http\Controllers\Controller;
 use App\Models\Careers;
 use App\Models\Job;
 use Illuminate\Http\Request;

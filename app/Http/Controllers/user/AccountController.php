@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\user;
-
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Careers;
 use App\Models\JobType;
@@ -25,45 +25,49 @@ class AccountController extends Controller
     }
 
     // Save a user
-    public function processRegistration(Request $request)
-{
-    $messages = [
-        'name.required' => 'Trường họ và tên không được để trống.',
-        'email.required' => 'Trường email không được để trống.',
-        'email.email' => 'Email không hợp lệ.',
-        'email.unique' => 'Email đã tồn tại.',
-        'password.required' => 'Trường mật khẩu không được để trống.',
-        'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
-        'confirm_password.same' => 'Mật khẩu xác nhận không khớp.',
-        'confirm_password.required' => 'Trường xác nhận mật khẩu không được để trống.',
-    ];
+    public function processRegistration(Request $request){
+        $messages = [
+            'name.required' => 'Trường họ và tên không được để trống.',
+            'name.regex' => 'Tên người dùng chỉ được phép bao gồm các chữ cái và số',
+            'email.required' => 'Trường email không được để trống.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.unique' => 'Email đã tồn tại.',
+            'password.required' => 'Trường mật khẩu không được để trống.',
+            'password.regex' => 'Mật khẩu phải chứa ít nhất 6 ký tự, có ít nhất 1 chữ cái in hoa, 1 số, và 1 ký tự đặc biệt.',
+            'confirm_password.same' => 'Mật khẩu xác nhận không khớp.',
+            'confirm_password.required' => 'Trường xác nhận mật khẩu không được để trống.',
+        ];
+    
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|regex:/^(?!\s)(?!.*\s{2,})[a-zA-Z0-9\s]+(?<!\s)$/',
+            'email' => 'required|email|unique:users,email',
+            'password' => [
+                'required',
+                'regex:/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/'
+            ],
+            'confirm_password' => 'required|same:password',
+        ], $messages);
 
-    $validator = Validator::make($request->all(), [
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:5',
-        'confirm_password' => 'required|same:password',
-    ], $messages);
+        if ($validator->passes()) {
+            $user = new User();
+            $user->fullname = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role = $request->input('role', 'user');
+            $user->save();
 
-    if ($validator->passes()) {
-        $user = new User();
-        $user->fullname = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+            session()->flash('success', 'Bạn đã đăng ký thành công.');
 
-        session()->flash('success', 'Bạn đã đăng ký thành công.');
-
-        return response()->json([
-            'status' => true,
-            'errors' => []
-        ]);
-    } else {
-        return response()->json([
-            'status' => false,
-            'errors' => $validator->errors()
-        ]);
-    }
+            return response()->json([
+                'status' => true,
+                'errors' => []
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 
 
