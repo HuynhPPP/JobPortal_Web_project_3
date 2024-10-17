@@ -19,19 +19,23 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class AccountController extends Controller
 {
-    // Show user registration page
     public function registration() {
         return view('front.account.registration');
     }
 
-    // Save a user
     public function processRegistration(Request $request){
+        $request->merge([
+            'name' => preg_replace('/\s+/', ' ', trim($request->input('name'))),
+        ]);
+
         $messages = [
             'name.required' => 'Trường họ và tên không được để trống.',
-            'name.regex' => 'Tên người dùng chỉ được phép bao gồm các chữ cái và số',
+            'name.min' => 'Tên người dùng phải chứa ít nhất 6 ký tự.',
+            'name.max' => 'Tên người dùng chỉ chứa tối đa 18 ký tự.',
+            'name.regex' => 'Tên người dùng không hợp lệ.',
             'email.required' => 'Trường email không được để trống.',
             'email.email' => 'Email không hợp lệ.',
-            'email.unique' => 'Email đã tồn tại.',
+            'email.unique' => 'Email này đã được đăng ký.',
             'password.required' => 'Trường mật khẩu không được để trống.',
             'password.regex' => 'Mật khẩu phải chứa ít nhất 6 ký tự, có ít nhất 1 chữ cái in hoa, 1 số, và 1 ký tự đặc biệt.',
             'confirm_password.same' => 'Mật khẩu xác nhận không khớp.',
@@ -39,7 +43,7 @@ class AccountController extends Controller
         ];
     
         $validator = Validator::make($request->all(), [
-            'name' => 'required|regex:/^(?!\s)(?!.*\s{2,})[a-zA-Z0-9\s]+(?<!\s)$/',
+            'name' => 'required|min:6|max:18|regex:/^(?!\s)(?!.*\s{2,})(?<!\s)/',
             'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
@@ -122,38 +126,50 @@ class AccountController extends Controller
     }
 
     public function updateProfile(Request $request) {
-        // Lấy thông tin người dùng hiện tại
+
         $id = Auth::user()->id;
         $currentEmail = Auth::user()->email;
+        $currentMobile = Auth::user()->mobile;
+
+        $request->merge([
+            'name' => preg_replace('/\s+/', ' ', trim($request->input('name'))),
+        ]);
     
-        // Khởi tạo mảng quy tắc xác thực
         $rules = [
-            'name' => 'required|min:5|max:20',
+            'name.required' => 'Trường họ và tên không được để trống.',
+            'name.min' => 'Tên người dùng phải chứa ít nhất 6 ký tự.',
+            'name.max' => 'Tên người dùng chỉ chứa tối đa 18 ký tự.',
+            'name.regex' => 'Tên người dùng không hợp lệ.',
         ];
     
-        // Nếu email mới khác email hiện tại, áp dụng quy tắc unique
+        
         if ($request->email !== $currentEmail) {
             $rules['email'] = 'required|email|unique:users,email,' . $id . ',id';
         } else {
             $rules['email'] = 'required|email';
         }
+
+        if ($request->mobile !== $currentMobile) {
+            $rules['mobile'] = 'numeric|unique:users,mobile,' . $id . ',id';
+        } else {
+            $rules['mobile'] = 'numeric';
+        }
     
-        // Tùy chỉnh thông báo lỗi bằng tiếng Việt
         $messages = [
-            'name.required' => 'Trường tên không được để trống.',
-            'name.min' => 'Tên phải có ít nhất 5 ký tự.',
-            'name.max' => 'Tên không được vượt quá 20 ký tự.',
+            'name.required' => 'Trường họ và tên không được để trống.',
+            'name.min' => 'Tên người dùng phải chứa ít nhất 6 ký tự.',
+            'name.max' => 'Tên người dùng chỉ chứa tối đa 18 ký tự.',
+            'name.regex' => 'Tên người dùng không hợp lệ.',
             'email.required' => 'Trường email không được để trống.',
             'email.email' => 'Email phải đúng định dạng.',
             'email.unique' => 'Email này đã được sử dụng.',
+            'mobile.numeric' => 'Số điện thoại phải là số.',
+            'mobile.unique' => 'Số điện thoại này đã được sử dụng.',
         ];
     
-        // Tiến hành xác thực dữ liệu
         $validator = Validator::make($request->all(), $rules, $messages);
     
-        // Nếu xác thực thành công
         if ($validator->passes()) {
-            // Tìm người dùng theo ID và cập nhật thông tin
             $user = User::find($id);
             $user->fullname = $request->name;
             $user->email = $request->email;
@@ -161,7 +177,6 @@ class AccountController extends Controller
             $user->designation = $request->designation;
             $user->save();
     
-            // Đặt thông báo thành công và trả về JSON
             session()->flash('toastr', ['success' => 'Cập nhật thành công']);
     
             return response()->json([
@@ -170,7 +185,6 @@ class AccountController extends Controller
             ]);
     
         } else {
-            // Nếu xác thực thất bại, trả về lỗi
             session()->flash('toastr', value: ['warning' => 'Cập nhật chưa được thay đổi !']);
     
             return response()->json([
@@ -524,16 +538,21 @@ class AccountController extends Controller
     public function updatePassword(Request $request) {
         $rules = [
             'old_password' => 'required',
-            'new_password' => 'required|min:5',
+            'new_password' => [
+                'required',
+                'regex:/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/'
+            ],
             'confirm_password' => 'required|same:new_password',
         ];
-
+        
         $messages = [
             'old_password.required' => 'Bạn chưa nhập mật khẩu cũ.',
             'new_password.required' => 'Bạn chưa nhập mật khẩu mới.',
+            'new_password.regex' => 'Mật khẩu phải tối thiểu 6 ký tự và chứa ít nhất 1 chữ cái in hoa, 1 số, và 1 ký tự đặc biệt.',
             'confirm_password.required' => 'Bạn chưa nhập lại mật khẩu mới.',
             'confirm_password.same' => 'Mật khẩu xác nhận không khớp với mật khẩu mới.',
         ];
+        
         
         $validator = Validator::make($request->all(), $rules, $messages);
 

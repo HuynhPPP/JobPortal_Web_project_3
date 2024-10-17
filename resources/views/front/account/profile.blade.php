@@ -63,6 +63,7 @@
                                     class="form-control"
                                     value="{{ $user->mobile }}"
                                     >
+                                <p></p>
                             </div>                        
                         </div>
                         <div class="card-footer  p-4">
@@ -126,6 +127,11 @@
                         .removeClass('invalid-feedback')
                         .html('');
 
+                    $("#mobile").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+
                         window.location.href="{{ route("account.profile") }}";
                 } else {
                     var errors = response.errors;
@@ -150,6 +156,19 @@
                         .html(errors.email);
                     } else {
                         $("#email").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+                    }
+
+                     // Mobile
+                     if (errors.mobile) {
+                        $("#mobile").addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(errors.mobile);
+                    } else {
+                        $("#mobile").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
