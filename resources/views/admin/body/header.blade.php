@@ -45,7 +45,7 @@
           <button class="topbar-link dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,25"
             type="button" data-bs-auto-close="outside" aria-haspopup="false" aria-expanded="false">
             <i class="ti ti-bell animate-ring fs-22"></i>
-            {!! file_get_contents(public_path("admin/icon/bell.svg")) !!}
+            {!! file_get_contents(public_path('admin/icon/bell.svg')) !!}
           </button>
           <div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg" style="min-height: 300px;">
             <div class="p-3 border-bottom border-dashed">
@@ -229,24 +229,20 @@
         <div class="dropdown">
           <a class="topbar-link dropdown-toggle drop-arrow-none px-2" data-bs-toggle="dropdown" data-bs-offset="0,19"
             type="button" aria-haspopup="false" aria-expanded="false">
-            <img src="{{ asset("admin/images/users/avatar-1.jpg") }}" width="32"
-              class="rounded-circle me-lg-2 d-flex" alt="user-image">
+            <img
+              src="{{ Auth::user()->image ? asset('admin/upload/profile/' . Auth::user()->image) : asset('admin/images/avatar-default.png') }}"
+              width="32" class="rounded-circle me-lg-2 d-flex" alt="user-image">
             <span class="d-lg-flex flex-column gap-1 d-none">
-              <h5 class="my-0">Dhanoo K.</h5>
-              <h6 class="my-0 fw-normal">Premium</h6>
+              <h5 class="my-0">{{ Auth::user()->fullname }}</h5>
+              <h6 class="my-0 fw-normal text-capitalize">{{ Auth::user()->role }}</h6>
             </span>
             <i class="ti ti-chevron-down d-none d-lg-block align-middle ms-2"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <!-- item-->
-            <div class="dropdown-header noti-title">
-              <h6 class="text-overflow m-0">Welcome !</h6>
-            </div>
-
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">
+            <a href="{{ route('admin.profile') }}" class="dropdown-item">
               <i class="ti ti-user-hexagon me-1 fs-17 align-middle"></i>
-              <span class="align-middle">My Account</span>
+              <span class="align-middle">Tài khoản</span>
             </a>
 
             <!-- item-->
@@ -276,13 +272,20 @@
             </a>
 
             <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item active fw-semibold text-danger">
+            <a href="{{ route('account.logout') }}" class="dropdown-item active fw-semibold text-danger">
               <i class="ti ti-logout me-1 fs-17 align-middle"></i>
-              <span class="align-middle">Sign Out</span>
+              <span class="align-middle">Đăng xuất</span>
             </a>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  {{-- <button type="button" id="sweetalert-info" class="btn btn-info">Toggle Info</button>
+  <button type="button" id="sweetalert-warning" class="btn btn-warning">Toggle Warning</button>
+  <button type="button" id="sweetalert-error" class="btn btn-danger">Toggle Error</button>
+  <button type="button" id="sweetalert-success" class="btn btn-success">Toggle Success</button>
+  <button type="button" id="sweetalert-question" class="btn btn-primary">Toggle Question</button> --}}
+
 </header>

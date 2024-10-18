@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AccountController as AdminAccountController;
 use App\Http\Controllers\admin\EmployerController;
 use App\Http\Controllers\admin\JobApplyController;
 use App\Http\Controllers\admin\JobController;
@@ -48,9 +49,13 @@ Route::delete('admin/delete-employer/{id}', [EmployerController::class, 'deleteE
 
 Route::get('/admin/apply-job', [JobApplyController::class, 'index'])->name('admin.apply.job');
 Route::delete('/admin/delete-apply-job/{id}', [JobApplyController::class, 'deleteApllyJob'])->name('admin.delete.applyjob');
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+Route::get('/admin/profile', [AdminAccountController::class, 'profile'])->name('admin.profile');
+Route::put('/admin/profile/update', [AdminAccountController::class, 'updateProfile'])->name('admin.updateProfile');
+Route::post('/admin/profile', [AdminAccountController::class, 'updateImageProfile'])->name('admin.updateImageProfile');
+Route::post('/admin/change-password', [AdminAccountController::class, 'changePassword'])->name('admin.changePassword');
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/jobs', [JobsController::class, 'index'])->name('jobs');

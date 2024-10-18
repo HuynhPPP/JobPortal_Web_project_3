@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap);
 :root {
     --osen-logo-lg-height: 20px;
     --osen-logo-sm-height: 20px;
@@ -3168,7 +3167,7 @@ textarea.form-control-lg {
 .was-validated :valid ~ .valid-tooltip {
     display: block;
 }
-.form-control.is-valid,
+/* .form-control.is-valid,
 .was-validated .form-control:valid {
     border-color: var(--osen-form-valid-border-color);
     padding-right: calc(1.5em + 1rem);
@@ -3176,24 +3175,24 @@ textarea.form-control-lg {
     background-repeat: no-repeat;
     background-position: right calc(0.375em + 0.25rem) center;
     background-size: calc(0.75em + 0.5rem) calc(0.75em + 0.5rem);
-}
-.form-control.is-valid:focus,
+} */
+/* .form-control.is-valid:focus,
 .was-validated .form-control:valid:focus {
     border-color: var(--osen-form-valid-border-color);
     -webkit-box-shadow: 0 0 0 0 rgba(var(--osen-success-rgb), 0.25);
     box-shadow: 0 0 0 0 rgba(var(--osen-success-rgb), 0.25);
-}
+} */
 .was-validated textarea.form-control:valid,
 textarea.form-control.is-valid {
     padding-right: calc(1.5em + 1rem);
     background-position: top calc(0.375em + 0.25rem) right
         calc(0.375em + 0.25rem);
 }
-.form-select.is-valid,
+/* .form-select.is-valid,
 .was-validated .form-select:valid {
     border-color: var(--osen-form-valid-border-color);
-}
-.form-select.is-valid:not([multiple]):not([size]),
+} */
+/* .form-select.is-valid:not([multiple]):not([size]),
 .form-select.is-valid:not([multiple])[size="1"],
 .was-validated .form-select:valid:not([multiple]):not([size]),
 .was-validated .form-select:valid:not([multiple])[size="1"] {
@@ -3201,34 +3200,34 @@ textarea.form-control.is-valid {
     padding-right: 4.235rem;
     background-position: right 0.77rem center, center right 2.31rem;
     background-size: 14px 10px, calc(0.75em + 0.5rem) calc(0.75em + 0.5rem);
-}
-.form-select.is-valid:focus,
+} */
+/* .form-select.is-valid:focus,
 .was-validated .form-select:valid:focus {
     border-color: var(--osen-form-valid-border-color);
     -webkit-box-shadow: 0 0 0 0 rgba(var(--osen-success-rgb), 0.25);
     box-shadow: 0 0 0 0 rgba(var(--osen-success-rgb), 0.25);
-}
-.form-control-color.is-valid,
+} */
+/* .form-control-color.is-valid,
 .was-validated .form-control-color:valid {
     width: calc(3rem + calc(1.5em + 1rem));
-}
-.form-check-input.is-valid,
+} */
+/* .form-check-input.is-valid,
 .was-validated .form-check-input:valid {
     border-color: var(--osen-form-valid-border-color);
-}
-.form-check-input.is-valid:checked,
+} */
+/* .form-check-input.is-valid:checked,
 .was-validated .form-check-input:valid:checked {
     background-color: var(--osen-form-valid-color);
-}
-.form-check-input.is-valid:focus,
+} */
+/* .form-check-input.is-valid:focus,
 .was-validated .form-check-input:valid:focus {
     -webkit-box-shadow: 0 0 0 0 rgba(var(--osen-success-rgb), 0.25);
     box-shadow: 0 0 0 0 rgba(var(--osen-success-rgb), 0.25);
-}
-.form-check-input.is-valid ~ .form-check-label,
+} */
+/* .form-check-input.is-valid ~ .form-check-label,
 .was-validated .form-check-input:valid ~ .form-check-label {
     color: var(--osen-form-valid-color);
-}
+} */
 .form-check-inline .form-check-input ~ .valid-feedback {
     margin-left: 0.5em;
 }
@@ -3241,7 +3240,7 @@ textarea.form-control.is-valid {
     z-index: 3;
 }
 .invalid-feedback {
-    display: none;
+    /* display: none; */
     width: 100%;
     margin-top: 0.25rem;
     font-size: 0.75rem;
