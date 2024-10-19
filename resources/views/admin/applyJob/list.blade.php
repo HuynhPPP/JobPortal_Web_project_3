@@ -60,11 +60,11 @@
                       @endif
                     </td>
                     <td class="text-muted">
-                      <form class="d-inline" method="POST" action="{{ route('admin.delete.applyjob', $item->id) }}">
+                      <form id="deleteForm" class="d-inline" method="POST"
+                        action="{{ route('admin.delete.applyjob', $item->id) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                          class="link-reset fs-20 p-1 border-0 bg-transparent">
+                        <button type="button" class="link-reset fs-20 p-1 border-0 bg-transparent delete">
                           {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
                       </form>
                     </td>

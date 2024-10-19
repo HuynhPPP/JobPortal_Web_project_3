@@ -281,11 +281,4 @@
       </div>
     </div>
   </div>
-
-  {{-- <button type="button" id="sweetalert-info" class="btn btn-info">Toggle Info</button>
-  <button type="button" id="sweetalert-warning" class="btn btn-warning">Toggle Warning</button>
-  <button type="button" id="sweetalert-error" class="btn btn-danger">Toggle Error</button>
-  <button type="button" id="sweetalert-success" class="btn btn-success">Toggle Success</button>
-  <button type="button" id="sweetalert-question" class="btn btn-primary">Toggle Question</button> --}}
-
 </header>

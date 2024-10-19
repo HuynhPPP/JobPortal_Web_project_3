@@ -92,12 +92,12 @@
                       <a href="{{ route('admin.getEditCareer.career', ['id' => $item->id]) }}"
                         class="link-reset fs-20 p-1">
                         {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                      <form class="d-inline" method="POST" action="{{ route('admin.deleteCareer.career', $item->id) }}">
+                      <form id="deleteForm" class="d-inline" method="POST"
+                        action="{{ route('admin.deleteCareer.career', $item->id) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                          class="link-reset fs-20 p-1 border-0 bg-transparent">
-                          {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
+                        <button type="button" class="delete link-reset fs-20 p-1 border-0 bg-transparent">
+                          {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</button>
                       </form>
                     </td>
                   </tr>
@@ -115,4 +115,9 @@
     </div>
   </div>
   </div>
+@endsection
+@section('customJs')
+  <script>
+    let url = "{{ route('admin.career') }}";
+  </script>
 @endsection

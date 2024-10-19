@@ -111,12 +111,12 @@
                     <td class="text-muted">
                       <a href="{{ route('admin.edit.user', $user->id) }}" class="link-reset fs-20 p-1">
                         {!! file_get_contents(public_path('admin/icon/pencil.svg')) !!}</i></a>
-                      <form class="d-inline" method="POST" action="{{ route('admin.delete.user', $user->id) }}">
+                      <form id="deleteForm" class="d-inline" method="POST"
+                        action="{{ route('admin.delete.user', $user->id) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                          class="link-reset fs-20 p-1 border-0 bg-transparent">
-                          {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</i></button>
+                        <button type="button" class="link-reset fs-20 p-1 border-0 bg-transparent delete">
+                          {!! file_get_contents(public_path('admin/icon/trash.svg')) !!}</button>
                       </form>
                     </td>
                   </tr>
