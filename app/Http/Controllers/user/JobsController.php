@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Mail;
 
 class JobsController extends Controller
 {
-    // Show find job page
+    
     public function index(Request $request) {
 
         $careers = Careers::where('status', 1)->get();
@@ -75,7 +75,7 @@ class JobsController extends Controller
         ]);
     }
 
-    // Show job detail page
+   
     public function detail($id) {
         
 
@@ -98,14 +98,12 @@ class JobsController extends Controller
 
         $userHasApplied = false;  
         if (Auth::check()) {
-            // Kiểm tra xem người dùng đã nộp đơn xin việc chưa
             $userHasApplied = JobApplication::where([
                 'user_id' => Auth::user()->id,
                 'job_id' => $id
             ])->count();
         }
 
-        // Fetch applications
         $applications = JobApplication::where('job_id',$id)->with('user')->get();
 
         
@@ -128,7 +126,6 @@ class JobsController extends Controller
             abort(404);
         }
 
-        // Fetch applications
         $applications = JobApplication::where('job_id',$id)->with('user')->get();
 
         

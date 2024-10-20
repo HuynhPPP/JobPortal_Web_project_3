@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use App\Mail\ResetPasswordEmail;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Str;
 
 
 class AccountController extends Controller
@@ -578,5 +582,95 @@ class AccountController extends Controller
             return response()->json([
                 'status' => true,
             ]);
+    }
+
+    public function forgotPassword() {
+        return view('front.account.forgot-pass');
+    }
+
+    public function processForgotPassword(Request $request) {
+        $messages = [
+            'email.required' => 'Trường email không được để trống.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.exists' => 'Email không tồn tại.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ],$messages);
+
+        if ($validator->fails()) {
+            return redirect()->route('account.forgotPassword')->withInput()->withErrors($validator);
+        }
+
+        $token = Str::random(60);
+
+        \DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+        \DB::table('password_reset_tokens')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        $mailData = [
+            'token' => $token,
+            'user' => $user,
+            'subject' => 'Bạn đã gửi yêu cầu lấy lại mật khẩu.',
+        ];
+        Mail::to($request->email)->send(new ResetPasswordEmail($mailData));
+
+        return redirect()->route('account.forgotPassword')->with('success', 'Yêu cầu lấy lại mật khẩu đã được gửi đến email của bạn.');
+        
+    }
+
+    public function resetPassword($tokenString) {
+       $token = \DB::table('password_reset_tokens')->where('token', $tokenString)->first();
+
+       if ($token == null) {
+        return redirect()->route('account.forgotPassword')->with('error', 'Có lỗi đã xảy ra! Vui lòng kiểm tra lại.');
+       }
+
+       return view('front.account.reset-password', [
+            'tokenString' => $tokenString,
+       ]);
+    }
+
+    public function processResetPassword(Request $request) {
+
+        $token = \DB::table('password_reset_tokens')->where('token', $request->token)->first();
+
+       if ($token == null) {
+        return redirect()->route('account.forgotPassword')->with('error', 'Có lỗi đã xảy ra! Vui lòng kiểm tra lại.');
+       }
+
+        $rules = [
+            'new_password' => [
+                'required',
+                'regex:/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/'
+            ],
+            'confirm_password' => 'required|same:new_password',
+        ];
+        
+        $messages = [
+            'new_password.required' => 'Bạn chưa nhập mật khẩu mới.',
+            'new_password.regex' => 'Mật khẩu phải tối thiểu 6 ký tự và chứa ít nhất 1 chữ cái in hoa, 1 số, và 1 ký tự đặc biệt.',
+            'confirm_password.required' => 'Bạn chưa nhập lại mật khẩu mới.',
+            'confirm_password.same' => 'Mật khẩu xác nhận không khớp với mật khẩu mới.',
+        ];
+        
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->route('account.resetPassword', $request->token)->withErrors($validator);
+        }
+
+        User::where('email',$token->email)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return redirect()->route('account.login')->with('success', 'Cập nhật mật khẩu thành công.');
     }
 }

@@ -50,7 +50,7 @@
 
 <section class="section-2 bg-2 py-5">
     <div class="container">
-        <h2>Công việc phổ biến</h2>
+        <h2>Ngành nghề phổ biến</h2>
         <div class="row pt-5">
             @if ($careers->isNotEmpty())
                 @foreach ($careers as $career)
@@ -125,7 +125,11 @@
                                             </div>
 
                                             <div class="d-grid mt-3">
-                                                <a href="{{ route('jobDetail',$featureJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                @if (Auth::check() && Auth::user()->role === 'employer')
+                                                    <a href="{{ route('JobDetail_employer',$featureJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                @else
+                                                    <a href="{{ route('jobDetail',$featureJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                @endif       
                                             </div>
                                         </div>
                                     </div>
