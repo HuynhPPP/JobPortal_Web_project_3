@@ -22,7 +22,7 @@
     <div class="col-xl-5">
       <div class="card">
         <div class="d-flex card-header justify-content-between align-items-center">
-          <h4 class="header-title">Tạo mới</h4>
+          <h4 class="header-title">Thêm mới</h4>
         </div>
       </div>
       <div class="card-body">
@@ -51,6 +51,13 @@
                 <option value="0">Tạm dừng</option>
               </select>
               <span class="invalid-feedback">{{ $errors->first('status') }}</span>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="isPopular" id="isPopular"
+                  value="{{ env('POPULAR') }}">
+                <label class="form-check-label" for="isPopular">Phổ biến</label>
+              </div>
             </div>
             <button class="btn btn-primary" type="submit">Xử lý</button>
           </form>

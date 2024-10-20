@@ -32,7 +32,7 @@
       <li class="side-nav-item">
         <a href="{{ route('admin.career') }}" class="side-nav-link">
           <span class="menu-icon">
-            {!! file_get_contents(public_path('admin/icon/dashboard.svg')) !!}
+            {!! file_get_contents(public_path('admin/icon/category.svg')) !!}
           </span>
           <span class="menu-text"> Ngành nghề </span>
         </a>
@@ -40,7 +40,7 @@
       <li class="side-nav-item">
         <a href="{{ route('admin.job') }}" class="side-nav-link">
           <span class="menu-icon">
-            {!! file_get_contents(public_path('admin/icon/dashboard.svg')) !!}
+            {!! file_get_contents(public_path('admin/icon/briefcase-2.svg')) !!}
           </span>
           <span class="menu-text"> Việc làm </span>
         </a>
@@ -49,7 +49,7 @@
       <li class="side-nav-item">
         <a href="{{ route('admin.user') }}" class="side-nav-link">
           <span class="menu-icon">
-            {!! file_get_contents(public_path('admin/icon/dashboard.svg')) !!}
+            {!! file_get_contents(public_path('admin/icon/users.svg')) !!}
           </span>
           <span class="menu-text"> Ứng viên </span>
         </a>
@@ -57,7 +57,7 @@
       <li class="side-nav-item">
         <a href="{{ route('admin.employer') }}" class="side-nav-link">
           <span class="menu-icon">
-            {!! file_get_contents(public_path('admin/icon/dashboard.svg')) !!}
+            {!! file_get_contents(public_path('admin/icon/building.svg')) !!}
           </span>
           <span class="menu-text"> Nhà tuyển dụng </span>
         </a>
@@ -65,7 +65,7 @@
       <li class="side-nav-item">
         <a href="{{ route('admin.apply.job') }}" class="side-nav-link">
           <span class="menu-icon">
-            {!! file_get_contents(public_path('admin/icon/dashboard.svg')) !!}
+            {!! file_get_contents(public_path('admin/icon/file-cv.svg')) !!}
           </span>
           <span class="menu-text"> Ứng tuyển </span>
         </a>

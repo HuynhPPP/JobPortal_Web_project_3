@@ -40,6 +40,7 @@ class CareerController extends Controller
       $careers = new Career();
       $careers->name = $request->name;
       $careers->status = $request->status;
+      $careers->isPopular = $request->isPopular ? $request->isPopular : '0';
       $careers->save();
       toastr()->success('Bạn đã thêm thành công.', ' ');
       return redirect()->back();
@@ -87,6 +88,7 @@ class CareerController extends Controller
       $career =  Career::find($id);
       $career->name = $request->name;
       $career->status = $request->status;
+      $career->isPopular = $request->isPopular ? $request->isPopular : '0';
       $career->save();
       toastr()->success("Cập nhật thành công.", ' ');
       return redirect()->back();

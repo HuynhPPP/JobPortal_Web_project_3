@@ -51,6 +51,13 @@
               </select>
               <span class="invalid-feedback">{{ $errors->first('status') }}</span>
             </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input {{ $career->isPopular == env('POPULAR') ? 'checked' : '' }} type="checkbox"
+                  class="form-check-input" name="isPopular" id="isPopular" value="{{ env('POPULAR') }}">
+                <label class="form-check-label" for="isPopular">Phổ biến</label>
+              </div>
+            </div>
             <button class="btn btn-primary" type="submit">Cập nhật</button>
           </form>
         </div>
@@ -60,6 +67,9 @@
       <div class="card">
         <div class="d-flex card-header justify-content-between align-items-center">
           <h4 class="header-title">Danh sách</h4>
+          <a href="{{ route('admin.career') }}" class="btn btn-primary">
+            {!! file_get_contents(public_path('admin/icon/plus.svg')) !!}
+            Thêm mới</a>
         </div>
       </div>
       <div class="card-body">
