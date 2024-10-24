@@ -10,6 +10,7 @@ use App\Http\Controllers\user\AccountController;
 use App\Http\Controllers\user\JobsController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\CareerController;
+use App\Http\Controllers\admin\FileDownloadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,7 +55,7 @@ Route::get('/admin/profile', [AdminAccountController::class, 'profile'])->name('
 Route::put('/admin/profile/update', [AdminAccountController::class, 'updateProfile'])->name('admin.updateProfile');
 Route::post('/admin/profile', [AdminAccountController::class, 'updateImageProfile'])->name('admin.updateImageProfile');
 Route::post('/admin/change-password', [AdminAccountController::class, 'changePassword'])->name('admin.changePassword');
-
+Route::get('/download/{filename}', [FileDownloadController::class, 'download'])->name('download');
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

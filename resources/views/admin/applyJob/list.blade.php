@@ -35,6 +35,7 @@
                 <tr>
                   <th>ID</th>
                   <th>Công việc</th>
+                  <th>CV</th>
                   <th>Ứng viên</th>
                   <th>Nhà tuyển dụng</th>
                   <th>Hình thức làm việc</th>
@@ -48,6 +49,7 @@
                   <tr>
                     <td>{{ $item->id }}</td>
                     <td>{{ $item->job->title }}</td>
+                    <td><a href="{{ route('download', $item->cv_path) }}">{!! file_get_contents(public_path('admin/icon/file-download.svg')) !!}</a></td>
                     <td>{{ $item->user->fullname }}</td>
                     <td>{{ $item->employer->fullname }}</td>
                     <td>{{ $item->job->jobType->name }}</td>
