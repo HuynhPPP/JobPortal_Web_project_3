@@ -10,14 +10,11 @@
   <meta name="HandheldFriendly" content="True" />
   <meta name="pinterest" content="nopin" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" /> --}}
   <link rel="stylesheet" href="{{ asset("assets/user/css/font-awesome.css") }}"/>
-  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"/> --}}
   <link rel="stylesheet" href="{{ asset('assets/user/trumbowyg/trumbowyg.min.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ asset("assets/user/css/style.css") }}" />
-  {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
   <link rel="stylesheet" href="{{ asset("assets/user/css/toastr.min.css") }}"/>
-  <!-- Fav Icon -->
+  
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
 </head>
 
@@ -87,9 +84,8 @@
   <script src="{{ asset("assets/user/js/instantpages.5.1.0.min.js") }}"></script>
   <script src="{{ asset("assets/user/js/lazyload.17.6.0.min.js") }}"></script>
   <script src="{{ asset("assets/user/js/custom.js") }}"></script>
-  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"></script> --}}
+  <script src="https://esgoo.net/scripts/jquery.js"></script>
   <script src="{{ asset('assets/user/trumbowyg/trumbowyg.min.js') }}"></script>
-  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
   <script src="{{ asset("assets/user/js/toastr.min.js") }}"></script>
 
   @if (session()->has("toastr"))

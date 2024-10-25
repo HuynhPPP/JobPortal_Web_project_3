@@ -192,9 +192,9 @@
                                 </li>
                                 <li>
                                     @if (empty($job->jobType->name))
-                                        Loại hợp đồng: <span style="color: red">chưa cập nhật</span>
+                                        Hình thức làm việc: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Loại hợp đồng: <span> {{ $job->jobType->name }}</span>
+                                        Hình thức làm việc: <span> {{ $job->jobType->name }}</span>
                                     @endif
                                 </li>
                                 <li>

@@ -168,7 +168,7 @@
                             <h3 class="fs-4 mb-1 mt-5 border-top pt-5">Chi tiết công ty</h3>
                 
                             <div class="row">
-                                <div class="mb-4 col-md-6">
+                                <div class="mb-4">
                                     <label for="" class="mb-2">Tên công ty<span class="req">*</span></label>
                                     <input 
                                         type="text" 
@@ -181,17 +181,40 @@
                                     <p></p>
                                 </div>
                 
-                                <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Vị trí công ty</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Nhập vị trí công ty..." 
-                                        id="company_location" 
-                                        name="company_location" 
-                                        class="form-control"
-                                        value="{{ $job->company_location }}"
-                                    >
+                                <div class="mb-4">
+                                    <label for="address" class="form-label">Địa chỉ</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" id="province" name="province">
+                                            @if(!empty($job->province))
+                                                <option selected>{{ $job->province }}</option>
+                                            @else
+                                                <option selected>Chọn tỉnh / thành</option>
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="province_name" name="province_name">
+                                
+                                        <select class="form-select" id="district" name="district">
+                                            @if(!empty($job->district))
+                                                <option selected>{{ $job->district }}</option>
+                                            @else
+                                                <option selected>Chọn tỉnh / thành</option>
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="district_name" name="district_name">
+                                
+                                        <select class="form-select" id="wards" name="wards">
+                                            @if(!empty($job->wards))
+                                                <option selected>{{ $job->wards }}</option>
+                                            @else
+                                                <option selected>Chọn tỉnh / thành</option>
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="ward_name" name="ward_name">
+                                    </div>
+                                    <label for="" class="mb-2">Địa chỉ chi tiết</label>
+                                    <input type="text" class="form-control" id="location_detail" name="location_detail" placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội" value="{{ $job->location_detail }}">
                                 </div>
+                                
                             </div>
                 
                             <div class="mb-4">
@@ -376,5 +399,63 @@
             }
         });
     });
+</script>
+
+<script>
+    $(document).ready(function() {
+    $.getJSON('/api/proxy/provinces', function(data_tinh) {
+        if (data_tinh.error === 0) {
+            $.each(data_tinh.data, function(key_tinh, val_tinh) {
+                $("#province").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+            });
+
+           
+
+            // Khi chọn tỉnh
+            $("#province").change(function(e) {
+                var idtinh = $(this).val();
+                var tentinh = $("#province option:selected").text();
+                $("#province_name").val(tentinh); // Lưu tên tỉnh
+
+                $.getJSON('/api/proxy/districts/' + idtinh, function(data_quan) {
+                    if (data_quan.error === 0) {
+                        $("#district").html('<option value="0">Chọn Quận / Huyện</option>');
+                        $("#wards").html('<option value="0">Chọn Phường / Xã</option>');
+
+                        $.each(data_quan.data, function(key_quan, val_quan) {
+                            $("#district").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                        });
+
+                        
+
+                        // Khi chọn quận
+                        $("#district").change(function(e) {
+                            var idquan = $(this).val();
+                            var tenquan = $("#district option:selected").text();
+                            $("#district_name").val(tenquan); // Lưu tên huyện
+
+                            $.getJSON('/api/proxy/wards/' + idquan, function(data_phuong) {
+                                if (data_phuong.error === 0) {
+                                    $("#wards").html('<option value="0">Chọn Phường / Xã</option>');
+                                    $.each(data_phuong.data, function(key_phuong, val_phuong) {
+                                        $("#wards").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                    });
+
+                                   
+
+                                    // Khi chọn xã
+                                    $("#wards").change(function(e) {
+                                        var tenxa = $("#wards option:selected").text();
+                                        $("#ward_name").val(tenxa); // Lưu tên xã
+                                    });
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+        }
+    });
+});
 </script>
 @endsection

@@ -289,7 +289,7 @@ class AccountController extends Controller
             'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
             'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
             'category.required' => 'Ngành nghề không được bỏ trống.',
-            'jobType.required' => 'hình thức làm việc không được bỏ trống.',
+            'jobType.required' => 'Hình thức làm việc không được bỏ trống.',
             'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
             'level.required' => 'Vị trí cần tuyển không được để trống.',
@@ -320,7 +320,10 @@ class AccountController extends Controller
             $job->keywords = $request->keywords;
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
-            $job->company_location = $request->company_location;
+            $job->province = $request->province_name;
+            $job->district = $request->district_name;
+            $job->wards = $request->ward_name;
+            $job->location_detail = $request->location_detail;
             $job->company_website = $request->company_website;
             $job->status = "0";
             $job->save();
@@ -391,7 +394,7 @@ class AccountController extends Controller
             'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
             'title.max' => 'Tiêu đề không được dài hơn 200 ký tự.',
             'category.required' => 'Ngành nghề không được bỏ trống.',
-            'jobType.required' => 'Loại công việc không được bỏ trống.',
+            'jobType.required' => 'Hình thức làm việc không được bỏ trống.',
             'vacancy.required' => 'Số lượng tuyển không được bỏ trống.',
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
             'level.required' => 'Vị trí cần tuyển không được để trống.',
@@ -421,7 +424,10 @@ class AccountController extends Controller
             $job->keywords = $request->keywords;
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
-            $job->company_location = $request->company_location;
+            $job->province = $request->province_name;
+            $job->district = $request->district_name;
+            $job->wards = $request->ward_name;
+            $job->location_detail = $request->location_detail;
             $job->company_website = $request->company_website;
             $job->save();
 
