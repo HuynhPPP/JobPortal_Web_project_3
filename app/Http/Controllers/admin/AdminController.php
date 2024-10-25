@@ -31,15 +31,15 @@ class AdminController extends Controller
     $totalEmployers = User::where('role', 'employer')->count();
     $totalApplications = JobApplication::count();
     $totalSavedJobs = SavedJob::count();
-    $totalCareers = Career::count();
-    $featuredJobs = Job::where('isFeatured', 1)->take(5)->get();
+    $isPopularCareers = Career::where('isPopular', env('POPULAR'))->paginate(5, ['*'], 'popular_career');
+    $featuredJobs = Job::where('isFeatured', 1)->with('career')->paginate(5, ['*'], 'featured_jobs');
     return view('admin.index', compact(
       'totalJobs',
       'totalUsers',
       'totalEmployers',
       'totalApplications',
       'totalSavedJobs',
-      'totalCareers',
+      'isPopularCareers',
       'featuredJobs',
     ));
   }
