@@ -28,12 +28,21 @@
 
                         <div class="mb-4">
                             <h2>Địa điểm</h2>
-                            <input value="{{ Request::get('location') }}" type="text" name="location" id="location" placeholder="Nhập địa điểm..." class="form-control">
+                            <select class="form-select" id="province" name="province">
+                                <option selected>Chọn tỉnh / thành</option>
+                                {{-- @foreach($jobs as $job)
+                                    <option
+                                        {{ Request::get('province') == $job->province ? 'selected' : '' }}>
+                                        {{ $job->province }}
+                                    </option>
+                                @endforeach --}}
+                            </select>
+                            <input type="hidden" id="province_name" name="province_name" value="{{ Request::get('province_name') }}">
                         </div>
 
                         <div class="mb-4">
                             <h2>Ngành nghề</h2>
-                            <select name="career" id="career" class="form-control">
+                            <select name="career" id="career" class="form-select">
                                 <option value="">Chọn ngành nghề</option>
                                 @if ($careers->isNotEmpty())
                                     @foreach ($careers as $career)
@@ -147,7 +156,26 @@
                                     </div>   
                                 @endforeach
                             @else
-                                <h5 class="col-md-12">Không tìm thấy công việc</h5>
+                            <div class="col-md-12">
+                                <div class="card-error-find">
+                                 <div class="card-body-error-find">
+                                  <img alt="Illustration of a piggy bank with a magnifying glass" 
+                                    height="100" 
+                                    src="https://storage.googleapis.com/a1aa/image/wbdDxuRHo2aDNtL5eFnlzmLSJ5fXAOdRDeHnXiZSLwjffvSdC.jpg" 
+                                    width="100"/>
+                                  <div class="text-content">
+                                   <h5>
+                                    Oops! Không tìm thấy công việc phù hợp
+                                   </h5>
+                                   <p>
+                                    TopWork chưa tìm thấy công việc bạn tìm kiếm vào lúc này.
+                                    <br/>
+                                    Thử lại bằng cách áp dụng từ khóa và bộ lọc khác.
+                                   </p>
+                                  </div>
+                                 </div>
+                                </div>
+                            </div>
                             @endif
                                                                                  
                         </div>
@@ -169,7 +197,8 @@
         var url = '{{ route("jobs") }}?';
 
         var keyword = $("#keyword").val();
-        var location = $("#location").val();
+        var province = $("#province").val();
+        var provinceName = $("#province_name").val();
         var career = $("#career").val();
         var experience = $("#experience").val();
         var sort = $("#sort").val();
@@ -178,27 +207,25 @@
             return $(this).val();
         }).get();
 
-        // If keyword has a value
+      
         if (keyword != ""){
             url += '&keyword='+keyword;
         }
 
-        // If location has a value
-        if (location != ""){
-            url += '&location='+location;
+        if (province != ""){
+            url += '&province='+encodeURIComponent(provinceName);
+        } else if (province == "") {
+            url += '&province='+'notfound';
         }
 
-        // If career has a value
         if (career != ""){
             url += '&career='+career;
         }
 
-        // If experience has a value
         if (experience != ""){
             url += '&experience='+experience;
         }
 
-        // If user has checked job types
         if (checkedJobTypes.length > 0){
             url += '&jobType='+checkedJobTypes;
         }
@@ -212,5 +239,22 @@
         $("#searchForm").submit();
     });
 
+</script>
+
+<script>
+    $(document).ready(function() {
+        $.getJSON('/api/proxy/provinces', function(data_tinh) {
+            if (data_tinh.error === 0) {
+                $.each(data_tinh.data, function(key_tinh, val_tinh) {
+                    $("#province").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                });
+            }
+        });
+
+        $("#province").change(function() {
+            var selectedOption = $(this).find("option:selected");
+            $("#province_name").val(selectedOption.text());
+        });
+    });
 </script>
 @endsection

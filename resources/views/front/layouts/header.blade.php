@@ -1,5 +1,6 @@
+
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow py-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg bg-body rounded">
       <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
           <img src="{{ asset('assets/user/images/logo_web.jpg') }}" alt="Logo" class="navbar-logo">

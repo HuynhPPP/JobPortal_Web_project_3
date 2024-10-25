@@ -10657,16 +10657,38 @@ footer .nav-link {
 }
 
 .navbar-logo {
-    width: 80px; /* Chiều rộng tối đa của logo */
-    height: 80px; /* Tự động điều chỉnh chiều cao theo tỉ lệ */
+    width: 80px; 
+    height: 80px; 
   }
   
   @media (max-width: 768px) {
     .navbar-logo {
-      max-width: 120px; /* Logo nhỏ hơn trên thiết bị di động */
+      max-width: 120px; 
     }
   }
 
-
+.card-error-find {
+    border: none;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card-body-error-find {
+    display: flex;
+    align-items: center;
+}
+.card-body-error-find img {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.card-body-error-find .text-content {
+    flex: 1;
+}
+.card-body-error-find .text-content h5 {
+    color: #ff5722;
+    font-weight: bold;
+}
   
 

@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="{{ asset('assets/user/trumbowyg/trumbowyg.min.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ asset("assets/user/css/style.css") }}" />
   <link rel="stylesheet" href="{{ asset("assets/user/css/toastr.min.css") }}"/>
-  
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
 </head>
 
@@ -80,11 +79,11 @@
   
 
   <script src="{{ asset("assets/user/js/jquery-3.6.0.min.js") }}"></script>
+  <script src="https://esgoo.net/scripts/jquery.js"></script>
   <script src="{{ asset("assets/user/js/bootstrap.bundle.5.1.3.min.js") }}"></script>
   <script src="{{ asset("assets/user/js/instantpages.5.1.0.min.js") }}"></script>
   <script src="{{ asset("assets/user/js/lazyload.17.6.0.min.js") }}"></script>
   <script src="{{ asset("assets/user/js/custom.js") }}"></script>
-  <script src="https://esgoo.net/scripts/jquery.js"></script>
   <script src="{{ asset('assets/user/trumbowyg/trumbowyg.min.js') }}"></script>
   <script src="{{ asset("assets/user/js/toastr.min.js") }}"></script>
 

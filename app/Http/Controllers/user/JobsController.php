@@ -26,7 +26,6 @@ class JobsController extends Controller
 
         $jobs = Job::where('status', 1);
 
-        // Search using keyword
         if (!empty($request->keyword)) {
             $jobs = $jobs->where(function($query) use ($request) {
                 $query->orwhere('title','like','%'.$request->keyword.'%');
@@ -34,24 +33,20 @@ class JobsController extends Controller
             });
         }
 
-        // Search using location
-        if (!empty($request->location)) {
-            $jobs = $jobs->where('company_location',$request->location);
+        if (!empty($request->province)) {
+            $jobs = $jobs->where('province',$request->province);
         }
 
-        // Search using careers
         if (!empty($request->career)) {
             $jobs = $jobs->where('career_id',$request->career);
         }
 
         $jobTypeArray = [];
-        // Search using jobType
         if (!empty($request->jobType)) {
             $jobTypeArray = explode(',',$request->jobType);
             $jobs = $jobs->whereIn('job_type_id',$jobTypeArray);
         }
 
-        // Search using experience
         if (!empty($request->experience)) {
             $jobs = $jobs->where('experience',$request->experience);
         }
@@ -80,9 +75,9 @@ class JobsController extends Controller
         
 
         $job = Job::where([
-                                    'id' => $id, 
-                                    'status' => 1,
-                                  ])->with(['jobType','career'])->first();
+            'id' => $id, 
+            'status' => 1,
+        ])->with(['jobType','career'])->first();
 
         if ($job == null) {
             abort(404);
@@ -190,22 +185,13 @@ class JobsController extends Controller
                 ]);
             }
 
-            
-            if ($request->hasFile('cv')) {
-                
-                $file = $request->file('cv');
-
-                
+            if ($request->hasFile('cv')) {          
+                $file = $request->file('cv');          
                 $filename = Auth::user()->email . '_' . time() . '.' . $file->getClientOriginalExtension();
-
-                
-                $destinationPath = public_path('/assets/user/CV');
-
-                
+                $destinationPath = public_path('/assets/user/CV'); 
                 $file->move($destinationPath, $filename);
             }
 
-        
             $application = new JobApplication();
             $application->job_id = $id;
             $application->user_id = Auth::user()->id;

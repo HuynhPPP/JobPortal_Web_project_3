@@ -16,16 +16,19 @@
 <section class="section-1 py-5 "> 
     <div class="container">
         <div class="card border-0 shadow p-5">
-            <form action="{{ route("jobs") }}" method="GET">
+            <form action="" name="searchFormHome" id="searchFormHome">
                 <div class="row">
                     <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
-                        <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Từ khoá">
+                        <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Ví dụ: PHP">
                     </div>
                     <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
-                        <input type="text" class="form-control" name="location" id="location" placeholder="Địa điểm">
+                        <select class="form-select" id="province" name="province">
+                            <option selected>Chọn khu vực</option>
+                        </select>
+                        <input type="hidden" id="province_name" name="province_name" value="{{ Request::get('province_name') }}">
                     </div>
                     <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
-                        <select name="career" id="career" class="form-control">
+                        <select name="career" id="career" class="form-select">
                             <option value="">Chọn lĩnh vực</option>
                             @if ($newCareers->isNotEmpty())
                                 @foreach ($newCareers as $career)
@@ -37,7 +40,6 @@
                     
                     <div class=" col-md-3 mb-xs-3 mb-sm-3 mb-lg-0">
                         <div class="d-grid gap-2">
-                            {{-- <a href="jobs.html" class="btn btn-primary btn-block">Tìm kiếm</a> --}}
                             <button type="submit" class="btn btn-primary btn-block">Tìm kiếm</button>
                         </div>
                     </div>
@@ -218,4 +220,60 @@
         </div>
     </div>
 </section>
+@endsection
+
+@section('customJs')
+
+<script>
+    $("#searchFormHome").submit(function(e){
+        e.preventDefault();
+
+        var url = '{{ route("jobs") }}?';
+
+        var keyword = $("#keyword").val();
+        var province = $("#province").val();
+        var provinceName = $("#province_name").val();
+        var career = $("#career").val();
+
+
+      
+        if (keyword != ""){
+            url += '&keyword='+keyword;
+        }
+
+        if (province != ""){
+            url += '&province='+encodeURIComponent(provinceName);
+        } else if (province == "") {
+            url += '&province='+'notfound';
+        }
+
+        if (career != ""){
+            url += '&career='+career;
+        }
+
+
+        window.location.href=url;
+    });
+
+
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $.getJSON('/api/proxy/provinces', function(data_tinh) {
+            if (data_tinh.error === 0) {
+                $.each(data_tinh.data, function(key_tinh, val_tinh) {
+                    $("#province").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                });
+            }
+        });
+
+        $("#province").change(function() {
+            var selectedOption = $(this).find("option:selected");
+            $("#province_name").val(selectedOption.text());
+        });
+    });
+</script>
+
 @endsection
