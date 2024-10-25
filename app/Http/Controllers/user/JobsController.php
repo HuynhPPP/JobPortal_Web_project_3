@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Mail;
 
 class JobsController extends Controller
 {
-    // Show find job page
+    
     public function index(Request $request) {
 
         $careers = Careers::where('status', 1)->get();
@@ -75,7 +75,7 @@ class JobsController extends Controller
         ]);
     }
 
-    // Show job detail page
+   
     public function detail($id) {
         
 
@@ -98,14 +98,12 @@ class JobsController extends Controller
 
         $userHasApplied = false;  
         if (Auth::check()) {
-            // Kiểm tra xem người dùng đã nộp đơn xin việc chưa
             $userHasApplied = JobApplication::where([
                 'user_id' => Auth::user()->id,
                 'job_id' => $id
             ])->count();
         }
 
-        // Fetch applications
         $applications = JobApplication::where('job_id',$id)->with('user')->get();
 
         
@@ -128,7 +126,6 @@ class JobsController extends Controller
             abort(404);
         }
 
-        // Fetch applications
         $applications = JobApplication::where('job_id',$id)->with('user')->get();
 
         
@@ -142,7 +139,7 @@ class JobsController extends Controller
     public function applyJob(Request $request) {
 
         $rules = [
-            'cv' => 'required|file|mimes:pdf,doc,docx', // CV phải là file .pdf, .doc, .docx và không quá 2MB
+            'cv' => 'required|file|mimes:pdf,doc,docx',
         ];
         
         $messages = [
@@ -159,7 +156,7 @@ class JobsController extends Controller
         
             $job = Job::where('id', $id)->first();
         
-            // If job not found in db
+            
             if ($job == null) {
                 $message = "Không tìm thấy công việc";
                 return response()->json([
@@ -168,7 +165,7 @@ class JobsController extends Controller
                 ]);
             }
         
-            // You can't apply on your own job
+            
             $employer_id = $job->user_id;
         
             if ($employer_id == Auth::user()->id) {
@@ -179,7 +176,7 @@ class JobsController extends Controller
                 ]);
             }
         
-            // You can't apply on a job twice
+            
             $jobApplicationCount = JobApplication::where([
                 'user_id' => Auth::user()->id,
                 'job_id' => $id
@@ -193,18 +190,18 @@ class JobsController extends Controller
                 ]);
             }
 
-            // Xử lý file CV (nếu được upload)
+            
             if ($request->hasFile('cv')) {
-                // Lấy file từ request
+                
                 $file = $request->file('cv');
 
-                // Tạo tên file duy nhất, sử dụng email của người dùng và thời gian hiện tại
+                
                 $filename = Auth::user()->email . '_' . time() . '.' . $file->getClientOriginalExtension();
 
-                // Đường dẫn lưu file
+                
                 $destinationPath = public_path('/assets/user/CV');
 
-                // Di chuyển file tới thư mục đã chỉ định
+                
                 $file->move($destinationPath, $filename);
             }
 
@@ -217,7 +214,7 @@ class JobsController extends Controller
             $application->cv_path = $filename ?? null;
             $application->save();
 
-            // Send Notification Email to Employer
+            
             $employer = User::where('id',$employer_id)->first();
 
             $mailData = [
@@ -295,13 +292,13 @@ class JobsController extends Controller
 
     public function downloadCv($cvPath)
     {
-        $filePath = storage_path('public/CV/' . $cvPath); // Đường dẫn tới file
+        $file = public_path('assets/user/CV/'.$cvPath);
 
-        if (!file_exists($filePath)) {
+        if (!file_exists($file)) {
             return session()->flash('toastr', ['error' => 'File không tồn tại']);
         }
 
-        return Storage::download($filePath); // Tải file
+        return response()->download($file);
     }
     
 }

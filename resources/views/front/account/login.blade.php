@@ -51,7 +51,7 @@
                         </div> 
                         <div class="justify-content-between d-flex">
                         <button class="btn btn-primary mt-2">Đăng nhập</button>
-                            <a href="forgot-password.html" class="mt-3">Quên mật khẩu?</a>
+                            <a href="{{ route("account.forgotPassword") }}" class="mt-3">Quên mật khẩu?</a>
                         </div>
                     </form>                    
                 </div>

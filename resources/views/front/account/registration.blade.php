@@ -60,12 +60,10 @@
             data: $('#registrationForm').serializeArray(),
             dataType: 'json',
             success: function (response) {
-                // Reset validation states
                 ['name', 'email', 'password', 'confirm_password'].forEach(function (field) {
                     $("#" + field).removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('');
                 });
 
-                // If there are validation errors
                 if (response.status === false) {
                     $.each(response.errors, function (field, message) {
                         $("#" + field).addClass('is-invalid')
@@ -74,7 +72,6 @@
                                       .html(message);
                     });
                 } else {
-                    // Success, redirect to login
                     window.location.href = '{{ route("account.login") }}';
                 }
             }

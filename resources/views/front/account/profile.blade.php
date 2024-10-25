@@ -22,24 +22,32 @@
                 <div class="card border-0 shadow mb-4">
                     <form action="" method="post" id="userForm" name="userForm">
                         <div class="card-body  p-4">
-                            <h3 class="fs-4 mb-1">Thông tin tài khoản</h3>
-                            <p>Các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
+                            @if (Auth::check() && Auth::user()->role === 'employer')
+                                <h3 class="fs-4 mb-1">Thông tin người tuyển dụng</h3>
+                            @else
+                                <h3 class="fs-4 mb-1">Thông tin tài khoản</h3>
+                            @endif
+                            <p>Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Họ và tên <span style="color: red">*</span></label>
                                 <input type="text" 
                                     name="name" id="name" 
-                                    placeholder="Nhập tên..." 
+                                    placeholder="Ví dụ: Nguyễn Văn A" 
                                     class="form-control" 
                                     value="{{ $user->fullname }}"
                                     >
                                 <p></p>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Email <span style="color: red">*</span></label>
+                                @if (Auth::check() && Auth::user()->role === 'employer')
+                                    <label for="" class="mb-2">Email <span style="color: red">*</span> (vui lòng sử dụng email công ty)</label>
+                                @else
+                                    <label for="" class="mb-2">Email <span style="color: red">*</span></label>
+                                @endif
                                 <input type="text" 
                                         name="email" 
                                         id="email" 
-                                        placeholder="Nhập email..." 
+                                        placeholder="Ví dụ: hr@topwork.vn" 
                                         class="form-control"
                                         value="{{ $user->email }}"
                                         >
@@ -50,7 +58,7 @@
                                 <input type="text" 
                                     name="designation" 
                                     id="designation" 
-                                    placeholder="Nhập vai trò..." 
+                                    placeholder="Ví dụ: người tìm việc, nhà tuyển dụng,...." 
                                     class="form-control"
                                     value="{{ $user->designation }}">
                             </div>
@@ -59,10 +67,11 @@
                                 <input type="text" 
                                     name="mobile" 
                                     id="mobile" 
-                                    placeholder="Nhập số điện thoại..." 
+                                    placeholder="Ví dụ: 0912345678" 
                                     class="form-control"
                                     value="{{ $user->mobile }}"
                                     >
+                                <p></p>
                             </div>                        
                         </div>
                         <div class="card-footer  p-4">
@@ -126,6 +135,11 @@
                         .removeClass('invalid-feedback')
                         .html('');
 
+                    $("#mobile").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+
                         window.location.href="{{ route("account.profile") }}";
                 } else {
                     var errors = response.errors;
@@ -150,6 +164,19 @@
                         .html(errors.email);
                     } else {
                         $("#email").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+                    }
+
+                     // Mobile
+                     if (errors.mobile) {
+                        $("#mobile").addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(errors.mobile);
+                    } else {
+                        $("#mobile").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');

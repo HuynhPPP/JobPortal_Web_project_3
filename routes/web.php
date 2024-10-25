@@ -13,16 +13,6 @@ use App\Http\Controllers\admin\CareerController;
 use App\Http\Controllers\admin\FileDownloadController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 
 Route::get("/admin/home", [AdminController::class, "index"])->name('admin.home');
@@ -57,6 +47,11 @@ Route::post('/admin/profile', [AdminAccountController::class, 'updateImageProfil
 Route::post('/admin/change-password', [AdminAccountController::class, 'changePassword'])->name('admin.changePassword');
 Route::get('/download/{filename}', [FileDownloadController::class, 'download'])->name('download');
 
+Route::get('/api/proxy/provinces', [ApiController::class, 'getProvinces']);
+Route::get('/api/proxy/districts/{provinceId}', [ApiController::class, 'getDistricts']);
+Route::get('/api/proxy/wards/{districtId}', [ApiController::class, 'getWards']);
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/jobs', [JobsController::class, 'index'])->name('jobs');
@@ -66,8 +61,10 @@ Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob')
 Route::post('/save-job', [JobsController::class, 'saveJob'])->name('saveJob');
 
 Route::get('/download-cv/{cvPath}', [JobsController::class, 'downloadCv'])->name('download-cv');
-
-Route::middleware(['auth', 'check.admin'])->get('/admin', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+Route::get('/forgot-password', [AccountController::class, 'forgotPassword'])->name('account.forgotPassword');
+Route::post('/process-forgot-password', [AccountController::class, 'processForgotPassword'])->name('account.processForgotPassword');
+Route::get('/reset-password/{token}', [AccountController::class, 'resetPassword'])->name('account.resetPassword');
+Route::post('/process-reset-password', [AccountController::class, 'processResetPassword'])->name('account.processResetPassword');
 
 
 Route::group(['prefix' => 'account'], function () {

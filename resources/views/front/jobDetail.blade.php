@@ -192,9 +192,9 @@
                                 </li>
                                 <li>
                                     @if (empty($job->jobType->name))
-                                        Loại hợp đồng: <span style="color: red">chưa cập nhật</span>
+                                        Hình thức làm việc: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Loại hợp đồng: <span> {{ $job->jobType->name }}</span>
+                                        Hình thức làm việc: <span> {{ $job->jobType->name }}</span>
                                     @endif
                                 </li>
                                 <li>
@@ -316,17 +316,14 @@
 <script type="text/javascript">
     function applyJob(id) {
         event.preventDefault();
-        // Hiển thị modal
         $('#applyJobModal').modal('show');
     }
 
     function submitApplication(id) {
         event.preventDefault();
-        // Lấy dữ liệu từ form
         var formData = new FormData($('#applyJobForm')[0]);
         formData.append('id', id);
 
-        // Hiển thị overlay "Đang xử lý"
         $('#loading-overlay').show();
 
         $.ajax({
@@ -337,10 +334,9 @@
             contentType: false,
             data: formData,
             success: function(response) {
-                // Ẩn overlay khi có phản hồi
                 $('#loading-overlay').hide();
 
-                toastr.clear(); // Xóa tất cả thông báo trước khi hiển thị mới
+                toastr.clear();
 
                 if (response.status === true) {
                     $("#cv").removeClass('is-invalid')
@@ -355,7 +351,6 @@
                         location.reload();
                     }, 1000);
                 } else {
-                    // Nếu có lỗi server trả về
                     var errors = response.errors;
                     toastr.warning('Có lỗi xảy ra...');
 
@@ -373,7 +368,6 @@
                 }
             },
             error: function() {
-                // Ẩn overlay khi có lỗi
                 $('#loading-overlay').hide();
                 toastr.clear();
                 toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
@@ -416,10 +410,10 @@
                         toastr.error(response.message);
                     } else {
                         if (response.action === 'saved') {
-                            $(element).find('i').removeClass('fa-heart-o').addClass('fa-heart'); // Thay đổi icon thành trái tim đầy
+                            $(element).find('i').removeClass('fa-heart-o').addClass('fa-heart'); 
                             toastr.success('Đã thêm vào yêu thích');
                         } else {
-                            $(element).find('i').removeClass('fa-heart').addClass('fa-heart-o'); // Thay đổi icon thành trái tim rỗng
+                            $(element).find('i').removeClass('fa-heart').addClass('fa-heart-o'); 
                             toastr.warning('Đã hủy yêu thích');
                         }
                     }

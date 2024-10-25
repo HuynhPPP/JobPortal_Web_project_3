@@ -26,3 +26,9 @@ $product = Product::findOrFail($id);
                 <input type="text" class="form-control" id="title" name="title">
               </div>
 </div>
+UPDATE users SET password = '$2y$12$IkTRACq.d0WHufbUj7oSnu22lJt0OE13SdM1Btfsyn/TG8g4cQ0ny';
+Abc@12345
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear

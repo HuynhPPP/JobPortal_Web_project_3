@@ -136,7 +136,11 @@
                                                 </div>
         
                                                 <div class="d-grid mt-3">
-                                                    <a href="{{ route('jobDetail',$job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                    @if (Auth::check() && Auth::user()->role === 'employer')
+                                                        <a href="{{ route('JobDetail_employer',$job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                    @else
+                                                        <a href="{{ route('jobDetail',$job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
