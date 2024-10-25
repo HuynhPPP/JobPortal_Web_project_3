@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Career;
+use App\Models\Job;
+use App\Models\JobApplication;
+use App\Models\SavedJob;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -21,6 +26,21 @@ class AdminController extends Controller
 
   public function index()
   {
-    return view('admin.index');
+    $totalJobs = Job::count();
+    $totalUsers = User::where('role', 'user')->count();
+    $totalEmployers = User::where('role', 'employer')->count();
+    $totalApplications = JobApplication::count();
+    $totalSavedJobs = SavedJob::count();
+    $totalCareers = Career::count();
+    $featuredJobs = Job::where('isFeatured', 1)->take(5)->get();
+    return view('admin.index', compact(
+      'totalJobs',
+      'totalUsers',
+      'totalEmployers',
+      'totalApplications',
+      'totalSavedJobs',
+      'totalCareers',
+      'featuredJobs',
+    ));
   }
 }

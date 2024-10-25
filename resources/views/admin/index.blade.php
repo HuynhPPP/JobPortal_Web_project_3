@@ -1,10 +1,10 @@
-@extends("admin.admin_master")
-@section("content")
+@extends('admin.admin_master')
+@section('content')
   <div class="row">
     <div class="col-12">
       <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
         <div class="flex-grow-1">
-          <h4 class="fs-18 fw-semibold m-0">Dashboard</h4>
+          <h4 class="fs-18 fw-semibold m-0">Tổng quan</h4>
         </div>
       </div><!-- end card header -->
     </div>
@@ -16,19 +16,15 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Orders</h5>
+              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Việc làm</h5>
               <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                 <div class="user-img fs-42 flex-shrink-0">
                   <span class="avatar-title text-bg-primary rounded-circle fs-22">
                     <iconify-icon icon="solar:case-round-minimalistic-bold-duotone"></iconify-icon>
                   </span>
                 </div>
-                <h3 class="mb-0 fw-bold">687.3k</h3>
+                <h3 class="mb-0 fw-bold">{{ $totalJobs }}</h3>
               </div>
-              <p class="mb-0 text-muted">
-                <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 9.19%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
             </div>
           </div>
         </div><!-- end col -->
@@ -36,62 +32,49 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Returns</h5>
+              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Ứng viên</h5>
               <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                 <div class="user-img fs-42 flex-shrink-0">
                   <span class="avatar-title text-bg-primary rounded-circle fs-22">
                     <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
                   </span>
                 </div>
-                <h3 class="mb-0 fw-bold">9.62k</h3>
+                <h3 class="mb-0 fw-bold">{{ $totalUsers }}</h3>
               </div>
-              <p class="mb-0 text-muted">
-                <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 26.87%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
             </div>
           </div>
-        </div><!-- end col -->
+        </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Avg. Sales Earnings</h5>
+              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Nhà tuyển dụng</h5>
               <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                 <div class="user-img fs-42 flex-shrink-0">
                   <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                    <iconify-icon icon="solar:wallet-money-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
                   </span>
                 </div>
-                <h3 class="mb-0 fw-bold">$98.24 <small class="text-muted">USD</small></h3>
+                <h3 class="mb-0 fw-bold">{{ $totalEmployers }}</h3>
               </div>
-              <p class="mb-0 text-muted">
-                <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 3.51%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
             </div>
           </div>
-        </div><!-- end col -->
-
+        </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Number of Visits</h5>
+              <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Công việc yêu thích</h5>
               <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                 <div class="user-img fs-42 flex-shrink-0">
                   <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                    <iconify-icon icon="solar:eye-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
                   </span>
                 </div>
-                <h3 class="mb-0 fw-bold">87.94M</h3>
+                <h3 class="mb-0 fw-bold">{{ $totalSavedJobs }}</h3>
               </div>
-              <p class="mb-0 text-muted">
-                <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 1.05%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
             </div>
           </div>
-        </div><!-- end col -->
-      </div><!-- end row -->
+        </div>
+      </div>
       <div class="row">
         <div class="col-xxl-6">
           <div class="card">
@@ -111,7 +94,7 @@
                         <div class="d-flex align-items-center">
                           <div class="avatar-md flex-shrink-0 me-2">
                             <span class="avatar-title bg-primary-subtle rounded-circle">
-                              <img src="{{ asset("admin/images/products/logo/logo-1.svg") }}" alt=""
+                              <img src="{{ asset('admin/images/products/logo/logo-1.svg') }}" alt=""
                                 height="22">
                             </span>
                           </div>

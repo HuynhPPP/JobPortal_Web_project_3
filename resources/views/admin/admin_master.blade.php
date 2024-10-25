@@ -22,9 +22,7 @@
     <link href="{{ asset('admin/vendor/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css"
       id="app-style" />
 
-    <!-- Icons css -->
-    {{-- <link href="{{ asset("admin/css/icons.min.css") }}" rel="stylesheet" type="text/css" /> --}}
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/user/trumbowyg/trumbowyg.min.css') }}" />
   </head>
 
   <body>
@@ -59,6 +57,24 @@
     <!-- Apex Chart js -->
     <script src="{{ asset('admin/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/user/trumbowyg/trumbowyg.min.js') }}"></script>
+    <script>
+      $('.textarea').trumbowyg({
+        btns: [
+          ['viewHTML'],
+          ['undo', 'redo'],
+          ['formatting'],
+          ['strong', 'em', 'del'],
+          ['superscript', 'subscript'],
+          ['link'],
+          ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+          ['unorderedList', 'orderedList'],
+          ['horizontalRule'],
+          ['removeformat'],
+          ['fullscreen']
+        ]
+      });
+    </script>
     @yield('customJs')
   </body>
 

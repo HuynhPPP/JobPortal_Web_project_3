@@ -21,7 +21,7 @@
                   class="form-control @error('title')
                   is-invalid
               @enderror" id="title"
-                  name="title" value="{{ $job->title }}">
+                  name="title" value="{{ $errors->has('title') ? '' : old('title', $job->title) }}">
                 @if ($errors->has('title'))
                   <span class="invalid-feedback">{{ $errors->first('title') }}</span>
                 @endif
@@ -32,7 +32,8 @@
                   class="form-control @error('company_name')
                     is-invalid
                 @enderror"
-                  id="company_name" name="company_name" value="{{ $job->company_name }}">
+                  id="company_name" name="company_name"
+                  value="{{ $errors->has('company_name') ? '' : old('company_name', $job->company_name) }}">
                 @if ($errors->has('company_name'))
                   <span class="invalid-feedback">{{ $errors->first('company_name') }}</span>
                 @endif
@@ -45,14 +46,26 @@
                   class="form-control @error('company_location')
                     is-invalid
                 @enderror"
-                  id="company_location" name="company_location" value="{{ $job->company_location }}">
+                  id="company_location" name="company_location"
+                  value="{{ $errors->has('company_location') ? '' : old('company_location', $job->company_location) }}">
                 @if ($errors->has('company_location'))
                   <span class="invalid-feedback">{{ $errors->first('company_location') }}</span>
                 @endif
               </div>
-              <div class="mb-3 col-md-6">
+              <div class="mb-3 col-md-3">
                 <label for="salary" class="form-label">Mức lương</label>
-                <input type="text" class="form-control" id="salary" name="salary" value="{{ $job->salary }}">
+                <input type="text"
+                  class="form-control @error('salary')
+                    is-invalid
+                @enderror"
+                  id="salary" name="salary" value="{{ $errors->has('salary') ? '' : old('salary', $job->salary) }}">
+                @if ($errors->has('salary'))
+                  <span class="invalid-feedback">{{ $errors->first('salary') }}</span>
+                @endif
+              </div>
+              <div class="mb-3 col-md-3">
+                <label for="keywords" class="form-label">Từ khóa</label>
+                <input type="text" class="form-control" id="keywords" name="keywords" value="{{ $job->keywords }}">
               </div>
             </div>
             <div class="row g-2">
@@ -137,12 +150,45 @@
             <div class="mb-3">
               <label for="description" class="form-label">Mô tả</label>
               <textarea name="description"
-                class="form-control @error('description')
+                class="form-control textarea @error('description')
                     is-invalid
-                @enderror" rows="5"
-                id="description">{{ $job->description }}</textarea>
+                @enderror"
+                rows="5" id="description">{{ $errors->has('description') ? '' : old('description', $job->description) }}</textarea>
               @if ($errors->has('description'))
                 <span class="invalid-feedback">{{ $errors->first('description') }}</span>
+              @endif
+            </div>
+            <div class="mb-3">
+              <label for="responsibility" class="form-label">Trách nhiệm công việc</label>
+              <textarea name="responsibility"
+                class="form-control textarea @error('responsibility')
+                    is-invalid
+                @enderror"
+                rows="5" id="responsibility">{{ $errors->has('responsibility') ? '' : old('responsibility', $job->responsibility) }}</textarea>
+              @if ($errors->has('responsibility'))
+                <span class="invalid-feedback">{{ $errors->first('responsibility') }}</span>
+              @endif
+            </div>
+            <div class="mb-3">
+              <label for="qualifications" class="form-label">Kỹ năng & Chuyên môn</label>
+              <textarea name="qualifications"
+                class="form-control textarea @error('qualifications')
+                    is-invalid
+                @enderror"
+                rows="5" id="qualifications">{{ $errors->has('qualifications') ? '' : old('qualifications', $job->qualifications) }}</textarea>
+              @if ($errors->has('qualifications'))
+                <span class="invalid-feedback">{{ $errors->first('qualifications') }}</span>
+              @endif
+            </div>
+            <div class="mb-3">
+              <label for="benefits" class="form-label">Phúc lợi</label>
+              <textarea name="benefits"
+                class="form-control textarea @error('benefits')
+                    is-invalid
+                @enderror"
+                rows="5" id="benefits">{{ $errors->has('benefits') ? '' : old('benefits', $job->benefits) }}</textarea>
+              @if ($errors->has('benefits'))
+                <span class="invalid-feedback">{{ $errors->first('benefits') }}</span>
               @endif
             </div>
             <button type="submit" class="btn btn-primary">Xử lý</button>

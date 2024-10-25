@@ -43,17 +43,26 @@ class JobController extends Controller
         'experience' => 'required',
         'job_type' => 'required',
         'description' => 'required',
+        'responsibility' => 'required',
+        'qualifications' => 'required',
+        'benefits' => 'required',
+        'salary' => 'required|integer',
       ],
       [
-        'title.required' => 'Tiêu đề là bắt buộc',
-        'title.min' => 'Tối thiểu là 5 ký tự',
-        'title' => 'Tối đa là 200 ký tự',
-        'company_name.required' => 'Tên công ty là bắt buộc',
-        'company_location.required' => 'Địa chỉ là bắt buộc',
-        'career.required' => 'Bạn chưa chọn nghành nghề',
-        'experience.required' => 'Bạn chưa chọn kinh nghiệm',
-        'job_type.required' => 'Bạn chưa chọn loại hình làm việc',
-        'description.required' => 'Mô tả là bắt buộc',
+        'title.required' => 'Tiêu đề công việc là bắt buộc.',
+        'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
+        'title.max' => 'Tiêu đề không được vượt quá 200 ký tự.',
+        'company_name.required' => 'Tên công ty là bắt buộc.',
+        'company_location.required' => 'Địa chỉ công ty là bắt buộc.',
+        'career.required' => 'Vui lòng chọn ngành nghề.',
+        'experience.required' => 'Vui lòng chọn kinh nghiệm làm việc.',
+        'job_type.required' => 'Vui lòng chọn loại hình công việc.',
+        'description.required' => 'Mô tả công việc là bắt buộc.',
+        'responsibility.required' => 'Trách nhiệm công việc là bắt buộc.',
+        'qualifications.required' => 'Kỹ năng & chuyên môn là bắt buộc.',
+        'benefits.required' => ' Phúc lợi là bắt buộc.',
+        'salary.integer' => 'Mức lương phải là một con số hợp lệ.',
+        'salary.required' => 'Mức lương là bắt buộc',
       ]
     );
     if ($validator->passes()) {
@@ -69,6 +78,10 @@ class JobController extends Controller
       $job->isFeatured = $request->isFeatured;
       $job->company_website = $request->company_website;
       $job->description = $request->description;
+      $job->responsibility = $request->responsibility;
+      $job->qualifications = $request->qualifications;
+      $job->benefits = $request->benefits;
+      $job->keywords = $request->keywords;
       $job->save();
       toastr()->success('Cập nhật thành công.', ' ');
       return redirect()->route('admin.job');
