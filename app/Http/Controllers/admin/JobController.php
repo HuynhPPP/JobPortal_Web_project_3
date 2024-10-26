@@ -38,7 +38,7 @@ class JobController extends Controller
       [
         'title' => 'required|min:5,max:200',
         'company_name' => 'required',
-        'company_location' => 'required',
+        'location_detail' => 'required',
         'career' => 'required',
         'experience' => 'required',
         'job_type' => 'required',
@@ -53,7 +53,7 @@ class JobController extends Controller
         'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
         'title.max' => 'Tiêu đề không được vượt quá 200 ký tự.',
         'company_name.required' => 'Tên công ty là bắt buộc.',
-        'company_location.required' => 'Địa chỉ công ty là bắt buộc.',
+        'location_detail.required' => 'Vui lòng nhập địa chỉ.',
         'career.required' => 'Vui lòng chọn ngành nghề.',
         'experience.required' => 'Vui lòng chọn kinh nghiệm làm việc.',
         'job_type.required' => 'Vui lòng chọn loại hình công việc.',
@@ -69,7 +69,6 @@ class JobController extends Controller
       $job = Job::find($id);
       $job->title = $request->title;
       $job->company_name = $request->company_name;
-      $job->company_location = $request->company_location;
       $job->salary = $request->salary;
       $job->career_id = $request->career;
       $job->experience = $request->experience;
@@ -82,6 +81,11 @@ class JobController extends Controller
       $job->qualifications = $request->qualifications;
       $job->benefits = $request->benefits;
       $job->keywords = $request->keywords;
+      $job->province = $request->province_name ? $request->province_name : $job->province;
+      $job->district = $request->district_name ? $request->district_name : $job->district;
+      $job->wards = $request->ward_name ? $request->ward_name : $job->wards;
+      $job->location_detail = $request->location_detail;
+      $job->company_website = $request->company_website;
       $job->save();
       toastr()->success('Cập nhật thành công.', ' ');
       return redirect()->route('admin.job');

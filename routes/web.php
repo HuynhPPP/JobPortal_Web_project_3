@@ -11,6 +11,7 @@ use App\Http\Controllers\user\JobsController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\CareerController;
 use App\Http\Controllers\admin\FileDownloadController;
+use App\Http\Controllers\user\ApiController;
 use Illuminate\Support\Facades\Route;
 
 

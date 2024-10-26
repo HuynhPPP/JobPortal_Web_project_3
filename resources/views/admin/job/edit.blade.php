@@ -41,35 +41,56 @@
             </div>
             <div class="row g-2">
               <div class="mb-3 col-md-6">
-                <label for="company_location" class="form-label">Địa chỉ</label>
-                <input type="text"
-                  class="form-control @error('company_location')
-                    is-invalid
-                @enderror"
-                  id="company_location" name="company_location"
-                  value="{{ $errors->has('company_location') ? '' : old('company_location', $job->company_location) }}">
-                @if ($errors->has('company_location'))
-                  <span class="invalid-feedback">{{ $errors->first('company_location') }}</span>
-                @endif
+                <label for="title" class="form-label">Tỉnh/TP</label>
+                <select class="form-select" id="province" name="province">
+                  @if (!empty($job->province))
+                    <option selected>{{ $job->province }}</option>
+                  @else
+                    <option selected>Chọn tỉnh / thành</option>
+                  @endif
+                </select>
+                <input type="hidden" id="province_name" name="province_name">
               </div>
-              <div class="mb-3 col-md-3">
-                <label for="salary" class="form-label">Mức lương</label>
-                <input type="text"
-                  class="form-control @error('salary')
-                    is-invalid
-                @enderror"
-                  id="salary" name="salary" value="{{ $errors->has('salary') ? '' : old('salary', $job->salary) }}">
-                @if ($errors->has('salary'))
-                  <span class="invalid-feedback">{{ $errors->first('salary') }}</span>
-                @endif
-              </div>
-              <div class="mb-3 col-md-3">
-                <label for="keywords" class="form-label">Từ khóa</label>
-                <input type="text" class="form-control" id="keywords" name="keywords" value="{{ $job->keywords }}">
+              <div class="mb-3 col-md-6">
+                <label for="title" class="form-label">Quận/huyện</label>
+                <select class="form-select" id="district" name="district">
+                  @if (!empty($job->district))
+                    <option selected>{{ $job->district }}</option>
+                  @else
+                    <option selected>Chọn tỉnh / thành</option>
+                  @endif
+                </select>
+                <input type="hidden" id="district_name" name="district_name">
               </div>
             </div>
             <div class="row g-2">
               <div class="mb-3 col-md-6">
+                <label for="title" class="form-label">Xã/phường</label>
+                <select class="form-select" id="wards" name="wards">
+                  @if (!empty($job->wards))
+                    <option selected>{{ $job->wards }}</option>
+                  @else
+                    <option selected>Xã / phường</option>
+                  @endif
+                </select>
+                <input type="hidden" id="ward_name" name="ward_name">
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="location_detail" class="form-label">Địa chỉ cụ thể</label>
+                <input type="text"
+                  class="form-control @error('location_detail')
+                    is-invalid
+                @enderror"
+                  id="location_detail" name="location_detail"
+                  placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội"
+                  value="{{ $errors->has('location_detail') ? '' : old('location_detail', $job->location_detail) }}">
+                @if ($errors->has('location_detail'))
+                  <span class="invalid-feedback">{{ $errors->first('location_detail') }}</span>
+                @endif
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="mb-3 col-md-3">
                 <label class="form-label">Nghành nghề</label>
                 <select class="form-select @error('career')
                     is-invalid
@@ -85,7 +106,7 @@
                   <span class="invalid-feedback">{{ $errors->first('career') }}</span>
                 @endif
               </div>
-              <div class="mb-3 col-md-6">
+              <div class="mb-3 col-md-3">
                 <label class="form-label">Kinh nghiệm</label>
                 <select class="form-select @error('experience')
                     is-invalid
@@ -108,12 +129,30 @@
                   <span class="invalid-feedback">{{ $errors->first('experience') }}</span>
                 @endif
               </div>
+              <div class="mb-3 col-md-3">
+                <label for="salary" class="form-label">Mức lương</label>
+                <input type="text"
+                  class="form-control @error('salary')
+                    is-invalid
+                @enderror"
+                  id="salary" name="salary"
+                  value="{{ $errors->has('salary') ? '' : old('salary', $job->salary) }}">
+                @if ($errors->has('salary'))
+                  <span class="invalid-feedback">{{ $errors->first('salary') }}</span>
+                @endif
+              </div>
+              <div class="mb-3 col-md-3">
+                <label for="keywords" class="form-label">Từ khóa</label>
+                <input type="text" class="form-control" id="keywords" name="keywords"
+                  value="{{ $job->keywords }}">
+              </div>
             </div>
             <div class="row g-2">
               <div class="mb-3 col-md-3">
                 <label class="form-label">Trạng thái</label>
                 <select class="form-select" name="status">
-                  <option value="0" {{ $job->status == env('STATUS_PENDING') ? 'selected' : '' }}>Chờ duyệt</option>
+                  <option value="0" {{ $job->status == env('STATUS_PENDING') ? 'selected' : '' }}>Chờ duyệt
+                  </option>
                   <option value="1" {{ $job->status == env('STATUS_APPROVED') ? 'selected' : '' }}>Hoạt động
                   </option>
                   <option value="2" {{ $job->status == env('STATUS_LOCKED') ? 'selected' : '' }}>Đã khóa</option>
@@ -144,7 +183,8 @@
               </div>
               <div class="mb-3 col-md-3">
                 <label for="company_website" class="form-label">Website</label>
-                <input type="text" class="form-control" id="company_website" name="company_website">
+                <input type="text" class="form-control" id="company_website" name="company_website"
+                  value="{{ $job->company_website }}">
               </div>
             </div>
             <div class="mb-3">
@@ -198,4 +238,57 @@
     </div>
   </div>
   </div>
+@section('customJs')
+  <script>
+    $(document).ready(function() {
+      $.getJSON('/api/proxy/provinces', function(data_tinh) {
+        if (data_tinh.error === 0) {
+          $.each(data_tinh.data, function(key_tinh, val_tinh) {
+            $("#province").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+          });
+          // Khi chọn tỉnh
+          $("#province").change(function(e) {
+            var idtinh = $(this).val();
+            var tentinh = $("#province option:selected").text();
+            $("#province_name").val(tentinh); // Lưu tên tỉnh
+            $.getJSON('/api/proxy/districts/' + idtinh, function(data_quan) {
+              if (data_quan.error === 0) {
+                $("#district").html('<option value="0">Chọn Quận / Huyện</option>');
+                $("#wards").html('<option value="0">Chọn Phường / Xã</option>');
+                $.each(data_quan.data, function(key_quan, val_quan) {
+                  $("#district").append('<option value="' + val_quan.id + '">' + val_quan.full_name +
+                    '</option>');
+                });
+                // Khi chọn quận
+                $("#district").change(function(e) {
+                  var idquan = $(this).val();
+                  var tenquan = $("#district option:selected").text();
+                  $("#district_name").val(tenquan); // Lưu tên huyện
+
+                  $.getJSON('/api/proxy/wards/' + idquan, function(data_phuong) {
+                    if (data_phuong.error === 0) {
+                      $("#wards").html('<option value="0">Chọn Phường / Xã</option>');
+                      $.each(data_phuong.data, function(key_phuong, val_phuong) {
+                        $("#wards").append('<option value="' + val_phuong.id + '">' +
+                          val_phuong.full_name + '</option>');
+                      });
+
+
+
+                      // Khi chọn xã
+                      $("#wards").change(function(e) {
+                        var tenxa = $("#wards option:selected").text();
+                        $("#ward_name").val(tenxa); // Lưu tên xã
+                      });
+                    }
+                  });
+                });
+              }
+            });
+          });
+        }
+      });
+    });
+  </script>
+@endsection
 @endsection
