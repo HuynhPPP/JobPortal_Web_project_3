@@ -15,5 +15,12 @@
     color: #212934;
     transition: .5s;
   }
+  #tempaltemo_footer .image-logo{
+    display: inline-block;
+    height: 150px;
+    width: 150px;
+  }
   #tempaltemo_footer .border-light { border-color: #2d343f !important;}
   /*
+
+  

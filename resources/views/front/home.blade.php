@@ -52,7 +52,7 @@
 
 <section class="section-2 bg-2 py-5">
     <div class="container">
-        <h2>Ngành nghề phổ biến</h2>
+        <h2>Việc làm theo ngành nghề</h2>
         <div class="row pt-5">
             @if ($careers->isNotEmpty())
                 @foreach ($careers as $career)

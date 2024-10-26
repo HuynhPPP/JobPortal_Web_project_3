@@ -3,38 +3,19 @@
 </head>
 
 
-<footer class="bg-dark py-3 bg-2" id="tempaltemo_footer">
+<footer class="bg-dark  bg-2" id="tempaltemo_footer">
   <div class="container">
     <div class="row">
 
-        <div class="col-md-6 pt-5">
-            <h2 class="h2 text-success border-bottom pb-3 border-light logo">TopWork</h2>
-            <ul class="list-unstyled text-light footer-link-list">
-                <li>
-                    <i class="fas fa-map-marker-alt fa-fw"></i>
-                    123 Consectetur at ligula 10660
-                </li>
-                <li>
-                    <i class="fa fa-phone fa-fw"></i>
-                    <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
-                </li>
-                <li>
-                    <i class="fa fa-envelope fa-fw"></i>
-                    <a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
-                </li>
-            </ul>
+        <div class="col-12 text-center">
+            <img src="{{ asset('assets/user/images/logo_web_footer.png') }}" height="50" alt="" class="image-logo">
+            <p class="text-white">
+                Tuyển dụng, tìm kiếm việc làm trực tuyến tại TopWork.vn | Customer Care:(028) 3813 0501 / contact@TopWork.vn
+                CTY TNHH CAREERLINK | GPĐKKD số 0400539269 do Sở KHĐT Tp.HCM cấp ngày 05/04/2006
+                270 - 272 Cộng Hòa, P13, Q Tân Bình, Tp HCM Copyright © 2007-2020 by https://www.TopWork.vn All rights reserved.
+            </p>
         </div>
-
-        <div class="col-md-6 pt-5 ">
-            <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
-            <ul class="list-unstyled text-light footer-link-list">
-                <li><a class="text-decoration-none" href="#">Home</a></li>
-                <li><a class="text-decoration-none" href="#">About Us</a></li>
-                <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                <li><a class="text-decoration-none" href="#">FAQs</a></li>
-                <li><a class="text-decoration-none" href="#">Contact</a></li>
-            </ul>
-        </div>
+        
 
     </div>
 
@@ -42,8 +23,8 @@
         <div class="col-12 mb-3">
             <div class="w-100 my-3 border-top border-light"></div>
         </div>
-        <div class="col-auto me-auto">
-            <ul class="list-inline text-left footer-icons">
+        <div class="col-12 me-auto">
+            <ul class="list-inline text-center footer-icons">
                 <li class="list-inline-item border border-light rounded-circle text-center">
                     <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fa fa-facebook-f fa-lg fa-fw"></i></a>
                 </li>
@@ -65,9 +46,9 @@
     <div class="container">
         <div class="row pt-2">
             <div class="col-12">
-                <p class="text-left text-light">
+                <p class="text-center text-light">
                     Copyright &copy; 2024 Company Name 
-                    | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
+                    | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank" class="text-success">TopWork</a>
                 </p>
             </div>
         </div>
