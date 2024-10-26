@@ -78,8 +78,6 @@ class AccountController extends Controller
         }
     }
 
-
-    // Show user login page
     public function login() {
         return view('front.account.login');
     }
@@ -424,9 +422,9 @@ class AccountController extends Controller
             $job->keywords = $request->keywords;
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
-            $job->province = $request->province_name;
-            $job->district = $request->district_name;
-            $job->wards = $request->ward_name;
+            $job->province = $request->province_name ? $request->province_name : $job->province;
+            $job->district = $request->district_name ? $request->district_name : $job->district;
+            $job->wards = $request->ward_name ? $request->ward_name : $job->wards;
             $job->location_detail = $request->location_detail;
             $job->company_website = $request->company_website;
             $job->save();

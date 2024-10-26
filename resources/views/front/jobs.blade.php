@@ -30,12 +30,6 @@
                             <h2>Địa điểm</h2>
                             <select class="form-select" id="province" name="province">
                                 <option selected>Chọn tỉnh / thành</option>
-                                {{-- @foreach($jobs as $job)
-                                    <option
-                                        {{ Request::get('province') == $job->province ? 'selected' : '' }}>
-                                        {{ $job->province }}
-                                    </option>
-                                @endforeach --}}
                             </select>
                             <input type="hidden" id="province_name" name="province_name" value="{{ Request::get('province_name') }}">
                         </div>
@@ -107,7 +101,7 @@
                                                 <p>{{ Str::words(strip_tags($job->description), $word=10, '...') }}</p>
                                                 <div class="bg-light p-3 border">
 
-                                                    @if (empty($job->company_location))
+                                                    @if (empty($job->province) && empty($job->district))
                                                         <p class="mb-0">
                                                             <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
                                                             <span class="ps-1" style="color: red">Chưa cập nhật</span>
@@ -115,7 +109,7 @@
                                                     @else
                                                         <p class="mb-0">
                                                             <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                                            <span class="ps-1">{{ $job->company_location }}</span>
+                                                            <span class="ps-1">{{ $job->district }}, {{ $job->province }}</span>
                                                         </p>
                                                     @endif
 
@@ -164,7 +158,7 @@
                                     src="https://storage.googleapis.com/a1aa/image/wbdDxuRHo2aDNtL5eFnlzmLSJ5fXAOdRDeHnXiZSLwjffvSdC.jpg" 
                                     width="100"/>
                                   <div class="text-content">
-                                   <h5>
+                                   <h5 class="mt-3">
                                     Oops! Không tìm thấy công việc phù hợp
                                    </h5>
                                    <p>

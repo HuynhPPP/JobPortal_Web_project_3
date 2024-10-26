@@ -80,6 +80,27 @@
                                 <div class="col-md-4">
                                     <div class="card border-0 p-3 shadow mb-4">
                                         <div class="card-body">
+                                            <div class="d-flex home_jobs">
+                                                <div class="col-10">
+                                                    <img alt="" 
+                                                        class="company-logo" 
+                                                        height="50" 
+                                                        src="{{ asset('assets/user/profile_picture/thumb/'.($featureJob->user->image ?? 'logo-page.jpg')) }}" 
+                                                        width="50"
+                                                        style="max-width: 100px;
+                                                                max-height: 100px;
+                                                                "
+                                                    />
+                                                </div>
+                                                <div class="jobs_right col-2">
+                                                    <div class="apply_now">
+                                                        <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $featureJob->id }}, this)">
+                                                            <i class="fa {{ $featureJob->is_saved ? 'fa-heart' : 'fa-heart-o' }}" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                
                                             <h3 class="border-0 fs-5 pb-2 mb-0">{{ $featureJob->title }}</h3>
 
                                             @if (empty($featureJob->description))
@@ -89,7 +110,7 @@
                                             @endif
 
                                             <div class="bg-light p-3 border">
-                                                @if (empty($featureJob->company_location))
+                                                @if (empty($featureJob->province) && empty($featureJob->district))
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
                                                         <span class="ps-1" style="color: red">Vị trí công ty chưa cập nhật</span>
@@ -97,7 +118,7 @@
                                                 @else
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                                        <span class="ps-1">{{ $featureJob->company_location }}</span>
+                                                        <span class="ps-1">{{ $featureJob->district }}, {{ $featureJob->province }}</span>
                                                     </p>
                                                 @endif
 
@@ -158,6 +179,24 @@
                                 <div class="col-md-4">
                                     <div class="card border-0 p-3 shadow mb-4">
                                         <div class="card-body">
+                                            <div class="d-flex home_jobs">
+                                                <div class="col-10">
+                                                    <img alt="" 
+                                                        class="company-logo" 
+                                                        height="50" 
+                                                        src="{{ asset('assets/user/profile_picture/thumb/'.($latesJob->user->image ?? 'logo-page.jpg')) }}" 
+                                                        width="50"
+                                                        style="max-width: 100px; max-height: 100px;"
+                                                    />
+                                                </div>
+                                                <div class="jobs_right col-2">
+                                                    <div class="apply_now">
+                                                        <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $latesJob->id }}, this)">
+                                                            <i class="fa {{ $latesJob->is_saved ? 'fa-heart' : 'fa-heart-o' }}" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <h3 class="border-0 fs-5 pb-2 mb-0">{{ $latesJob->title }}</h3>
 
                                             @if (empty($latesJob->description))
@@ -168,7 +207,7 @@
                                             
 
                                             <div class="bg-light p-3 border">
-                                                @if (empty($latesJob->company_location))
+                                                @if (empty($latesJob->province) && empty($latesJob->district))
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
                                                         <span class="ps-1" style="color: red">Vị trí công ty chưa cập nhật</span>
@@ -176,7 +215,7 @@
                                                 @else
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                                        <span class="ps-1">{{ $latesJob->company_location }}</span>
+                                                        <span class="ps-1">{{ $latesJob->district }}, {{ $latesJob->province }}</span>
                                                     </p>
                                                 @endif
 
@@ -213,7 +252,6 @@
                                 </div> 
                             @endforeach
                         @endif  
-
                     </div>
                 </div>
             </div>
@@ -254,10 +292,7 @@
 
         window.location.href=url;
     });
-
-
 </script>
-
 
 <script>
     $(document).ready(function() {
@@ -274,6 +309,31 @@
             $("#province_name").val(selectedOption.text());
         });
     });
+</script>
+
+<script>
+    function saveJobHeart(id, element) {
+        event.preventDefault();
+        $.ajax({
+                url: '{{ route("saveJob") }}',
+                type: 'post',
+                data: {id: id},
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === false) {
+                        toastr.error(response.message);
+                    } else {
+                        if (response.action === 'saved') {
+                            $(element).find('i').removeClass('fa-heart-o').addClass('fa-heart'); 
+                            toastr.success('Đã thêm vào yêu thích');
+                        } else {
+                            $(element).find('i').removeClass('fa-heart').addClass('fa-heart-o'); 
+                            toastr.warning('Đã hủy yêu thích');
+                        }
+                    }
+                }
+            });
+    }
 </script>
 
 @endsection

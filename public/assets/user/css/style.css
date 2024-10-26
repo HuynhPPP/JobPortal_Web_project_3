@@ -10217,7 +10217,7 @@ button:active,
 .section-4 .job_details_area .job_sumary .summery_header h3 {
     font-size: 24px;
     color: #001d38;
-    font-weight: 400;
+    font-weight: 500;
     text-transform: none;
 }
 .section-4 .job_details_area .job_sumary .job_content {
@@ -10225,27 +10225,19 @@ button:active,
 }
 .section-4 .job_details_area .job_sumary .job_content ul li {
     font-size: 16px;
-    font-weight: 400;
-    color: #aab1b7;
+    font-weight: 500;
+    color: #000;
     line-height: 38px;
-    padding-left: 18px;
     position: relative;
-}
-.section-4 .job_details_area .job_sumary .job_content ul li::before {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border: 1px solid #aab1b7;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    left: 0;
-    content: "";
-    top: 16px;
 }
 .section-4 .job_details_area .job_sumary .job_content ul li span {
     color: #001d38;
     font-size: 16px;
+    font-weight: 400;
+}
+
+.section-4 .job_details_area .job_sumary .job_content ul li span a {
+    font-weight: 600;
 }
 .section-4 .job_details_area .descript_wrap {
     padding: 40px;
@@ -10333,12 +10325,12 @@ button:active,
     p {
     margin-bottom: 0;
     font-size: 16px;
-    color: #aab1b7;
+    color: #000;
 }
 .section-4 .job_details_area .single_jobs .jobs_left .jobs_conetent h4 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    font-weight: 400;
+    font-size: 27px;
+    margin-bottom: 15px;
+    font-weight: 500;
     -webkit-transition: 0.3s;
     -moz-transition: 0.3s;
     -o-transition: 0.3s;
@@ -10359,6 +10351,27 @@ button:active,
     display: inline-block;
     background: #effdf5;
 }
+
+.home_jobs .jobs_right .apply_now a.heart_mark {
+    width: 40px;
+    height: 40px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #00d363;
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+    display: inline-block;
+    background: #effdf5;
+}
+
+
+.home_jobs .jobs_right .apply_now a.heart_mark:hover {
+    background: #00d363;
+    color: #fff;
+}
+
 .section-4
     .job_details_area
     .single_jobs

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Careers;
 use App\Models\Job;
+use App\Models\SavedJob;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -17,14 +19,34 @@ class HomeController extends Controller
         $newCareers = Careers::where('status', 1)->orderBy('name','ASC')->get();
 
         $featureJobs = Job::where('status', 1)
-                       ->orderBy('created_at','DESC')
-                       ->with('jobType')
-                       ->where('isFeatured',1)->take(6)->get();
+            ->where('isFeatured', 1)
+            ->with('jobType', 'user')
+            ->orderBy('created_at', 'DESC')
+            ->take(6)
+            ->get()
+            ->map(function ($job) {
+                $job->is_saved = Auth::check() && SavedJob::where([
+                    'user_id' => Auth::id(),
+                    'job_id' => $job->id
+                ])->exists();
+                return $job;
+        });
 
         $latesJobs = Job::where('status', 1)
-                     ->with('jobType')
-                     ->orderBy('created_at','DESC')
-                     ->take(6)->get();
+            ->with('jobType', 'user')
+            ->orderBy('created_at', 'DESC')
+            ->take(6)
+            ->get()
+            ->map(function ($job) {
+                $job->is_saved = Auth::check() && SavedJob::where([
+                    'user_id' => Auth::id(),
+                    'job_id' => $job->id
+                ])->exists();
+                return $job;
+        });
+
+        
+       
 
         return view('front.home', [
             'careers' => $careers,

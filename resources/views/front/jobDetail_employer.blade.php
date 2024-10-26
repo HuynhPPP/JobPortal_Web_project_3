@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col">
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3">
-                    <ol class="breadcrumb mb-0">
+                    <ol class="breadcrumb mb-0 fs-5">
                         <li class="breadcrumb-item"><a href="{{ route("jobs") }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;Quay lại trang tìm việc</a></li>
                     </ol>
                 </nav>
@@ -27,23 +27,25 @@
                                         <h4>{{ $job->title }}</h4>
                                     </a>
                                     <div class="links_locat d-flex align-items-center">
-                                        <div class="location">
-                                            <p> <i class="fa fa-map-marker"></i> {{ $job->company_location }}</p>
+                                        <div class="location d-flex align-items-center">
+                                            <i class="fa fa-map-marker" style="margin-right: 7px"></i> 
+                                            @if (!empty($job->province) && !empty($job->district))
+                                                <p>{{ $job->district }}, {{ $job->province }}</p>
+                                            @else
+                                                <p style="color: red">Chưa cập nhật</p>
+                                            @endif
                                         </div>
-                                        <div class="location">
-                                            <p> <i class="fa fa-clock-o"></i> {{ $job->jobType->name }}</p>
+                                        <div class="location d-flex align-items-center">
+                                            <i class="fa fa-calendar-times-o" aria-hidden="true" style="margin-right: 7px"></i> 
+                                            <p>{{ $job->jobType->name }}</p>
+                                        </div>
+                                        <div class="location d-flex align-items-center">
+                                            <i class="fa fa-clock-o" style="margin-right: 7px"></i> 
+                                            <p>{{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="jobs_right">
-                                <div class="apply_now">
-                                    <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $job->id }}, this)">
-                                        <i class="fa {{ ($count == 1) ? 'fa-heart' : 'fa-heart-o' }}" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                                
-                            </div> --}}
                         </div>
                     </div>
                     <div class="descript_wrap white-bg">
@@ -138,7 +140,6 @@
                         </div>
                         <div class="job_content pt-3">
                             <ul>
-                                <li>Thời điểm đăng: <span>{{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</span></li>
                                 <li>
                                     @if (empty($job->job_level))
                                         Cấp bậc: <span style="color: red">chưa cập nhật</span>
@@ -187,10 +188,10 @@
                             <ul>
                                 <li>Tên công ty: <span>{{ $job->company_name }}</span></li>
                                 <li>
-                                    @if (empty($job->company_location))
+                                    @if (empty($job->province) && empty($job->district))
                                         Địa chỉ: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Địa chỉ: <span> {{ $job->company_location }}</span>
+                                        Địa chỉ: <span> {{ $job->district }}, {{ $job->province }}</span>
                                     @endif
                                 </li>
                                 <li>

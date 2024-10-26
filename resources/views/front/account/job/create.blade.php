@@ -221,6 +221,7 @@
                 } else {
                     var errors = response.errors;
 
+                    toastr.warning('Có lỗi xảy ra, hãy kiểm tra lại !');
                     // Title
                     if (errors.title) {
                         $("#title").addClass('is-invalid')
