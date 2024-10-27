@@ -53,15 +53,7 @@
                                         >
                                 <p></p>
                             </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Vai trò</label>
-                                <input type="text" 
-                                    name="designation" 
-                                    id="designation" 
-                                    placeholder="Ví dụ: người tìm việc, nhà tuyển dụng,...." 
-                                    class="form-control"
-                                    value="{{ $user->designation }}">
-                            </div>
+                            
                             <div class="mb-4">
                                 <label for="" class="mb-2">Số điện thoại</label>
                                 <input type="text" 
@@ -72,6 +64,83 @@
                                     value="{{ $user->mobile }}"
                                     >
                                 <p></p>
+                            </div>                        
+                        </div>
+                        <div class="card-footer  p-4">
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card border-0 shadow mb-4">
+                    <form action="" method="post" id="userFormCompany" name="userFormCompany">
+                        <div class="card-body  p-4">
+                            @if (Auth::check() && Auth::user()->role === 'employer')
+                                <h3 class="fs-4 mb-1">Thông tin công ty</h3>
+                            @endif
+                            <p>Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
+                            <div class="mb-4">
+                                <label for="" class="mb-2">Tên công ty <span style="color: red">*</span></label>
+                                <input type="text" 
+                                    name="company_name" id="company_name" 
+                                    placeholder="Ví dụ: TopWork" 
+                                    class="form-control" 
+                                    value="{{ $user->company_name }}"
+                                    >
+                                <p></p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="address" class="form-label">Địa chỉ</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" id="province" name="province">
+                                            @if(!empty($user->province))
+                                                <option selected>{{ $user->province }}</option>
+                                            @else
+                                                <option selected>Chọn tỉnh / thành</option>
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="province_name" name="province_name">
+                                
+                                        <select class="form-select" id="district" name="district">
+                                            @if(!empty($user->district))
+                                                <option selected>{{ $user->district }}</option>
+                                            @else
+                                                <option selected>Chọn quận / huyện</option>
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="district_name" name="district_name">
+                                
+                                        <select class="form-select" id="wards" name="wards">
+                                            @if(!empty($user->wards))
+                                                <option selected>{{ $user->wards }}</option>
+                                            @else
+                                                <option selected>Chọn phường / xã</option>
+                                            @endif
+                                        </select>
+                                        <input type="hidden" id="ward_name" name="ward_name">
+                                
+                                    </div>
+                                <label for="" class="mb-2">Địa chỉ chi tiết</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="location_detail" 
+                                       name="location_detail" 
+                                       placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội"
+                                       value="{{ $user->location_detail }}"
+                                    >
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">Địa chỉ Website</label>
+                                    <input type="text" 
+                                           placeholder="Ví dụ: https://topwork.vn/" 
+                                           id="company_website" 
+                                           name="company_website" 
+                                           class="form-control"
+                                           value="{{ $user->company_website }}"
+                                        >
+                                </div>
                             </div>                        
                         </div>
                         <div class="card-footer  p-4">
@@ -187,6 +256,42 @@
         });
     });
 
+    $("#userFormCompany").submit(function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url: '{{ route("account.updateProfileCompany") }}',
+            type: 'put',
+            dataType: 'json',
+            data: $("#userFormCompany").serializeArray(),
+            success: function(response){
+                if(response.status == true) {
+                    $("#company_name").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+
+                        window.location.href="{{ route("account.profile") }}";
+                } else {
+                    var errors = response.errors;
+
+                    if (errors.company_name) {
+                        $("#company_name").addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(errors.company_name);
+                    } else {
+                        $("#company_name").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+                    }
+                }
+
+            }
+        });
+    });
+
     $("#changePasswordForm").submit(function(e){
         e.preventDefault();
 
@@ -252,5 +357,57 @@
             }
         });
     });
+</script>
+
+<script>
+    $(document).ready(function() {
+    $.getJSON('/api/proxy/provinces', function(data_tinh) {
+        if (data_tinh.error === 0) {
+            $.each(data_tinh.data, function(key_tinh, val_tinh) {
+                $("#province").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+            });
+
+            // Khi chọn tỉnh
+            $("#province").change(function(e) {
+                var idtinh = $(this).val();
+                var tentinh = $("#province option:selected").text();
+                $("#province_name").val(tentinh); // Lưu tên tỉnh
+
+                $.getJSON('/api/proxy/districts/' + idtinh, function(data_quan) {
+                    if (data_quan.error === 0) {
+                        $("#district").html('<option value="0">Chọn Quận / Huyện</option>');
+                        $("#wards").html('<option value="0">Chọn Phường / Xã</option>');
+
+                        $.each(data_quan.data, function(key_quan, val_quan) {
+                            $("#district").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                        });
+
+                        // Khi chọn quận
+                        $("#district").change(function(e) {
+                            var idquan = $(this).val();
+                            var tenquan = $("#district option:selected").text();
+                            $("#district_name").val(tenquan); // Lưu tên huyện
+
+                            $.getJSON('/api/proxy/wards/' + idquan, function(data_phuong) {
+                                if (data_phuong.error === 0) {
+                                    $("#wards").html('<option value="0">Chọn Phường / Xã</option>');
+                                    $.each(data_phuong.data, function(key_phuong, val_phuong) {
+                                        $("#wards").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                    });
+
+                                    // Khi chọn xã
+                                    $("#wards").change(function(e) {
+                                        var tenxa = $("#wards option:selected").text();
+                                        $("#ward_name").val(tenxa); // Lưu tên xã
+                                    });
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+        }
+    });
+});
 </script>
 @endsection

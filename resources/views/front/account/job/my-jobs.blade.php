@@ -61,8 +61,10 @@
                                                     <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                                                 @elseif ($job->status == 0)
                                                     <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
-                                                @else
+                                                @elseif ($job->status == 2)
                                                     <div class="job-status text-capitalize text-danger">Hết hạn</div>
+                                                @else
+                                                    <div class="job-status text-success">Công việc đã đủ số lượng ứng tuyển</div>
                                                 @endif
                                             </td>
                                             <td>

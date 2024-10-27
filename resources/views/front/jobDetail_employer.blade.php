@@ -89,9 +89,11 @@
                                     <div class="jobs_left d-flex align-items-center">
                                         
                                         <div class="jobs_conetent">
-                                            <a href="#">
+                                            
                                                 <h4>Danh sách các ứng viên ứng tuyển</h4>
-                                            </a>
+                                                @if($isApplicationFull)
+                                                    <p class="text-danger">Công việc này đã đủ số lượng ứng viên !</p>
+                                                @endif
                                         </div>
                                     </div>
                                     <div class="jobs_right"></div>
@@ -123,7 +125,7 @@
                                         @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="4">Chưa có ứng viên</td>
+                                                <td colspan="4" ><p class="text-danger">Chưa có ứng viên</p></td>
                                             </tr>
                                     @endif
                                 </table>

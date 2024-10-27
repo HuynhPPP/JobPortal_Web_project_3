@@ -121,6 +121,10 @@ class JobsController extends Controller
             abort(404);
         }
 
+        $applicationCount = JobApplication::where('job_id', $id)->count();
+
+        $isApplicationFull = $applicationCount == $job->vacancy;
+
         $applications = JobApplication::where('job_id',$id)->with('user')->get();
 
         
@@ -128,6 +132,7 @@ class JobsController extends Controller
         return view('front.jobDetail_employer',[
             'job' => $job,
             'applications' => $applications,
+            'isApplicationFull' => $isApplicationFull,
         ]);
     }
 

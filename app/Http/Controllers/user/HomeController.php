@@ -7,6 +7,7 @@ use App\Models\Careers;
 use App\Models\Job;
 use App\Models\SavedJob;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,6 +33,7 @@ class HomeController extends Controller
                 return $job;
         });
 
+
         $latesJobs = Job::where('status', 1)
             ->with('jobType', 'user')
             ->orderBy('created_at', 'DESC')
@@ -46,8 +48,6 @@ class HomeController extends Controller
         });
 
         
-       
-
         return view('front.home', [
             'careers' => $careers,
             'featureJobs' => $featureJobs,

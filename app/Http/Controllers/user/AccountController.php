@@ -176,7 +176,6 @@ class AccountController extends Controller
             $user->fullname = $request->name;
             $user->email = $request->email;
             $user->mobile = $request->mobile;
-            $user->designation = $request->designation;
             $user->save();
     
             session()->flash('toastr', ['success' => 'Cập nhật thành công']);
@@ -196,6 +195,50 @@ class AccountController extends Controller
         }
     }
     
+    public function updateProfileCompany(Request $request) {
+
+        $id = Auth::user()->id;
+
+        $request->merge([
+            'company_name' => preg_replace('/\s+/', ' ', trim($request->input('company_name'))),
+        ]);
+    
+        $rules = [
+            'company_name.required' => 'Trường họ và tên không được để trống.',
+        ];
+    
+        $messages = [
+            'company_name.required' => 'Trường họ và tên không được để trống.',
+        ];
+    
+        $validator = Validator::make($request->all(), $rules, $messages);
+    
+        if ($validator->passes()) {
+            $user = User::find($id);
+            $user->company_name = $request->company_name;
+            $user->province = $request->province_name ? $request->province_name : $user->province;
+            $user->district = $request->district_name ? $request->district_name : $user->district;
+            $user->wards = $request->ward_name ? $request->ward_name : $user->wards;
+            $user->location_detail = $request->location_detail;
+            $user->company_website = $request->company_website;
+            $user->save();
+    
+            session()->flash('toastr', ['success' => 'Cập nhật thành công']);
+    
+            return response()->json([
+                'status' => true,
+                'errors' => [],
+            ]);
+    
+        } else {
+            session()->flash('toastr', value: ['warning' => 'Cập nhật chưa được thay đổi !']);
+    
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+    }
 
     public function logout() {
         Auth::logout();
@@ -263,9 +306,13 @@ class AccountController extends Controller
        $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
 
        $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
+
+       $user = Auth::user();
+
         return view('front.account.job.create', [
             'careers' => $careers,
             'jobtypes' => $jobtype,
+            'user' => $user,
         ]);
     }
 
@@ -327,7 +374,6 @@ class AccountController extends Controller
             $job->save();
 
             session()->flash('toastr', ['success' => 'Thêm việc làm thành công']);
-            // session()->flash('success','Thêm việc làm thành công');
 
             return response()->json([
                 'status' => true,
@@ -348,6 +394,14 @@ class AccountController extends Controller
                 ->with('jobType')
                 ->orderBy('created_at','DESC')
                 ->paginate(10);
+
+        foreach ($jobs as $job) {
+            $applicationCount = JobApplication::where('job_id', $job->id)->count();
+            if ($applicationCount >= $job->vacancy) {
+                $job->status = 3; 
+                $job->save();
+            }
+        }
 
         return view('front.account.job.my-jobs', [
             'jobs' => $jobs,
@@ -473,9 +527,7 @@ class AccountController extends Controller
                             ->with(['job', 'job.jobType', 'job.applications'])
                             ->orderBy('created_at', 'DESC');
                             
-        // Nếu người dùng nhập từ khóa tìm kiếm
         if (!empty($request->keyword)) {
-            // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
             $jobApplicationsQuery->whereHas('job', function($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->keyword . '%');
             });

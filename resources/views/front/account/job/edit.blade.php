@@ -197,7 +197,7 @@
                                             @if(!empty($job->district))
                                                 <option selected>{{ $job->district }}</option>
                                             @else
-                                                <option selected>Chọn tỉnh / thành</option>
+                                                <option selected>Chọn quận / huyện</option>
                                             @endif
                                         </select>
                                         <input type="hidden" id="district_name" name="district_name">
@@ -206,7 +206,7 @@
                                             @if(!empty($job->wards))
                                                 <option selected>{{ $job->wards }}</option>
                                             @else
-                                                <option selected>Chọn tỉnh / thành</option>
+                                                <option selected>Chọn phường / xã</option>
                                             @endif
                                         </select>
                                         <input type="hidden" id="ward_name" name="ward_name">

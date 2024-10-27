@@ -122,40 +122,54 @@
                             <div class="row">
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Tên công ty<span class="req">*</span></label>
-                                    <input type="text" placeholder="Nhập tên công ty..." id="company_name" name="company_name" class="form-control">
+                                    <input type="text" 
+                                           placeholder="Ví dụ: TopWork" 
+                                           id="company_name" 
+                                           name="company_name" 
+                                           class="form-control" 
+                                           value="{{ $user->company_name }}"
+                                    >
                                     <p></p>
                                 </div>
-                
                                 <div class="mb-4">
                                     <label for="address" class="form-label">Địa chỉ</label>
                                     <div class="input-group mb-3">
-                                        
                                         <select class="form-select" id="province" name="province">
-                                            <option selected>Chọn tỉnh / thành</option>
+                                            <option selected>{{ $user->province ?: 'Chọn tỉnh / thành' }}</option>
                                         </select>
-                                        <input type="hidden" id="province_name" name="province_name">
-                                
+                                        <input type="hidden" id="province_name" name="province_name" value="{{ $user->province }}">
+                                        
                                         <select class="form-select" id="district" name="district">
-                                            <option selected>Chọn quận / huyện</option>
+                                            <option selected>{{ $user->district ?: 'Chọn quận / huyện' }}</option>
                                         </select>
-                                        <input type="hidden" id="district_name" name="district_name">
-                                
+                                        <input type="hidden" id="district_name" name="district_name" value="{{ $user->district }}">
+                                        
                                         <select class="form-select" id="wards" name="wards">
-                                            <option selected>Chọn phường / xã</option>
+                                            <option selected>{{ $user->wards ?: 'Chọn phường / xã' }}</option>
                                         </select>
-                                        <input type="hidden" id="ward_name" name="ward_name">
-                                
+                                        <input type="hidden" id="ward_name" name="ward_name" value="{{ $user->wards }}">
                                     </div>
+                                    
                                     <label for="" class="mb-2">Địa chỉ chi tiết</label>
-                                    <input type="text" class="form-control" id="location_detail" name="location_detail" placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội">
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="location_detail" 
+                                           name="location_detail" 
+                                           placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội" 
+                                           value="{{ $user->location_detail }}">
                                 </div>
-                                
                             </div>
-                
+                            
                             <div class="mb-4">
                                 <label for="" class="mb-2">Địa chỉ Website</label>
-                                <input type="text" placeholder="Ví dụ: https://topwork.vn/" id="company_website" name="company_website" class="form-control">
+                                <input type="text" 
+                                       placeholder="Ví dụ: https://topwork.vn/" 
+                                       id="company_website" 
+                                       name="company_website" 
+                                       class="form-control" 
+                                       value="{{ $user->company_website }}">
                             </div>
+                            
                         </div>
                         <div class="card-footer p-4">
                             <button type="submit" class="btn btn-primary">Lưu công việc</button>

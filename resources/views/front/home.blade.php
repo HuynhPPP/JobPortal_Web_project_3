@@ -106,7 +106,8 @@
                                             @if (empty($featureJob->description))
                                                 <p style="color: red">Chưa có mô tả cho công việc này</p>
                                             @else 
-                                                <p>{{ Str::words(strip_tags($featureJob->description), 10) }}</p>
+                                                <p>{{ $featureJob->company_name }}</p>
+                                                {{-- <p>{{ Str::words(strip_tags($featureJob->description), 10) }}</p> --}}
                                             @endif
 
                                             <div class="bg-light p-3 border">
@@ -134,17 +135,23 @@
                                                     </p>
                                                 @endif
 
-                                                @if (!is_null($featureJob->salary))
+                                                @if (Auth::check() && !is_null($featureJob->salary))
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-usd"></i></span>
                                                         <span class="ps-1">{{ $featureJob->salary }}</span>
                                                     </p>
-                                                @else
+                                                @elseif (is_null($featureJob->salary))
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-usd"></i></span>
                                                         <span class="ps-1" style="color: red">Mức lương chưa cập nhật</span>
                                                     </p>
-                                                @endif                                              
+                                                @else
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                                        <span class="ps-1" style="color: red">Đăng nhập để xem mức lương</span>
+                                                    </p>
+                                                @endif
+                                          
                                             </div>
 
                                             <div class="d-grid mt-3">
@@ -230,22 +237,32 @@
                                                         <span class="ps-1">{{ $latesJob->jobType->name }}</span>
                                                     </p>
                                                 @endif
-
-                                                @if (!is_null($latesJob->salary))
+ 
+                                                @if (Auth::check() && !is_null($latesJob->salary))
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-usd"></i></span>
                                                         <span class="ps-1">{{ $latesJob->salary }}</span>
                                                     </p>
-                                                @else
+                                                @elseif (is_null($latesJob->salary))
                                                     <p class="mb-0">
                                                         <span class="fw-bolder"><i class="fa fa-usd"></i></span>
                                                         <span class="ps-1" style="color: red">Mức lương chưa cập nhật</span>
                                                     </p>
-                                                @endif                                             
+                                                @else
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                                        <span class="ps-1" style="color: red">Đăng nhập để xem mức lương</span>
+                                                    </p>
+                                                @endif                                         
                                             </div>
         
                                             <div class="d-grid mt-3">
-                                                <a href="{{ route('jobDetail',$latesJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                @if (Auth::check() && Auth::user()->role === 'employer')
+                                                    <a href="{{ route('JobDetail_employer',$latesJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                @else
+                                                    <a href="{{ route('JobDetail_employer',$latesJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                @endif  
+                                                
                                             </div>
                                         </div>
                                     </div>
