@@ -68,9 +68,9 @@
     </div>
 </section>
 
-<section class="section-3  py-5">
+<section class="section-3 py-5 job_popular_home">
     <div class="container">
-        <h2>Công việc nổi bật</h2>
+         <h2>🔥 Công việc nổi bật</h2>
         <div class="row pt-5">
             <div class="job_listing_area">                    
                 <div class="job_lists">
@@ -92,6 +92,7 @@
                                                                 "
                                                     />
                                                 </div>
+                                                @if (Auth::check() && Auth::user()->role === 'user')
                                                 <div class="jobs_right col-2">
                                                     <div class="apply_now">
                                                         <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $featureJob->id }}, this)">
@@ -99,9 +100,10 @@
                                                         </a>
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
                                                 
-                                            <h3 class="border-0 fs-5 pb-2 mb-0">{{ $featureJob->title }}</h3>
+                                            <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">{{ $featureJob->title }}</h3>
 
                                             @if (empty($featureJob->description))
                                                 <p style="color: red">Chưa có mô tả cho công việc này</p>
@@ -196,6 +198,7 @@
                                                         style="max-width: 100px; max-height: 100px;"
                                                     />
                                                 </div>
+                                                @if (Auth::check() && Auth::user()->role === 'user')
                                                 <div class="jobs_right col-2">
                                                     <div class="apply_now">
                                                         <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $latesJob->id }}, this)">
@@ -203,13 +206,14 @@
                                                         </a>
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
-                                            <h3 class="border-0 fs-5 pb-2 mb-0">{{ $latesJob->title }}</h3>
+                                            <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">{{ $latesJob->title }}</h3>
 
-                                            @if (empty($latesJob->description))
+                                            @if (empty($latesJob->company_name))
                                                 <p style="color: red">Chưa có mô tả cho công việc này</p>
                                             @else 
-                                                <p>{{ Str::words(strip_tags($latesJob->description), 10) }}</p>
+                                                <p>{{ Str::words(strip_tags($latesJob->company_name), 8) }}</p>
                                             @endif
                                             
 

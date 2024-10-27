@@ -97,7 +97,7 @@
                                     <div class="col-md-4">
                                         <div class="card border-0 p-3 shadow mb-4">
                                             <div class="card-body">
-                                                <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
+                                                <h3 class="border-0 fs-5 pb-2 mb-0">{{ Str::words(strip_tags($job->title), 8) }}</h3>
                                                 <p>{{ $job->company_name }}</p>
                                                 <div class="bg-light p-3 border">
 

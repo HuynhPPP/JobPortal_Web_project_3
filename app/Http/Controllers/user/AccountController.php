@@ -246,7 +246,6 @@ class AccountController extends Controller
     }
 
     public function updateProfilePicture(Request $request) {
-        // dd($request->all());
 
         $id = Auth::user()->id;
 
@@ -269,16 +268,14 @@ class AccountController extends Controller
             $profilePicturePath = public_path('/assets/user/profile_picture/');
             $thumbPath = public_path('/assets/user/profile_picture/thumb/');
 
-             $image->move($profilePicturePath, $imageName);
+            $image->move($profilePicturePath, $imageName);
 
-            // Create a small thumbnail
             $sourcePath = public_path('/assets/user/profile_picture/'.$imageName);
             $manager = new ImageManager(Driver::class);
             $image = $manager->read($sourcePath);
 
-            // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
             $image->cover(150, 150);
-            $image->toPng()->save($thumbPath . $imageName);
+            $image->toPng()->save($thumbPath.$imageName);
 
             // Delete Old Profile Pic
             File::delete(public_path('/assets/user/profile_picture/thumb/'.Auth::user()->image));
@@ -287,7 +284,6 @@ class AccountController extends Controller
             User::where('id',$id)->update(['image' => $imageName]);
 
             session()->flash('toastr', ['success' => 'Đăng ảnh đại diện thành công']);
-            // session()->flash('success','Đăng ảnh đại diện thành công.');
 
             return response()->json([
                 'status' => true,
@@ -325,7 +321,6 @@ class AccountController extends Controller
             'vacancy' => 'required|integer',
             'level' => 'required|max:50',
             'description' => 'required',
-            'keywords' => 'required',
             'company_name' => 'required|min:3|max:75',
         ];
 
@@ -340,7 +335,6 @@ class AccountController extends Controller
             'level.required' => 'Vị trí cần tuyển không được để trống.',
             'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
             'description.required' => 'Mô tả công việc không được để trống.',
-            'keywords.required' => 'Từ khóa không được để trống.',
             'company_name.required' => 'Tên công ty không được để trống.',
             'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
             'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
@@ -388,12 +382,18 @@ class AccountController extends Controller
         }
     }
 
-    public function myJobs() {
+    public function myJobs(Request $request) {
 
-        $jobs = Job::where('user_id', Auth::user()->id)
+        $jobQuery = Job::where('user_id', Auth::user()->id)
                 ->with('jobType')
-                ->orderBy('created_at','DESC')
-                ->paginate(10);
+                ->orderBy('created_at','DESC');
+
+        if (!empty($request->keyword)) {
+            $jobQuery->where('title', 'like', '%' . $request->keyword . '%'); 
+            
+        }
+            
+        $jobs = $jobQuery->paginate(10);
 
         foreach ($jobs as $job) {
             $applicationCount = JobApplication::where('job_id', $job->id)->count();

@@ -61,11 +61,13 @@
                                                 <td>{{ $jobApplication->job->applications->count() }} ứng tuyển</td>
                                                 <td>
                                                     @if ($jobApplication->job->status == 1)
-                                                        <div class="job-status text-capitalize text-success">Hoạt động</div>
-                                                    @elseif ($job->status == 2)
-                                                        <div class="job-status text-capitalize text-warning">Đang xử lý</div>
-                                                    @else
+                                                        <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
+                                                    @elseif ($jobApplication->job->status == 0)
+                                                        <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
+                                                    @elseif ($jobApplication->job->status == 2)
                                                         <div class="job-status text-capitalize text-danger">Hết hạn</div>
+                                                    @else
+                                                        <div class="job-status text-warning">Công việc đã đủ số lượng ứng tuyển</div>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -115,7 +117,6 @@
 
         var keyword = $("#keyword").val();
         
-        // If keyword has a value
         if (keyword != ""){
             url += '&keyword='+keyword;
         }

@@ -27,7 +27,13 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <label for="" class="mb-2">Tiêu đề<span class="req">*</span></label>
-                                    <input type="text" placeholder="Tiêu đề công việc" id="title" name="title" class="form-control">
+                                    <input type="text" 
+                                           placeholder="Tiêu đề công việc" 
+                                           id="title" 
+                                           name="title" 
+                                           class="form-control"
+                                           value="{{ old('title') }}"
+                                    >
                                     <p></p>
                                 </div>
                                 <div class="col-md-6 mb-4">
@@ -36,7 +42,9 @@
                                         <option value="">Chọn ngành nghề</option>
                                         @if ($careers->isNotEmpty())
                                             @foreach ($careers as $career)
-                                            <option value="{{ $career->id }}">{{ $career->name }}</option>
+                                            <option value="{{ $career->id }}" {{ old('category') == $career->id ? 'selected' : '' }}>
+                                                {{ $career->name }}
+                                            </option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -51,7 +59,9 @@
                                         <option value="">Loại hợp đồng</option>
                                         @if ($jobtypes->isNotEmpty())
                                             @foreach ($jobtypes as $jobtype)
-                                            <option value="{{ $jobtype->id }}">{{ $jobtype->name }}</option>
+                                            <option value="{{ $jobtype->id }}" {{ old('jobType') == $jobtype->id ? 'selected' : '' }}>
+                                                {{ $jobtype->name }}
+                                            </option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -59,7 +69,13 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <label for="" class="mb-2">Số lượng tuyển<span class="req">*</span></label>
-                                    <input type="number" min="1" placeholder="Số lượng tuyển" id="vacancy" name="vacancy" class="form-control">
+                                    <input type="number" 
+                                           min="1" 
+                                           placeholder="Số lượng tuyển" 
+                                           id="vacancy" 
+                                           name="vacancy" 
+                                           class="form-control"
+                                           value="{{ old('vacancy') }}">
                                     <p></p>
                                 </div>
                             </div>
@@ -67,12 +83,24 @@
                             <div class="row">
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Mức lương</label>
-                                    <input type="text" placeholder="Mức lương" id="salary" name="salary" class="form-control">
+                                    <input type="text" 
+                                           placeholder="Mức lương" 
+                                           id="salary" 
+                                           name="salary" 
+                                           class="form-control"
+                                           value="{{ old('salary') }}"
+                                    >
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Vị trí cần tuyển<span class="req">*</span></label>
-                                    <input type="text" placeholder="Ví dụ: Junior, Middle, Senior,..." id="level" name="level" class="form-control">
+                                    <input type="text" 
+                                           placeholder="Ví dụ: Junior, Middle, Senior,..." 
+                                           id="level" 
+                                           name="level" 
+                                           class="form-control" 
+                                           value="{{ old('level') }}"
+                                    >
                                     <p></p>
                                 </div>
                             </div>
@@ -83,37 +111,37 @@
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Phúc lợi</label>
-                                <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi"></textarea>
+                                <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi">{{ old('description') }}</textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Trách nhiệm công việc</label>
-                                <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm"></textarea>
+                                <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm">{{ old('responsibility') }}</textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Kỹ năng & Chuyên môn</label>
-                                <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc..."></textarea>
+                                <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc...">{{ old('qualifications') }}</textarea>
                             </div>
                 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Kinh nghiệm tối thiểu</label>
                                 <select name="experience" id="experience" class="form-control">
-                                    <option value="1">1 năm</option>
-                                    <option value="2">2 năm</option>
-                                    <option value="3">3 năm</option>
-                                    <option value="4">4 năm</option>
-                                    <option value="5">5 năm</option>
-                                    <option value="6">6 năm</option>
-                                    <option value="7">7 năm</option>
-                                    <option value="8">8 năm</option>
-                                    <option value="9">9 năm</option>
-                                    <option value="10">10 năm</option>
-                                    <option value="10_plus">Trên 10 năm</option>
-                                </select>
+                                    <option value="1" {{ old('experience') == '1' ? 'selected' : '' }}>1 năm</option>
+                                    <option value="2" {{ old('experience') == '2' ? 'selected' : '' }}>2 năm</option>
+                                    <option value="3" {{ old('experience') == '3' ? 'selected' : '' }}>3 năm</option>
+                                    <option value="4" {{ old('experience') == '4' ? 'selected' : '' }}>4 năm</option>
+                                    <option value="5" {{ old('experience') == '5' ? 'selected' : '' }}>5 năm</option>
+                                    <option value="6" {{ old('experience') == '6' ? 'selected' : '' }}>6 năm</option>
+                                    <option value="7" {{ old('experience') == '7' ? 'selected' : '' }}>7 năm</option>
+                                    <option value="8" {{ old('experience') == '8' ? 'selected' : '' }}>8 năm</option>
+                                    <option value="9" {{ old('experience') == '9' ? 'selected' : '' }}>9 năm</option>
+                                    <option value="10" {{ old('experience') == '10' ? 'selected' : '' }}>10 năm</option>
+                                    <option value="10_plus" {{ old('experience') == '10_plus' ? 'selected' : '' }}>Trên 10 năm</option>
+                                </select>                                
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Từ khóa<span class="req">*</span></label>
-                                <input type="text" placeholder="Nhập từ khóa..." id="keywords" name="keywords" class="form-control">
+                                <label for="" class="mb-2">Từ khóa</label>
+                                <input type="text" placeholder="Ví dụ: PHP, Java,...." id="keywords" name="keywords" class="form-control">
                                 <p></p>
                             </div>
                 
@@ -127,7 +155,7 @@
                                            id="company_name" 
                                            name="company_name" 
                                            class="form-control" 
-                                           value="{{ $user->company_name }}"
+                                            value="{{ old('company_name', $user->company_name) }}"
                                     >
                                     <p></p>
                                 </div>
@@ -135,19 +163,19 @@
                                     <label for="address" class="form-label">Địa chỉ</label>
                                     <div class="input-group mb-3">
                                         <select class="form-select" id="province" name="province">
-                                            <option selected>{{ $user->province ?: 'Chọn tỉnh / thành' }}</option>
+                                            <option value="">{{ old('province', $user->province) ?: 'Chọn tỉnh / thành' }}</option>
                                         </select>
-                                        <input type="hidden" id="province_name" name="province_name" value="{{ $user->province }}">
+                                        <input type="hidden" id="province_name" name="province_name" value="{{ old('province_name', $user->province) }}">
                                         
                                         <select class="form-select" id="district" name="district">
-                                            <option selected>{{ $user->district ?: 'Chọn quận / huyện' }}</option>
+                                            <option value="">{{ old('district', $user->district) ?: 'Chọn quận / huyện' }}</option>
                                         </select>
-                                        <input type="hidden" id="district_name" name="district_name" value="{{ $user->district }}">
+                                        <input type="hidden" id="district_name" name="district_name" value="{{ old('district_name', $user->district) }}">
                                         
                                         <select class="form-select" id="wards" name="wards">
-                                            <option selected>{{ $user->wards ?: 'Chọn phường / xã' }}</option>
+                                            <option value="">{{ old('wards', $user->wards) ?: 'Chọn phường / xã' }}</option>
                                         </select>
-                                        <input type="hidden" id="ward_name" name="ward_name" value="{{ $user->wards }}">
+                                        <input type="hidden" id="ward_name" name="ward_name" value="{{ old('ward_name', $user->wards) }}">
                                     </div>
                                     
                                     <label for="" class="mb-2">Địa chỉ chi tiết</label>
@@ -156,7 +184,7 @@
                                            id="location_detail" 
                                            name="location_detail" 
                                            placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội" 
-                                           value="{{ $user->location_detail }}">
+                                           value="{{ old('location_detail', $user->location_detail) }}">
                                 </div>
                             </div>
                             
@@ -167,7 +195,7 @@
                                        id="company_website" 
                                        name="company_website" 
                                        class="form-control" 
-                                       value="{{ $user->company_website }}">
+                                        value="{{ old('company_website', $user->company_website) }}">
                             </div>
                             
                         </div>
@@ -217,11 +245,6 @@
                         .html('');
 
                     $("#level").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-
-                    $("#keyword").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
@@ -297,18 +320,7 @@
                         .html('');
                     }
                     
-                    // Keywords
-                    if (errors.keyword) {
-                        $("#keyword").addClass('is-invalid')
-                        .siblings('p')
-                        .addClass('invalid-feedback')
-                        .html(errors.keyword);
-                    } else {
-                        $("#keyword").removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback')
-                        .html('');
-                    }
+                    
                     // Company_name
                     if (errors.company_name) {
                         $("#company_name").addClass('is-invalid')

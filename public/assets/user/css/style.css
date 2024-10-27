@@ -878,6 +878,7 @@ progress {
 .table-striped > tbody > tr:nth-of-type(odd) > * {
     --bs-table-accent-bg: var(--bs-table-striped-bg);
     color: var(--bs-table-striped-color);
+    font-weight: 600;
 }
 .table-active {
     --bs-table-accent-bg: var(--bs-table-active-bg);
@@ -9921,6 +9922,17 @@ h2:after {
     bottom: 0px;
     left: 0px;
 }
+
+.job_popular_home h2:after {
+    content: "";
+    position: absolute;
+    background-color: red;
+    width: 70px;
+    height: 4px;
+    bottom: 0px;
+    left: 0px;
+}
+
 h3 {
     font-size: 36px;
 }
@@ -10398,6 +10410,10 @@ footer .nav-link {
 .section-5 .card th {
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
+
+.section-5 .card th { 
+    font-weight: 600;
+}
 .section-5 .card .info1 {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -10702,6 +10718,10 @@ footer .nav-link {
 .card-body-error-find .text-content h5 {
     color: #ff5722;
     font-weight: bold;
+}
+
+.job_popular_home {
+    background: linear-gradient(295.89deg, #ff4b2d -101.99%, #fffdf9 102.52%);
 }
   
 

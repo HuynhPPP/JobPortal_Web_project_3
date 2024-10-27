@@ -27,7 +27,7 @@
                             </div>
                             <div style="margin-top: -10px;">
                                 <div class="input-group">
-                                    <form action="" class="d-flex">
+                                    <form action="" name="searchForm" id="searchForm" class="d-flex">
                                         <input value="" type="text" name="keyword" id="keyword" placeholder="Nhập tiêu đề..." class="form-control me-2">
                                         <button type="submit" class="btn btn-primary w-50">Tìm kiếm</button>
                                       </form>                                      
@@ -51,11 +51,11 @@
                                         @foreach ($jobs as $job)
                                         <tr class="active">
                                             <td>
-                                                <div class="job-name fw-500">{{ $job->title }}</div>
+                                                <div class="job-name fw-500">{{ Str::words(strip_tags($job->title), 6) }}</div>
                                                 <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}</div>
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($job->created_at)->locale('vi')->translatedFormat('d F, Y') }}</td>
-                                            <td>{{ $job->vacancy }}</td>
+                                            <td class="text-center">{{ $job->vacancy }}</td>
                                             <td>
                                                 @if ($job->status == 1)
                                                     <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
@@ -85,6 +85,10 @@
                                             </td>
                                         </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td class="text-danger">Bạn chưa đăng công việc</td>
+                                        </tr>
                                     @endif
                                 </tbody>                               
                             </table>
@@ -117,5 +121,20 @@
 
         }
     }
+</script>
+
+<script type="text/javascript">
+    $("#searchForm").submit(function(e){
+        e.preventDefault();
+
+        var url = '{{ route("account.myJobs") }}?';
+
+        var keyword = $("#keyword").val();
+        
+        if (keyword != ""){
+            url += '&keyword='+keyword;
+        }
+        window.location.href=url;
+    });
 </script>
 @endsection
