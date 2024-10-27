@@ -11,6 +11,7 @@ use App\Http\Controllers\user\JobsController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\CareerController;
 use App\Http\Controllers\admin\FileDownloadController;
+use App\Http\Controllers\admin\NotificationController;
 use App\Http\Controllers\user\ApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::get("/admin/home", [AdminController::class, "index"])->name('admin.home');
 
 Route::get("/admin/career", [CareerController::class, "index"])->name('admin.career');
+
+Route::get('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('admin.notifications.markAsRead');
+
 
 Route::post("/admin/create-career", [CareerController::class, "postCreateCareer"])->name('admin.create.career');
 Route::post("/admin/edit-career/{id}", [CareerController::class, "postEditCareer"])->name('admin.postEditCareer.career');

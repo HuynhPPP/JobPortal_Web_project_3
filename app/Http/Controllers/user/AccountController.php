@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use App\Mail\ResetPasswordEmail;
+use App\Notifications\NewJobNotification;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
@@ -336,6 +337,12 @@ class AccountController extends Controller
       $job->company_website = $request->company_website;
       $job->status = "0";
       $job->save();
+
+      $admin = User::where('role', 'admin')->first();
+      // Gửi thông báo
+      if ($admin) {
+        $admin->notify(new NewJobNotification($job));
+      }
 
       session()->flash('toastr', ['success' => 'Thêm việc làm thành công']);
       // session()->flash('success','Thêm việc làm thành công');
