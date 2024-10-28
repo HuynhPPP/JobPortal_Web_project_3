@@ -85,21 +85,22 @@
                 </div>
               @else
                 @foreach (auth()->user()->unreadNotifications as $notification)
-                  <div class="dropdown-item notification-item py-2 text-wrap" id="notification-5">
-                    <span class="d-flex align-items-center">
-                      <span class="me-3 position-relative flex-shrink-0">
-                      </span>
-                      <span class="flex-grow-1 text-muted">
-                        <span>
-                          <a href="{{ route('admin.notifications.markAsRead', $notification->id) }}">
-                            {{ $notification->data['title'] }} - {{ $notification->data['message'] }}
-                          </a>
-                        </span>
-                        <br />
-                        <span class="fs-12">{{ $notification->created_at->format('d/m/Y') }}</span>
-                      </span>
+                  {{-- <div class="dropdown-item notification-item py-2 text-wrap" id="notification-5"> --}}
+                  {{-- <span class="d-flex align-items-center"> --}}
+                  {{-- <span class="flex-grow-1"> --}}
+                  <a class="text-muted dropdown-item notification-item py-2 text-wrap"
+                    href="{{ route('admin.notifications.markAsRead', $notification->id) }}">
+                    {{-- {{ $notification->data['message'] }} --}}
+                    <span class="flex-grow-1">
+                      <b class="text-primary">{{ $notification->data['employer_name'] }}</b>
+                      vừa thêm công việc mới.
                     </span>
-                  </div>
+                    <br />
+                    <span class="fs-12">{{ $notification->created_at->format('d/m/Y') }}</span>
+                  </a>
+                  {{-- </span> --}}
+                  {{-- </span> --}}
+                  {{-- </div> --}}
                 @endforeach
               @endif
             </div>

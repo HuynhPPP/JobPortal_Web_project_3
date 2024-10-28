@@ -27,9 +27,7 @@ class NewJobNotification extends Notification
   public function toDatabase($notifiable)
   {
     return [
-      'title' => 'Công việc mới được thêm',
-      'message' => 'Nhà tuyển dụng vừa thêm một công việc mới.',
-      'url' => route('admin.job'), // Đường dẫn đến danh sách công việc của admin
+      'employer_name' => $this->job->user->fullname, // Lưu tên nhà tuyển dụng
       'job_id' => $this->job->id, // Lưu ID công việc nếu cần thiết
     ];
   }

@@ -12,7 +12,8 @@ class NotificationController extends Controller
     $notification = auth()->user()->unreadNotifications->where('id', $id)->first();
     if ($notification) {
       $notification->markAsRead();
+      $jobId = $notification->data['job_id'];
     }
-    return redirect()->route('admin.job');
+    return redirect()->route('admin.edit.job', $jobId);
   }
 }

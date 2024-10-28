@@ -153,7 +153,7 @@
                 <select class="form-select" name="status">
                   <option value="0" {{ $job->status == env('STATUS_PENDING') ? 'selected' : '' }}>Chờ duyệt
                   </option>
-                  <option value="1" {{ $job->status == env('STATUS_APPROVED') ? 'selected' : '' }}>Hoạt động
+                  <option value="1" {{ $job->status == env('STATUS_APPROVED') ? 'selected' : '' }}>Đã duyệt
                   </option>
                   <option value="2" {{ $job->status == env('STATUS_LOCKED') ? 'selected' : '' }}>Đã khóa</option>
                 </select>

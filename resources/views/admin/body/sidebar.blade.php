@@ -2,7 +2,7 @@
   <!-- Brand Logo -->
   <a href="{{ route('admin.home') }}" class="logo">
     <span class="logo-light">
-      <span class="logo-lg"><img src="{{ asset('admin/images/logo.png') }}" alt="logo"></span>
+      <span class="logo-lg"><img src="{{ asset('admin/images/logo-sm.png') }}" alt="logo"></span>
       <span class="logo-sm"><img src="{{ asset('admin/images/logo-sm.png') }}" alt="small logo"></span>
     </span>
     <span class="logo-dark">
