@@ -320,7 +320,6 @@ class AccountController extends Controller
             'jobType' => 'required',
             'vacancy' => 'required|integer',
             'level' => 'required|max:50',
-            'description' => 'required',
             'company_name' => 'required|min:3|max:75',
         ];
 
@@ -334,7 +333,6 @@ class AccountController extends Controller
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
             'level.required' => 'Vị trí cần tuyển không được để trống.',
             'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
-            'description.required' => 'Mô tả công việc không được để trống.',
             'company_name.required' => 'Tên công ty không được để trống.',
             'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
             'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
@@ -437,7 +435,6 @@ class AccountController extends Controller
             'jobType' => 'required',
             'vacancy' => 'required|integer',
             'level' => 'required|max:50',
-            'keywords' => 'required',
             'company_name' => 'required|min:3|max:75',
         ];
 
@@ -451,7 +448,6 @@ class AccountController extends Controller
             'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
             'level.required' => 'Vị trí cần tuyển không được để trống.',
             'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
-            'keywords.required' => 'Từ khóa không được để trống.',
             'company_name.required' => 'Tên công ty không được để trống.',
             'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
             'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',

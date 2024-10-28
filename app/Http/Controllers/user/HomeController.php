@@ -15,9 +15,16 @@ class HomeController extends Controller
     // Show Home Page
     public function index() {
 
-        $careers = Careers::where('status', 1)->orderBy('name','ASC')->take(8)->get();
+        $careers = Careers::where('status', 1)
+                  ->where('isPopular', 1)
+                  ->orderBy('name', 'ASC')
+                  ->withCount('jobs')
+                  ->get()
+                  ->chunk(4);
 
-        $newCareers = Careers::where('status', 1)->orderBy('name','ASC')->get();
+        $newCareers = Careers::where('status', 1)
+                    ->orderBy('name','ASC')
+                    ->get();
 
         $featureJobs = Job::where('status', 1)
             ->where('isFeatured', 1)

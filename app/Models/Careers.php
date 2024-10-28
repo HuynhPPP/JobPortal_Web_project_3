@@ -10,4 +10,8 @@ class Careers extends Model
     use HasFactory;
 
     protected $table = 'careers';
+
+    public function jobs() {
+        return $this->hasMany(Job::class, 'career_id');
+    }
 }

@@ -109,57 +109,6 @@
                         @endif
                     </div>
                 </div>
-
-                @if (Auth::user())
-                    @if (Auth::user()->id == $job->user_id)
-                        <div class="card shadow border-0 mt-4">
-                            <div class="job_details_header">
-                                <div class="single_jobs white-bg d-flex justify-content-between">
-                                    <div class="jobs_left d-flex align-items-center">
-                                        
-                                        <div class="jobs_conetent">
-                                            <a href="#">
-                                                <h4>Danh sách các ứng viên ứng tuyển</h4>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="jobs_right"></div>
-                                </div>
-                            </div>
-                            <div class="descript_wrap white-bg">
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th>Họ và tên</th>
-                                        <th>Email</th>
-                                        <th>Số điện thoại</th>
-                                        <th>Ngày ứng tuyển</th>
-                                        <th>CV</th>
-                                    </tr>
-                                    @if ($applications->isNotEmpty())
-                                        @foreach ($applications as $application)
-                                            <tr>
-                                                <td>{{ $application->user->fullname }}</td>
-                                                <td>{{ $application->user->email }}</td>
-                                                <td>{{ $application->user->mobile }}</td>
-                                                <td>
-                                                    {{ \Carbon\Carbon::parse($application->applied_date)->format('d M, Y') }}
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('download-cv', $application->cv_path) }}" class="btn btn-primary">Tải CV</a>
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan="4">Chưa có ứng viên</td>
-                                            </tr>
-                                    @endif
-                                </table>
-                            </div>
-                        </div>
-                    @endif
-                @endif
             </div>
             <div class="col-md-4">
                 <div class="card shadow border-0">
@@ -200,9 +149,9 @@
                                 </li>
                                 <li>
                                     @if (empty($job->keywords))
-                                        Các công nghệ sử dụng: <span style="color: red">chưa cập nhật</span>
+                                        Từ khoá: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Các công nghệ sử dụng: <a href="{{ route("jobs").'?keyword='.$job->keywords }}"> {{ $job->keywords }}</a>
+                                        Từ khoá: <a href="{{ route("jobs").'?keyword='.$job->keywords }}"> {{ $job->keywords }}</a>
                                     @endif
                                 </li>
                             </ul>
@@ -218,20 +167,23 @@
                             <ul>
                                 <li>Tên công ty: <span>{{ $job->company_name }}</span></li>
                                 <li>
-                                    @if (empty($job->province) && empty($job->district))
-                                        Địa chỉ: <span style="color: red">chưa cập nhật</span>
-                                    @else
+                                    @if (!empty($job->location_detail))
+                                        Địa chỉ: <span>{{ $job->location_detail }}</span>
+                                    @elseif (!empty($job->district) && !empty($job->district))
                                         Địa chỉ: <span> {{ $job->district }}, {{ $job->province }}</span>
+                                    @else
+                                        Địa chỉ: <span>{{ $job->location_detail }}</span>
                                     @endif
                                 </li>
                                 <li>
-                                    
                                     @if (empty($job->company_website))
                                         Webite: <span style="color: red">chưa cập nhật</span>
                                     @else
                                         Webite: <span><a href="{{ $job->company_website }}">{{ $job->company_website }}</a></span>
                                     @endif
                                 </li>
+                                <li>Nhà tuyển dụng: <span>{{ $job->user->fullname }}</span></li>
+                                <li>Email liên hệ: <span>{{ $job->user->email }}</span></li>
                             </ul>
                         </div>
                     </div>

@@ -91,7 +91,24 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="5" class="text-danger">Bạn chưa ứng tuyển công việc</td>
+                                            <td colspan="5">
+                                                <div class="card-error-find">
+                                                    <div class="card-body-error-find">
+                                                     <img alt="Illustration of a piggy bank with a magnifying glass" 
+                                                       height="100" 
+                                                       src="https://storage.googleapis.com/a1aa/image/wbdDxuRHo2aDNtL5eFnlzmLSJ5fXAOdRDeHnXiZSLwjffvSdC.jpg" 
+                                                       width="100"/>
+                                                     <div class="text-content">
+                                                      <h5 class="mt-3">
+                                                       Oops! Không tìm thấy công việc
+                                                      </h5>
+                                                      <p>
+                                                       TopWork chưa tìm thấy công việc bạn tìm kiếm vào lúc này.
+                                                      </p>
+                                                     </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endif
                                 </tbody>                               

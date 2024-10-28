@@ -72,83 +72,85 @@
                     </form>
                 </div>
 
+                @if (Auth::check() && Auth::user()->role === 'employer')
                 <div class="card border-0 shadow mb-4">
                     <form action="" method="post" id="userFormCompany" name="userFormCompany">
                         <div class="card-body  p-4">
-                            @if (Auth::check() && Auth::user()->role === 'employer')
-                                <h3 class="fs-4 mb-1">Thông tin công ty</h3>
-                            @endif
-                            <p>Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Tên công ty <span style="color: red">*</span></label>
-                                <input type="text" 
-                                    name="company_name" id="company_name" 
-                                    placeholder="Ví dụ: TopWork" 
-                                    class="form-control" 
-                                    value="{{ $user->company_name }}"
-                                    >
-                                <p></p>
-                            </div>
-                            <div class="mb-4">
-                                <label for="address" class="form-label">Địa chỉ</label>
-                                    <div class="input-group mb-3">
-                                        <select class="form-select" id="province" name="province">
-                                            @if(!empty($user->province))
-                                                <option selected>{{ $user->province }}</option>
-                                            @else
-                                                <option selected>Chọn tỉnh / thành</option>
-                                            @endif
-                                        </select>
-                                        <input type="hidden" id="province_name" name="province_name">
-                                
-                                        <select class="form-select" id="district" name="district">
-                                            @if(!empty($user->district))
-                                                <option selected>{{ $user->district }}</option>
-                                            @else
-                                                <option selected>Chọn quận / huyện</option>
-                                            @endif
-                                        </select>
-                                        <input type="hidden" id="district_name" name="district_name">
-                                
-                                        <select class="form-select" id="wards" name="wards">
-                                            @if(!empty($user->wards))
-                                                <option selected>{{ $user->wards }}</option>
-                                            @else
-                                                <option selected>Chọn phường / xã</option>
-                                            @endif
-                                        </select>
-                                        <input type="hidden" id="ward_name" name="ward_name">
-                                
-                                    </div>
-                                <label for="" class="mb-2">Địa chỉ chi tiết</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="location_detail" 
-                                       name="location_detail" 
-                                       placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội"
-                                       value="{{ $user->location_detail }}"
-                                    >
-                            </div>
-                            
-                            <div class="mb-4">
+                                <h3 class="fs-4 mb-1">Thông tin công ty (Trụ sở chính)</h3>    
+                                <p>Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
                                 <div class="mb-4">
-                                    <label for="" class="mb-2">Địa chỉ Website</label>
+                                    <label for="" class="mb-2">Tên công ty <span style="color: red">*</span></label>
                                     <input type="text" 
-                                           placeholder="Ví dụ: https://topwork.vn/" 
-                                           id="company_website" 
-                                           name="company_website" 
-                                           class="form-control"
-                                           value="{{ $user->company_website }}"
+                                        name="company_name" id="company_name" 
+                                        placeholder="Ví dụ: TopWork" 
+                                        class="form-control" 
+                                        value="{{ $user->company_name }}"
+                                        >
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="address" class="form-label">Địa chỉ</label>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" id="province" name="province">
+                                                @if(!empty($user->province))
+                                                    <option selected>{{ $user->province }}</option>
+                                                @else
+                                                    <option selected>Chọn tỉnh / thành</option>
+                                                @endif
+                                            </select>
+                                            <input type="hidden" id="province_name" name="province_name">
+                                    
+                                            <select class="form-select" id="district" name="district">
+                                                @if(!empty($user->district))
+                                                    <option selected>{{ $user->district }}</option>
+                                                @else
+                                                    <option selected>Chọn quận / huyện</option>
+                                                @endif
+                                            </select>
+                                            <input type="hidden" id="district_name" name="district_name">
+                                    
+                                            <select class="form-select" id="wards" name="wards">
+                                                @if(!empty($user->wards))
+                                                    <option selected>{{ $user->wards }}</option>
+                                                @else
+                                                    <option selected>Chọn phường / xã</option>
+                                                @endif
+                                            </select>
+                                            <input type="hidden" id="ward_name" name="ward_name">
+                                    
+                                        </div>
+                                    <label for="" class="mb-2">Địa chỉ chi tiết</label>
+                                    <input type="text" 
+                                        class="form-control" 
+                                        id="location_detail" 
+                                        name="location_detail" 
+                                        placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội"
+                                        value="{{ $user->location_detail }}"
                                         >
                                 </div>
-                            </div>                        
+                                
+                                <div class="mb-4">
+                                    <div class="mb-4">
+                                        <label for="" class="mb-2">Địa chỉ Website</label>
+                                        <input type="text" 
+                                            placeholder="Ví dụ: https://topwork.vn/" 
+                                            id="company_website" 
+                                            name="company_website" 
+                                            class="form-control"
+                                            value="{{ $user->company_website }}"
+                                            >
+                                    </div>
+                                </div>   
+                                                 
                         </div>
                         <div class="card-footer  p-4">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                         </div>
+                        
                     </form>
                 </div>
-
+                @endif
+                
                 <div class="card border-0 shadow mb-4">
                     <form action="" method="POST" id="changePasswordForm" name="changePasswordForm">
                         <div class="card-body p-4">

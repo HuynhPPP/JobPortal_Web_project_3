@@ -52,18 +52,46 @@
 
 <section class="section-2 bg-2 py-5">
     <div class="container">
-        <h2>Việc làm theo ngành nghề</h2>
+        <h2>✨ Ngành nghề phổ biến</h2>
         <div class="row pt-5">
-            @if ($careers->isNotEmpty())
-                @foreach ($careers as $career)
-                    <div class="col-lg-4 col-xl-3 col-md-6">
-                        <div class="single_catagory">
-                            <a href="{{ route("jobs").'?career='.$career->id }}"><h4 class="pb-2">{{ $career->name }}</h4></a>
-                            <p class="mb-0"> <span>50</span> vị trí còn trống</p>
-                        </div>
-                    </div>
-                @endforeach
-            @endif           
+            <div class="job_listing_area">                    
+                <div class="job_lists">
+                    <div class="row">
+                        <div id="careerCarousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                @if ($careers->isNotEmpty())   
+                                    @foreach ($careers as $index => $group)
+                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                            <div class="row justify-content-center text-center">
+                                                @foreach ($group as $career)
+                                                    <div class="col-md-3">
+                                                        <a href="{{ route('jobs').'?career='.$career->id }}" class="card shadow-sm p-3 mb-4 fixed-card">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title fs-5">{{ $career->name }}</h5>
+                                                                <p class="card-text text-muted">{{ $career->jobs_count }} Việc Làm</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif   
+                            </div>
+                        
+                            <!-- Navigation buttons -->
+                            <a class="carousel-control-prev" href="#careerCarousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#careerCarousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>               
+                  </div>
+                </div>
+            </div>         
         </div>
     </div>
 </section>
@@ -92,7 +120,6 @@
                                                                 "
                                                     />
                                                 </div>
-                                                @if (Auth::check() && Auth::user()->role === 'user')
                                                 <div class="jobs_right col-2">
                                                     <div class="apply_now">
                                                         <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $featureJob->id }}, this)">
@@ -100,16 +127,14 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                @endif
                                             </div>
                                                 
-                                            <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">{{ $featureJob->title }}</h3>
+                                            <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">
+                                                {{ Str::words(strip_tags($featureJob->title), 7) }}
+                                            </h3>
 
-                                            @if (empty($featureJob->description))
-                                                <p style="color: red">Chưa có mô tả cho công việc này</p>
-                                            @else 
-                                                <p>{{ $featureJob->company_name }}</p>
-                                                {{-- <p>{{ Str::words(strip_tags($featureJob->description), 10) }}</p> --}}
+                                            @if (!empty($featureJob->company_name))
+                                                <p>{{ Str::words(strip_tags($featureJob->company_name), 8) }}</p>
                                             @endif
 
                                             <div class="bg-light p-3 border">
@@ -198,7 +223,6 @@
                                                         style="max-width: 100px; max-height: 100px;"
                                                     />
                                                 </div>
-                                                @if (Auth::check() && Auth::user()->role === 'user')
                                                 <div class="jobs_right col-2">
                                                     <div class="apply_now">
                                                         <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $latesJob->id }}, this)">
@@ -206,14 +230,13 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                @endif
                                             </div>
-                                            <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">{{ $latesJob->title }}</h3>
+                                            <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">
+                                                {{ Str::words(strip_tags($latesJob->title), 7) }}
+                                            </h3>
 
-                                            @if (empty($latesJob->company_name))
-                                                <p style="color: red">Chưa có mô tả cho công việc này</p>
-                                            @else 
-                                                <p>{{ Str::words(strip_tags($latesJob->company_name), 8) }}</p>
+                                            @if (!empty($latesJob->company_name))
+                                                <p>{{ Str::words(strip_tags($latesJob->company_name), 6) }}</p>
                                             @endif
                                             
 
@@ -264,7 +287,7 @@
                                                 @if (Auth::check() && Auth::user()->role === 'employer')
                                                     <a href="{{ route('JobDetail_employer',$latesJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
                                                 @else
-                                                    <a href="{{ route('JobDetail_employer',$latesJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
+                                                    <a href="{{ route('jobDetail',$latesJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
                                                 @endif  
                                                 
                                             </div>
@@ -355,6 +378,42 @@
                 }
             });
     }
+</script>
+
+<script>
+    $(document).ready(function () {
+        var carousel = $("#careerCarousel");
+
+        // Biến để lưu trạng thái kéo
+        var isDragging = false;
+        var startX;
+
+        // Bắt đầu kéo
+        carousel.on("mousedown touchstart", function (e) {
+            isDragging = true;
+            startX = e.pageX || e.originalEvent.touches[0].pageX;
+        });
+
+        // Kéo chuột hoặc chạm di chuyển
+        carousel.on("mousemove touchmove", function (e) {
+            if (!isDragging) return;
+            var x = e.pageX || e.originalEvent.touches[0].pageX;
+            if (x - startX > 50) {
+                // Di chuyển qua slide trước
+                $(this).carousel("prev");
+                isDragging = false;
+            } else if (startX - x > 50) {
+                // Di chuyển qua slide sau
+                $(this).carousel("next");
+                isDragging = false;
+            }
+        });
+
+        // Kết thúc kéo
+        carousel.on("mouseup touchend", function () {
+            isDragging = false;
+        });
+    });
 </script>
 
 @endsection

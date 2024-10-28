@@ -48,6 +48,7 @@
                                             @endforeach
                                         @endif
                                     </select>
+                                    
                                     <p></p>
                                 </div>
                             </div>
@@ -178,7 +179,7 @@
                                         <input type="hidden" id="ward_name" name="ward_name" value="{{ old('ward_name', $user->wards) }}">
                                     </div>
                                     
-                                    <label for="" class="mb-2">Địa chỉ chi tiết</label>
+                                    <label for="" class="mb-2">Địa điểm làm việc</label>
                                     <input type="text" 
                                            class="form-control" 
                                            id="location_detail" 
