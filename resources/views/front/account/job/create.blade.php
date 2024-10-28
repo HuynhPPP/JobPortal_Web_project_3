@@ -26,7 +26,7 @@
                             <h3 class="fs-4 mb-1">Chi tiết công việc</h3>
                             <div class="row">
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Tiêu đề<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Tiêu đề<span class="req">*</span></label>
                                     <input type="text" 
                                            placeholder="Tiêu đề công việc" 
                                            id="title" 
@@ -36,10 +36,9 @@
                                     >
                                     <p></p>
                                 </div>
-                                <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Ngành nghề<span class="req">*</span></label>
+                                <div class="col-md-6 mb-4 search_select_box">
+                                    <label for="" class="mb-3 fs-5 fst-italic">Ngành nghề<span class="req">*</span></label>
                                     <select name="category" id="category" class="form-control">
-                                        <option value="">Chọn ngành nghề</option>
                                         @if ($careers->isNotEmpty())
                                             @foreach ($careers as $career)
                                             <option value="{{ $career->id }}" {{ old('category') == $career->id ? 'selected' : '' }}>
@@ -48,14 +47,13 @@
                                             @endforeach
                                         @endif
                                     </select>
-                                    
                                     <p></p>
                                 </div>
                             </div>
                             
                             <div class="row">
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Hình thức làm việc<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Hình thức làm việc<span class="req">*</span></label>
                                     <select name="jobType" id="jobType" class="form-select">
                                         <option value="">Loại hợp đồng</option>
                                         @if ($jobtypes->isNotEmpty())
@@ -69,7 +67,7 @@
                                     <p></p>
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Số lượng tuyển<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Số lượng tuyển<span class="req">*</span></label>
                                     <input type="number" 
                                            min="1" 
                                            placeholder="Số lượng tuyển" 
@@ -83,7 +81,7 @@
                 
                             <div class="row">
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Mức lương</label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Mức lương</label>
                                     <input type="text" 
                                            placeholder="Mức lương" 
                                            id="salary" 
@@ -94,7 +92,7 @@
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Vị trí cần tuyển<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Vị trí cần tuyển<span class="req">*</span></label>
                                     <input type="text" 
                                            placeholder="Ví dụ: Junior, Middle, Senior,..." 
                                            id="level" 
@@ -107,24 +105,24 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Mô tả công việc</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Mô tả công việc</label>
                                 <textarea class="textarea" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc"></textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Phúc lợi</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Phúc lợi</label>
                                 <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi">{{ old('description') }}</textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Trách nhiệm công việc</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Trách nhiệm công việc</label>
                                 <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm">{{ old('responsibility') }}</textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Kỹ năng & Chuyên môn</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Kỹ năng & Chuyên môn</label>
                                 <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc...">{{ old('qualifications') }}</textarea>
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Kinh nghiệm tối thiểu</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Kinh nghiệm tối thiểu</label>
                                 <select name="experience" id="experience" class="form-control">
                                     <option value="1" {{ old('experience') == '1' ? 'selected' : '' }}>1 năm</option>
                                     <option value="2" {{ old('experience') == '2' ? 'selected' : '' }}>2 năm</option>
@@ -141,7 +139,7 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Từ khóa</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Từ khóa</label>
                                 <input type="text" placeholder="Ví dụ: PHP, Java,...." id="keywords" name="keywords" class="form-control">
                                 <p></p>
                             </div>
@@ -150,7 +148,7 @@
                 
                             <div class="row">
                                 <div class="mb-4">
-                                    <label for="" class="mb-2">Tên công ty<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Tên công ty<span class="req">*</span></label>
                                     <input type="text" 
                                            placeholder="Ví dụ: TopWork" 
                                            id="company_name" 
@@ -161,7 +159,7 @@
                                     <p></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="address" class="form-label">Địa chỉ</label>
+                                    <label for="address" class="form-label mb-3 fs-5 fst-italic">Địa chỉ</label>
                                     <div class="input-group mb-3">
                                         <select class="form-select" id="province" name="province">
                                             <option value="">{{ old('province', $user->province) ?: 'Chọn tỉnh / thành' }}</option>
@@ -179,7 +177,7 @@
                                         <input type="hidden" id="ward_name" name="ward_name" value="{{ old('ward_name', $user->wards) }}">
                                     </div>
                                     
-                                    <label for="" class="mb-2">Địa điểm làm việc</label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Địa điểm làm việc</label>
                                     <input type="text" 
                                            class="form-control" 
                                            id="location_detail" 
@@ -190,7 +188,7 @@
                             </div>
                             
                             <div class="mb-4">
-                                <label for="" class="mb-2">Địa chỉ Website</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Địa chỉ Website</label>
                                 <input type="text" 
                                        placeholder="Ví dụ: https://topwork.vn/" 
                                        id="company_website" 

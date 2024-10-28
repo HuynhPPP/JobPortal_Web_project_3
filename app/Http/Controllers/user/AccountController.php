@@ -152,9 +152,9 @@ class AccountController extends Controller
         }
 
         if ($request->mobile !== $currentMobile) {
-            $rules['mobile'] = 'numeric|unique:users,mobile,' . $id . ',id';
+            $rules['mobile'] = 'nullable|numeric|unique:users,mobile,' . $id . ',id';
         } else {
-            $rules['mobile'] = 'numeric';
+            $rules['mobile'] = 'nullable|numeric';
         }
     
         $messages = [
@@ -165,7 +165,6 @@ class AccountController extends Controller
             'email.required' => 'Trường email không được để trống.',
             'email.email' => 'Email phải đúng định dạng.',
             'email.unique' => 'Email này đã được sử dụng.',
-            'mobile.numeric' => 'Số điện thoại phải là số.',
             'mobile.unique' => 'Số điện thoại này đã được sử dụng.',
         ];
     

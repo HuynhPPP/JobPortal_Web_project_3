@@ -27,9 +27,9 @@
                             @else
                                 <h3 class="fs-4 mb-1">Thông tin tài khoản</h3>
                             @endif
-                            <p>Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
+                            <p class="fs-5 fst-italic">Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Họ và tên <span style="color: red">*</span></label>
+                                <label for="" class="mb-3 fs-5">Họ và tên <span style="color: red">*</span></label>
                                 <input type="text" 
                                     name="name" id="name" 
                                     placeholder="Ví dụ: Nguyễn Văn A" 
@@ -40,9 +40,9 @@
                             </div>
                             <div class="mb-4">
                                 @if (Auth::check() && Auth::user()->role === 'employer')
-                                    <label for="" class="mb-2">Email <span style="color: red">*</span> (vui lòng sử dụng email công ty)</label>
+                                    <label for="" class="mb-3 fs-5">Email <span style="color: red">*</span> (vui lòng sử dụng email công ty)</label>
                                 @else
-                                    <label for="" class="mb-2">Email <span style="color: red">*</span></label>
+                                    <label for="" class="mb-3 fs-5">Email <span style="color: red">*</span></label>
                                 @endif
                                 <input type="text" 
                                         name="email" 
@@ -55,7 +55,7 @@
                             </div>
                             
                             <div class="mb-4">
-                                <label for="" class="mb-2">Số điện thoại</label>
+                                <label for="" class="mb-3 fs-5">Số điện thoại</label>
                                 <input type="text" 
                                     name="mobile" 
                                     id="mobile" 
@@ -77,9 +77,9 @@
                     <form action="" method="post" id="userFormCompany" name="userFormCompany">
                         <div class="card-body  p-4">
                                 <h3 class="fs-4 mb-1">Thông tin công ty (Trụ sở chính)</h3>    
-                                <p>Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
+                                <p class="fs-5 fst-italic">Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
                                 <div class="mb-4">
-                                    <label for="" class="mb-2">Tên công ty <span style="color: red">*</span></label>
+                                    <label for="" class="mb-3 fs-5">Tên công ty <span style="color: red">*</span></label>
                                     <input type="text" 
                                         name="company_name" id="company_name" 
                                         placeholder="Ví dụ: TopWork" 
@@ -89,7 +89,7 @@
                                     <p></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="address" class="form-label">Địa chỉ</label>
+                                    <label for="address" class="form-label mb-3 fs-5">Địa chỉ</label>
                                         <div class="input-group mb-3">
                                             <select class="form-select" id="province" name="province">
                                                 @if(!empty($user->province))
@@ -119,7 +119,7 @@
                                             <input type="hidden" id="ward_name" name="ward_name">
                                     
                                         </div>
-                                    <label for="" class="mb-2">Địa chỉ chi tiết</label>
+                                    <label for="" class="mb-3 fs-5">Địa chỉ chi tiết</label>
                                     <input type="text" 
                                         class="form-control" 
                                         id="location_detail" 
@@ -131,7 +131,7 @@
                                 
                                 <div class="mb-4">
                                     <div class="mb-4">
-                                        <label for="" class="mb-2">Địa chỉ Website</label>
+                                        <label for="" class="mb-3 fs-5">Địa chỉ Website</label>
                                         <input type="text" 
                                             placeholder="Ví dụ: https://topwork.vn/" 
                                             id="company_website" 
@@ -155,19 +155,19 @@
                     <form action="" method="POST" id="changePasswordForm" name="changePasswordForm">
                         <div class="card-body p-4">
                             <h3 class="fs-4 mb-1">Thay đổi mật khẩu</h3>
-                            <p>Các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
+                            <p class="fs-5 fst-italic">Các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Mật khẩu cũ <span style="color: red">*</span></label>
+                                <label for="" class="mb-3 fs-5">Mật khẩu cũ <span style="color: red">*</span></label>
                                 <input type="password" name="old_password" id="old_password" placeholder="Nhập mật khẩu cũ..." class="form-control">
                                 <p></p>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Mật khẩu mới <span style="color: red">*</span></label>
+                                <label for="" class="mb-3 fs-5">Mật khẩu mới <span style="color: red">*</span></label>
                                 <input type="password" name="new_password" id="new_password" placeholder="Nhập mật khẩu mới..." class="form-control">
                                 <p></p>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Xác nhận mật khẩu <span style="color: red">*</span></label>
+                                <label for="" class="mb-3 fs-5">Xác nhận mật khẩu <span style="color: red">*</span></label>
                                 <input type="password" name="confirm_password" id="confirm_password" placeholder="Nhập lại mật khẩu mới..." class="form-control">
                                 <p></p>
                             </div>                        
