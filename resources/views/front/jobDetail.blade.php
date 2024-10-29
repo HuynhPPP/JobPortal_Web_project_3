@@ -151,8 +151,19 @@
                                     @if (empty($job->keywords))
                                         Từ khoá: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Từ khoá: <a href="{{ route("jobs").'?keyword='.$job->keywords }}"> {{ $job->keywords }}</a>
-                                    @endif
+                                    <div class="keywords-section-detail">
+                                        <div class="d-flex flex-wrap gap-2 mt-2">
+                                            @php
+                                                $keywords = explode(',', $job->keywords);
+                                            @endphp
+                                            Từ khoá: 
+                                            @foreach ($keywords as $index => $keyword)
+                                                    <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge-detail">{{ trim($keyword) }}</a>
+                                                    
+                                            @endforeach
+                                        @endif
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>

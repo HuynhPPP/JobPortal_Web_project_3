@@ -139,10 +139,12 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-3 fs-5 fst-italic">Từ khóa</label>
-                                <input type="text" placeholder="Ví dụ: PHP, Java,...." id="keywords" name="keywords" class="form-control">
+                                <label for="keywords" class="mb-3 fs-5 fst-italic">Từ khóa</label>
+                                <input type="text" placeholder="Ví dụ: PHP, Java,..." id="keywords" name="keywords" class="form-control">
                                 <p></p>
+                                <div id="keywords-list" class="d-flex flex-wrap mt-2"></div>
                             </div>
+                            
                 
                             <h3 class="fs-4 mb-1 mt-5 border-top pt-5">Chi tiết công ty</h3>
                 
@@ -389,5 +391,36 @@
         }
     });
 });
+</script>
+
+<script>
+    const keywordsInput = document.getElementById('keywords');
+    const keywordsList = document.getElementById('keywords-list');
+    let keywords = [];
+
+    keywordsInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && keywordsInput.value.trim() !== '') {
+            e.preventDefault();
+            addKeyword(keywordsInput.value.trim());
+            keywordsInput.value = '';
+        }
+    });
+
+    function addKeyword(keyword) {
+        if (!keywords.includes(keyword)) {
+            keywords.push(keyword);
+
+            // Tạo thẻ từ khóa mới
+            const keywordTag = document.createElement('span');
+            keywordTag.className = 'keyword-tag';
+            keywordTag.textContent = keyword;
+
+            // Thêm thẻ vào danh sách hiển thị
+            keywordsList.appendChild(keywordTag);
+
+            // Bạn có thể lưu `keywords` vào database nếu cần
+        }
+    }
+
 </script>
 @endsection

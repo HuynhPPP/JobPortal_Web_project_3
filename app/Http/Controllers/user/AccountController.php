@@ -463,12 +463,14 @@ class AccountController extends Controller
             $job->user_id = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
-            $job->job_level = $request->level;
+            $levelsArray = explode(',', $request->level);
+            $job->job_level = json_encode(array_map('trim', $levelsArray));
             $job->description = $request->description;
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;
             $job->qualifications = $request->qualifications;
-            $job->keywords = $request->keywords;
+            $keywordsArray = explode(',', $request->keywords);
+            $job->keywords = json_encode(array_map('trim', $keywordsArray));
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
             $job->province = $request->province_name ? $request->province_name : $job->province;
@@ -480,7 +482,6 @@ class AccountController extends Controller
 
 
             session()->flash('toastr', ['success' => 'Việc làm đã được lưu']);
-            // session()->flash('success','Việc làm đã được lưu');
 
             return response()->json([
                 'status' => true,

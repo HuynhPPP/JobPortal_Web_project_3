@@ -66,17 +66,17 @@
                 <h2>Kinh nghiệm</h2>
                 <select name="experience" id="experience" class="form-control">
                   <option value="">Chọn kinh nghiệm</option>
-                  <option value="1" {{ Request::get('experience') == 1 ? 'selected' : '' }}>1 Year</option>
-                  <option value="2" {{ Request::get('experience') == 2 ? 'selected' : '' }}>2 Years</option>
-                  <option value="3" {{ Request::get('experience') == 3 ? 'selected' : '' }}>3 Years</option>
-                  <option value="4" {{ Request::get('experience') == 4 ? 'selected' : '' }}>4 Years</option>
-                  <option value="5" {{ Request::get('experience') == 5 ? 'selected' : '' }}>5 Years</option>
-                  <option value="6" {{ Request::get('experience') == 6 ? 'selected' : '' }}>6 Years</option>
-                  <option value="7" {{ Request::get('experience') == 7 ? 'selected' : '' }}>7 Years</option>
-                  <option value="8" {{ Request::get('experience') == 8 ? 'selected' : '' }}>8 Years</option>
-                  <option value="9" {{ Request::get('experience') == 9 ? 'selected' : '' }}>9 Years</option>
-                  <option value="10" {{ Request::get('experience') == 10 ? 'selected' : '' }}>10 Years</option>
-                  <option value="10_plus" {{ Request::get('experience') == '10_plus' ? 'selected' : '' }}>10+ Years
+                  <option value="1" {{ Request::get('experience') == 1 ? 'selected' : '' }}>1 Năm</option>
+                  <option value="2" {{ Request::get('experience') == 2 ? 'selected' : '' }}>2 Năm</option>
+                  <option value="3" {{ Request::get('experience') == 3 ? 'selected' : '' }}>3 Năm</option>
+                  <option value="4" {{ Request::get('experience') == 4 ? 'selected' : '' }}>4 Năm</option>
+                  <option value="5" {{ Request::get('experience') == 5 ? 'selected' : '' }}>5 Năm</option>
+                  <option value="6" {{ Request::get('experience') == 6 ? 'selected' : '' }}>6 Năm</option>
+                  <option value="7" {{ Request::get('experience') == 7 ? 'selected' : '' }}>7 Năm</option>
+                  <option value="8" {{ Request::get('experience') == 8 ? 'selected' : '' }}>8 Năm</option>
+                  <option value="9" {{ Request::get('experience') == 9 ? 'selected' : '' }}>9 Năm</option>
+                  <option value="10" {{ Request::get('experience') == 10 ? 'selected' : '' }}>10 Năm</option>
+                  <option value="10_plus" {{ Request::get('experience') == '10_plus' ? 'selected' : '' }}>Hơn 10 Năm
                   </option>
                 </select>
               </div>
@@ -134,6 +134,24 @@
                               </p>
                             @endif
                           </div>
+
+                          {{-- <div class="keywords-section mt-3">
+                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                @php
+                                    $keywords = explode(',', $job->keywords); 
+                                @endphp
+                                @foreach ($keywords as $index => $keyword)
+                                    @if ($index < 2) 
+                                        <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
+                                            {{ trim($keyword) }}
+                                        </a>
+                                    @endif
+                                @endforeach
+                                @if (count($keywords) > 3) 
+                                    <span>...</span>
+                                @endif
+                            </div>
+                          </div> --}}
 
                           <div class="d-grid mt-3">
                             @if (Auth::check() && Auth::user()->role === 'employer')

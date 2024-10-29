@@ -173,6 +173,24 @@
                                           
                                             </div>
 
+                                            <div class="keywords-section mt-3">
+                                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                                    @php
+                                                        $keywords = explode(',', $featureJob->keywords); 
+                                                    @endphp
+                                                    @foreach ($keywords as $index => $keyword)
+                                                        @if ($index < 3) 
+                                                            <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
+                                                                {{ trim($keyword) }}
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                    @if (count($keywords) > 3) 
+                                                        <span>...</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+
                                             <div class="d-grid mt-3">
                                                 @if (Auth::check() && Auth::user()->role === 'employer')
                                                     <a href="{{ route('JobDetail_employer',$featureJob->id) }}" class="btn bg-danger btn-lg text-white">Chi tiết</a>
@@ -203,7 +221,7 @@
                         @if ($latesJobs->isNotEmpty())
                             @foreach ($latesJobs as $latesJob)
                                 <div class="col-md-4">
-                                    <div class="card border-0 p-3 shadow mb-4">
+                                    <div class="card border-0 p-3 shadow mb-4" style="height: auto">
                                         <div class="card-body">
                                             <div class="d-flex home_jobs">
                                                 <div class="col-10">
@@ -224,7 +242,7 @@
                                                 </div>
                                             </div>
                                             <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">
-                                                {{ Str::words(strip_tags($latesJob->title), 7) }}
+                                                {{ Str::words(strip_tags($latesJob->title), 5) }}
                                             </h3>
 
                                             @if (!empty($latesJob->company_name))
@@ -274,6 +292,25 @@
                                                     </p>
                                                 @endif                                         
                                             </div>
+
+                                            <div class="keywords-section mt-3">
+                                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                                    @php
+                                                        $keywords = explode(',', $latesJob->keywords); 
+                                                    @endphp
+                                                    @foreach ($keywords as $index => $keyword)
+                                                        @if ($index < 3) 
+                                                            <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
+                                                                {{ trim($keyword) }}
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                    @if (count($keywords) > 3) 
+                                                        <span>...</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                                                                       
         
                                             <div class="d-grid mt-3">
                                                 @if (Auth::check() && Auth::user()->role === 'employer')
