@@ -79,7 +79,7 @@ class AccountController extends Controller
     }
 
     public function login() {
-        return view('front.account.login');
+        return view('front.account.login_2');
     }
 
     public function authenticate(Request $request) {

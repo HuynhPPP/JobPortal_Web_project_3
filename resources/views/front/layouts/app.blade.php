@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/style.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/user/css/toastr.min.css') }}" />
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
+  
 </head>
 
 <body data-instant-intensity="mousedown">
