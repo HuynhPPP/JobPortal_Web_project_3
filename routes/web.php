@@ -16,64 +16,64 @@ use App\Http\Controllers\user\ApiController;
 use Illuminate\Support\Facades\Route;
 
 
-
-Route::get("/admin/home", [AdminController::class, "index"])->name('admin.home');
-
-Route::get("/admin/career", [CareerController::class, "index"])->name('admin.career');
-
 Route::get('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('admin.notifications.markAsRead');
-
-
-Route::post("/admin/create-career", [CareerController::class, "postCreateCareer"])->name('admin.create.career');
-Route::post("/admin/edit-career/{id}", [CareerController::class, "postEditCareer"])->name('admin.postEditCareer.career');
-Route::delete("/admin/delete-career/{id}", [CareerController::class, "deleteCareer"])->name('admin.deleteCareer.career');
-Route::get("/admin/edit-career/{id}", [CareerController::class, "getEditCareer"])->name('admin.getEditCareer.career');
-
-Route::get("/admin/job", [JobController::class, "index"])->name('admin.job');
-Route::get("/admin/edit-job/{id}", [JobController::class, "editJob"])->name('admin.edit.job');
-Route::post("/admin/update-job/{id}", [JobController::class, "updateJob"])->name('admin.update.job');
-
-Route::get("/admin/user", [UserController::class, "getUser"])->name('admin.user');
-Route::get("/admin/edit-user/{id}", [UserController::class, "editUser"])->name('admin.edit.user');
-Route::post('/admin/update-user/{id}', [UserController::class, 'updateUser'])->name('admin.update.user');
-Route::delete('/admin/delete-user/{id}', [UserController::class, 'deleteUser'])->name('admin.delete.user');
-
-Route::get("/admin/employer", [EmployerController::class, "getEmployer"])->name('admin.employer');
-Route::get('/admin/edit-employer/{id}', [EmployerController::class, 'editEmployer'])->name('admin.edit.employer');
-Route::post('admin/update-employer/{id}', [EmployerController::class, 'updateEmployer'])->name('admin.update.employer');
-Route::delete('admin/delete-employer/{id}', [EmployerController::class, 'deleteEmployer'])->name('admin.delete.employer');
-
-Route::get('/admin/apply-job', [JobApplyController::class, 'index'])->name('admin.apply.job');
-Route::delete('/admin/delete-apply-job/{id}', [JobApplyController::class, 'deleteApllyJob'])->name('admin.delete.applyjob');
-
-Route::get('/admin/profile', [AdminAccountController::class, 'profile'])->name('admin.profile');
-Route::put('/admin/profile/update', [AdminAccountController::class, 'updateProfile'])->name('admin.updateProfile');
-Route::post('/admin/profile', [AdminAccountController::class, 'updateImageProfile'])->name('admin.updateImageProfile');
-Route::post('/admin/change-password', [AdminAccountController::class, 'changePassword'])->name('admin.changePassword');
-Route::get('/download/{filename}', [FileDownloadController::class, 'download'])->name('download');
-
 Route::get('/api/proxy/provinces', [ApiController::class, 'getProvinces']);
 Route::get('/api/proxy/districts/{provinceId}', [ApiController::class, 'getDistricts']);
 Route::get('/api/proxy/wards/{districtId}', [ApiController::class, 'getWards']);
-
-
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/jobs', [JobsController::class, 'index'])->name('jobs');
 Route::get('/jobs/detail/{id}', [JobsController::class, 'detail'])->name('jobDetail');
 Route::get('/jobs/detail-employer/{id}', [JobsController::class, 'detail_employer'])->name('JobDetail_employer');
 Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob');
 Route::post('/save-job', [JobsController::class, 'saveJob'])->name('saveJob');
-
 Route::get('/download-cv/{cvPath}', [JobsController::class, 'downloadCv'])->name('download-cv');
 Route::get('/forgot-password', [AccountController::class, 'forgotPassword'])->name('account.forgotPassword');
 Route::post('/process-forgot-password', [AccountController::class, 'processForgotPassword'])->name('account.processForgotPassword');
 Route::get('/reset-password/{token}', [AccountController::class, 'resetPassword'])->name('account.resetPassword');
 Route::post('/process-reset-password', [AccountController::class, 'processResetPassword'])->name('account.processResetPassword');
 
-
+// Route admin
+Route::group(['prefix' => 'admin'], function () {
+  Route::group(['middleware' => 'auth'], function () {
+    Route::controller(CareerController::class)->group(function () {
+      Route::get("career", "index")->name('admin.career');
+      Route::post("create-career",  "postCreateCareer")->name('admin.create.career');
+      Route::post("edit-career/{id}",  "postEditCareer")->name('admin.postEditCareer.career');
+      Route::delete("delete-career/{id}", "deleteCareer")->name('admin.deleteCareer.career');
+      Route::get("edit-career/{id}", "getEditCareer")->name('admin.getEditCareer.career');
+    });
+    Route::controller(JobController::class)->group(function () {
+      Route::get("job", "index")->name('admin.job');
+      Route::get("edit-job/{id}", "editJob")->name('admin.edit.job');
+      Route::post("update-job/{id}", "updateJob")->name('admin.update.job');
+    });
+    Route::controller(UserController::class)->group(function () {
+      Route::get("user", "getUser")->name('admin.user');
+      Route::get("edit-user/{id}", "editUser")->name('admin.edit.user');
+      Route::post('update-user/{id}', 'updateUser')->name('admin.update.user');
+      Route::delete('delete-user/{id}', 'deleteUser')->name('admin.delete.user');
+    });
+    Route::controller(EmployerController::class)->group(function () {
+      Route::get("employer", 'getEmployer')->name('admin.employer');
+      Route::get('edit-employer/{id}', 'editEmployer')->name('admin.edit.employer');
+      Route::post('update-employer/{id}', 'updateEmployer')->name('admin.update.employer');
+      Route::delete('delete-employer/{id}', 'deleteEmployer')->name('admin.delete.employer');
+    });
+    Route::controller(JobApplyController::class)->group(function () {
+      Route::get('apply-job', 'index')->name('admin.apply.job');
+      Route::delete('delete-apply-job/{id}', 'deleteApllyJob')->name('admin.delete.applyjob');
+    });
+    Route::controller(AdminAccountController::class)->group(function () {
+      Route::get('profile', 'profile')->name('admin.profile');
+      Route::put('profile/update', 'updateProfile')->name('admin.updateProfile');
+      Route::post('profile', 'updateImageProfile')->name('admin.updateImageProfile');
+      Route::post('change-password', 'changePassword')->name('admin.changePassword');
+    });
+    Route::get("home", [AdminController::class, "index"])->name('admin.home');
+    Route::get('/download/{filename}', [FileDownloadController::class, 'download'])->name('download');
+  });
+});
 Route::group(['prefix' => 'account'], function () {
-
   // Guest Route
   Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [AccountController::class, 'registration'])->name('account.registration');
@@ -95,7 +95,6 @@ Route::group(['prefix' => 'account'], function () {
     Route::post('/update-job/{jobId}', [AccountController::class, 'updateJob'])->name('account.updateJob');
     Route::post('/delete-job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
     Route::get('/my-job-application', [AccountController::class, 'myJobApplication'])->name('account.myJobApplication');
-
     Route::post('/remove-job-application', [AccountController::class, 'removeJobs'])->name('account.removeJobs');
     Route::get('/saved-job', [AccountController::class, 'savedJobs'])->name('account.savedJobs');
     Route::post('/remove-saved-job', [AccountController::class, 'removeSavedJob'])->name('account.removeSavedJob');
