@@ -24,7 +24,7 @@ use Illuminate\Support\Str;
 class AccountController extends Controller
 {
     public function registration() {
-        return view('front.account.registration');
+        return view('front.account.registration_2');
     }
 
     public function processRegistration(Request $request){

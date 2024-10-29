@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login Example</title>
+    <title>Đăng nhập- TopWork - Việc làm hàng đầu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,7 +61,7 @@
                     @enderror
                 </div>
                 <button class="my-form__button" type="submit">
-                    Sign In
+                    Đăng nhập
                 </button>
                 <div class="my-form__actions">
                     <div class="my-form__row">
