@@ -3274,6 +3274,7 @@ fieldset:disabled .btn {
 .page-item.active .page-link {
     z-index: 3;
     color: #fff;
+    font-size: 15px;
     background-color: #0d6efd;
     border-color: #0d6efd;
 }
@@ -3281,6 +3282,7 @@ fieldset:disabled .btn {
     color: #6c757d;
     pointer-events: none;
     background-color: #fff;
+    font-size: 15px;
     border-color: #dee2e6;
 }
 .page-link {
@@ -9871,6 +9873,7 @@ body {
     height: 100%;
     width: 100%;
     padding: 0;
+    margin: 0;
 }
 figure,
 pre,
@@ -10378,7 +10381,6 @@ button:active,
     background: #effdf5;
 }
 
-
 .home_jobs .jobs_right .apply_now a.heart_mark:hover {
     background: #00d363;
     color: #fff;
@@ -10411,7 +10413,7 @@ footer .nav-link {
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.section-5 .card th { 
+.section-5 .card th {
     font-weight: 600;
 }
 .section-5 .card .info1 {
@@ -10659,12 +10661,12 @@ footer .nav-link {
 }
 /* '' */
 
-.saved-job a{
+.saved-job a {
     background: #00d363 !important;
     color: #fff !important;
 }
 
-.trumbowyg-editor ul li{
+.trumbowyg-editor ul li {
     list-style: disc;
 }
 
@@ -10676,7 +10678,7 @@ footer .nav-link {
     border: 0.25em solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
-    animation: spinner-border .75s linear infinite;
+    animation: spinner-border 0.75s linear infinite;
 }
 
 @keyframes spinner-border {
@@ -10686,15 +10688,15 @@ footer .nav-link {
 }
 
 .navbar-logo {
-    width: 80px; 
-    height: 80px; 
-  }
-  
-  @media (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+}
+
+@media (max-width: 768px) {
     .navbar-logo {
-      max-width: 120px; 
+        max-width: 120px;
     }
-  }
+}
 
 .card-error-find {
     border: none;
@@ -10723,5 +10725,3 @@ footer .nav-link {
 .job_popular_home {
     background: linear-gradient(295.89deg, #ff4b2d -101.99%, #fffdf9 102.52%);
 }
-  
-

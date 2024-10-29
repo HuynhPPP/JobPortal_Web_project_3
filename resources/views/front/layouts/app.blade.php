@@ -10,10 +10,10 @@
   <meta name="HandheldFriendly" content="True" />
   <meta name="pinterest" content="nopin" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <link rel="stylesheet" href="{{ asset("assets/user/css/font-awesome.css") }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/user/css/font-awesome.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/user/trumbowyg/trumbowyg.min.css') }}" />
-  <link rel="stylesheet" type="text/css" href="{{ asset("assets/user/css/style.css") }}" />
-  <link rel="stylesheet" href="{{ asset("assets/user/css/toastr.min.css") }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/style.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/user/css/toastr.min.css') }}" />
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
 </head>
 
@@ -21,8 +21,7 @@
 
   @include('front.layouts.header')
 
-  @yield("main")
-
+  @yield('main')
   @if (Auth::check() && Auth::user()->role === 'user')
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -76,18 +75,18 @@
   @endif
 
   @include('front.layouts.footer')
-  
 
-  <script src="{{ asset("assets/user/js/jquery-3.6.0.min.js") }}"></script>
+
+  <script src="{{ asset('assets/user/js/jquery-3.6.0.min.js') }}"></script>
   <script src="https://esgoo.net/scripts/jquery.js"></script>
-  <script src="{{ asset("assets/user/js/bootstrap.bundle.5.1.3.min.js") }}"></script>
-  <script src="{{ asset("assets/user/js/instantpages.5.1.0.min.js") }}"></script>
-  <script src="{{ asset("assets/user/js/lazyload.17.6.0.min.js") }}"></script>
-  <script src="{{ asset("assets/user/js/custom.js") }}"></script>
+  <script src="{{ asset('assets/user/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
+  <script src="{{ asset('assets/user/js/instantpages.5.1.0.min.js') }}"></script>
+  <script src="{{ asset('assets/user/js/lazyload.17.6.0.min.js') }}"></script>
+  <script src="{{ asset('assets/user/js/custom.js') }}"></script>
   <script src="{{ asset('assets/user/trumbowyg/trumbowyg.min.js') }}"></script>
-  <script src="{{ asset("assets/user/js/toastr.min.js") }}"></script>
+  <script src="{{ asset('assets/user/js/toastr.min.js') }}"></script>
 
-  @if (session()->has("toastr"))
+  @if (session()->has('toastr'))
     <script>
       toastr.options = {
         "closeButton": true,
@@ -96,7 +95,7 @@
         "timeOut": "6000"
       };
 
-      @foreach (session("toastr") as $type => $message)
+      @foreach (session('toastr') as $type => $message)
         toastr.{{ $type }}('{{ $message }}');
       @endforeach
     </script>
@@ -117,7 +116,7 @@
       var formData = new FormData(this);
 
       $.ajax({
-        url: '{{ route("account.updateProfilePicture") }}',
+        url: '{{ route('account.updateProfilePicture') }}',
         type: 'post',
         data: formData,
         dataType: 'json',
@@ -137,7 +136,7 @@
     });
   </script>
 
-  @yield("customJs")
+  @yield('customJs')
 </body>
 
 </html>

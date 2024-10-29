@@ -8,22 +8,21 @@ use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+  /**
+   * Register any application services.
+   */
+  public function register(): void
+  {
+    //
+  }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        // Thiết lập ngôn ngữ mặc định của Carbon là tiếng Việt
-        Carbon::setLocale('vi');
-
-        Paginator::useBootstrapFive();
-    }
+  /**
+   * Bootstrap any application services.
+   */
+  public function boot(): void
+  {
+    // Thiết lập ngôn ngữ mặc định của Carbon là tiếng Việt
+    Carbon::setLocale('vi');
+    Paginator::useBootstrapFive();
+  }
 }
