@@ -4,6 +4,7 @@ use App\Http\Controllers\user\HomeController;
 use App\Http\Controllers\user\AccountController;
 use App\Http\Controllers\user\JobsController;
 use App\Http\Controllers\user\ApiController;
+use App\Http\Controllers\user\GoogleAuthController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,7 +12,8 @@ Route::get('/api/proxy/provinces', [ApiController::class, 'getProvinces']);
 Route::get('/api/proxy/districts/{provinceId}', [ApiController::class, 'getDistricts']);
 Route::get('/api/proxy/wards/{districtId}', [ApiController::class, 'getWards']);
 
-
+Route::get('/auth/google', [GoogleAuthController::class,'redirect'])->name('google-auth');
+Route::get('/auth/google/call-back', [GoogleAuthController::class,'callbackGoogle']);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/jobs', [JobsController::class, 'index'])->name('jobs');

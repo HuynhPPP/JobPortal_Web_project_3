@@ -24,7 +24,7 @@
                     <h1>Đăng nhập</h1>
                 </div>
                 <div class="socials-row">
-                    <a href="#" title="Use Github">
+                    <a href="{{ route('google-auth') }}" title="Use Github">
                         <img src="{{ asset('assets/user/images/login/google.png') }}" alt="Google">
                         Đăng nhập bằng Google
                     </a>
