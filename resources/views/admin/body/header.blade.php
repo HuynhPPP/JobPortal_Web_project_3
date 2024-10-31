@@ -129,7 +129,7 @@
             </a>
 
             <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">
+            {{-- <a href="javascript:void(0);" class="dropdown-item">
               <i class="ti ti-wallet me-1 fs-17 align-middle"></i>
               <span class="align-middle">Wallet : <span class="fw-semibold">$985.25</span></span>
             </a>
@@ -152,7 +152,7 @@
             <a href="javascript:void(0);" class="dropdown-item">
               <i class="ti ti-lock-square-rounded me-1 fs-17 align-middle"></i>
               <span class="align-middle">Lock Screen</span>
-            </a>
+            </a> --}}
 
             <!-- item-->
             <a href="{{ route('account.logout') }}" class="dropdown-item active fw-semibold text-danger">

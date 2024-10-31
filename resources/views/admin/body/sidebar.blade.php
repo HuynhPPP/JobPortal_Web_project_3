@@ -70,7 +70,7 @@
           <span class="menu-text"> Ứng tuyển </span>
         </a>
       </li>
-      <li class="side-nav-item">
+      {{-- <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarHospital" aria-expanded="false" aria-controls="sidebarHospital"
           class="side-nav-link">
           <span class="menu-icon">
@@ -88,7 +88,7 @@
             </li>
           </ul>
         </div>
-      </li>
+      </li> --}}
     </ul>
     <div class="clearfix"></div>
   </div>
