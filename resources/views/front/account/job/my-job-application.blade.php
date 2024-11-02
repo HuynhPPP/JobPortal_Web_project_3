@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route("home") }}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+                        <li class="breadcrumb-item active">Công việc đã ứng tuyển</li>
                     </ol>
                 </nav>
             </div>
@@ -54,18 +54,18 @@
                                             <tr class="active">
                                                 <td style="display: none"><input type="hidden" name="id" value="{{ $jobApplication->id }}"></td>
                                                 <td>
-                                                    <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
-                                                    <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}</div>
+                                                    <div class="job-name fw-500">{{ Str::words(strip_tags($jobApplication->job->title), 5)  }}</div>
+                                                    <div class="info1 fst-italic">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->province }}</div>
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->locale('vi')->translatedFormat('d F, Y') }}</td>
                                                 <td>{{ $jobApplication->job->applications->count() }} ứng tuyển</td>
                                                 <td>
-                                                    @if ($jobApplication->job->status == 1)
+                                                    @if ($jobApplication->status == 1)
                                                         <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
-                                                    @elseif ($jobApplication->job->status == 0)
+                                                    @elseif ($jobApplication->status == 0)
                                                         <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
-                                                    @elseif ($jobApplication->job->status == 2)
-                                                        <div class="job-status text-capitalize text-danger">Hết hạn</div>
+                                                    @elseif ($jobApplication->status == 2)
+                                                        <div class="job-status text-capitalize text-danger">Hết thời hạn ứng tuyển</div>
                                                     @else
                                                         <div class="job-status text-warning">Công việc đã đủ số lượng ứng tuyển</div>
                                                     @endif

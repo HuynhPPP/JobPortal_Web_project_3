@@ -112,6 +112,7 @@
                                                                 "
                                                     />
                                                 </div>
+                                                @if (Auth::check() && Auth::user()->role === 'user')
                                                 <div class="jobs_right col-2">
                                                     <div class="apply_now">
                                                         <a class="heart_mark" href="javascript:void(0);" onclick="saveJobHeart({{ $featureJob->id }}, this)">
@@ -119,6 +120,7 @@
                                                         </a>
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
                                                 
                                             <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">
@@ -126,7 +128,7 @@
                                             </h3>
 
                                             @if (!empty($featureJob->company_name))
-                                                <p>{{ Str::words(strip_tags($featureJob->company_name), 8) }}</p>
+                                                <p>{{ Str::words(strip_tags($featureJob->company_name), 6) }}</p>
                                             @endif
 
                                             <div class="bg-light p-3 border">

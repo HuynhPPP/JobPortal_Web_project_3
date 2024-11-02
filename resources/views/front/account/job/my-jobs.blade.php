@@ -8,7 +8,7 @@
           <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item"><a href="{{ route('home') }}">Trang chủ</a></li>
-              <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+              <li class="breadcrumb-item active">Công việc đã đăng</li>
             </ol>
           </nav>
         </div>
@@ -28,7 +28,7 @@
                 <div style="margin-top: -10px;">
                   <div class="input-group">
                     <form action="" name="searchForm" id="searchForm" class="d-flex">
-                      <input value="" type="text" name="keyword" id="keyword" placeholder="Nhập tiêu đề..."
+                      <input value="" type="text" name="keyword" value="{{ old('keyword') }}" id="keyword" placeholder="Nhập tiêu đề..."
                         class="form-control me-2">
                       <button type="submit" class="btn btn-primary w-50">Tìm kiếm</button>
                     </form>
@@ -53,7 +53,7 @@
                         <tr class="active">
                           <td>
                             <div class="job-name fw-500">{{ Str::words(strip_tags($job->title), 6) }}</div>
-                            <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}</div>
+                            <div class="info1 fst-italic">{{ $job->jobType->name }} . {{ $job->province }}</div>
                           </td>
                           <td>{{ \Carbon\Carbon::parse($job->created_at)->locale('vi')->translatedFormat('d F, Y') }}</td>
                           <td class="text-center">{{ $job->vacancy }}</td>
@@ -63,7 +63,7 @@
                             @elseif ($job->status == 0)
                               <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
                             @elseif ($job->status == 2)
-                              <div class="job-status text-capitalize text-danger">Hết hạn</div>
+                              <div class="job-status text-capitalize text-danger">Hết thời hạn ứng tuyển</div>
                             @else
                               <div class="job-status text-success">Công việc đã đủ số lượng ứng tuyển</div>
                             @endif
@@ -92,9 +92,26 @@
                         </tr>
                       @endforeach
                     @else
-                      <tr>
-                        <td class="text-danger">Bạn chưa đăng công việc</td>
-                      </tr>
+                    <tr>
+                      <td colspan="5">
+                          <div class="card-error-find">
+                              <div class="card-body-error-find">
+                               <img alt="Illustration of a piggy bank with a magnifying glass" 
+                                 height="100" 
+                                 src="https://storage.googleapis.com/a1aa/image/wbdDxuRHo2aDNtL5eFnlzmLSJ5fXAOdRDeHnXiZSLwjffvSdC.jpg" 
+                                 width="100"/>
+                               <div class="text-content">
+                                <h5 class="mt-3">
+                                 Oops! Không tìm thấy công việc
+                                </h5>
+                                <p>
+                                 TopWork chưa tìm thấy công việc bạn tìm kiếm vào lúc này.
+                                </p>
+                               </div>
+                              </div>
+                          </div>
+                      </td>
+                    </tr>
                     @endif
                   </tbody>
                 </table>

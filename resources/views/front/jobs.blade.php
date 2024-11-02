@@ -64,7 +64,7 @@
 
               <div class="mb-4">
                 <h2>Kinh nghiệm</h2>
-                <select name="experience" id="experience" class="form-control">
+                <select name="experience" id="experience" class="form-select">
                   <option value="">Chọn kinh nghiệm</option>
                   <option value="1" {{ Request::get('experience') == 1 ? 'selected' : '' }}>1 Năm</option>
                   <option value="2" {{ Request::get('experience') == 2 ? 'selected' : '' }}>2 Năm</option>
@@ -135,28 +135,9 @@
                             @endif
                           </div>
 
-                          {{-- <div class="keywords-section mt-3">
-                            <div class="d-flex flex-wrap gap-2 mt-2">
-                                @php
-                                    $keywords = explode(',', $job->keywords); 
-                                @endphp
-                                @foreach ($keywords as $index => $keyword)
-                                    @if ($index < 2) 
-                                        <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
-                                            {{ trim($keyword) }}
-                                        </a>
-                                    @endif
-                                @endforeach
-                                @if (count($keywords) > 3) 
-                                    <span>...</span>
-                                @endif
-                            </div>
-                          </div> --}}
-
                           <div class="d-grid mt-3">
                             @if (Auth::check() && Auth::user()->role === 'employer')
-                              <a href="{{ route('JobDetail_employer', $job->id) }}" class="btn btn-primary btn-lg">Chi
-                                tiết</a>
+                              <a href="{{ route('JobDetail_employer', $job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
                             @else
                               <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
                             @endif

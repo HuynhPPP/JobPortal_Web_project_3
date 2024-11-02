@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route("home") }}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+                        <li class="breadcrumb-item active">Đăng công việc</li>
                     </ol>
                 </nav>
             </div>
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-md-6 mb-4 search_select_box">
                                     <label for="" class="mb-3 fs-5 fst-italic">Ngành nghề<span class="req">*</span></label>
-                                    <select name="category" id="category" class="form-control">
+                                    <select name="category" id="category" class="form-select">
                                         @if ($careers->isNotEmpty())
                                             @foreach ($careers as $career)
                                             <option value="{{ $career->id }}" {{ old('category') == $career->id ? 'selected' : '' }}>
@@ -53,9 +53,8 @@
                             
                             <div class="row">
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-3 fs-5 fst-italic">Hình thức làm việc<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Loại hình làm việc<span class="req">*</span></label>
                                     <select name="jobType" id="jobType" class="form-select">
-                                        <option value="">Loại hợp đồng</option>
                                         @if ($jobtypes->isNotEmpty())
                                             @foreach ($jobtypes as $jobtype)
                                             <option value="{{ $jobtype->id }}" {{ old('jobType') == $jobtype->id ? 'selected' : '' }}>
@@ -123,7 +122,7 @@
                 
                             <div class="mb-4">
                                 <label for="" class="mb-3 fs-5 fst-italic">Kinh nghiệm tối thiểu</label>
-                                <select name="experience" id="experience" class="form-control">
+                                <select name="experience" id="experience" class="form-select">
                                     <option value="1" {{ old('experience') == '1' ? 'selected' : '' }}>1 năm</option>
                                     <option value="2" {{ old('experience') == '2' ? 'selected' : '' }}>2 năm</option>
                                     <option value="3" {{ old('experience') == '3' ? 'selected' : '' }}>3 năm</option>
@@ -163,17 +162,17 @@
                                 <div class="mb-4">
                                     <label for="address" class="form-label mb-3 fs-5 fst-italic">Địa chỉ</label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" id="province" name="province">
+                                        <select class="form-select " id="province" name="province">
                                             <option value="">{{ old('province', $user->province) ?: 'Chọn tỉnh / thành' }}</option>
                                         </select>
                                         <input type="hidden" id="province_name" name="province_name" value="{{ old('province_name', $user->province) }}">
                                         
-                                        <select class="form-select" id="district" name="district">
+                                        <select class="form-select " id="district" name="district">
                                             <option value="">{{ old('district', $user->district) ?: 'Chọn quận / huyện' }}</option>
                                         </select>
                                         <input type="hidden" id="district_name" name="district_name" value="{{ old('district_name', $user->district) }}">
                                         
-                                        <select class="form-select" id="wards" name="wards">
+                                        <select class="form-select " id="wards" name="wards">
                                             <option value="">{{ old('wards', $user->wards) ?: 'Chọn phường / xã' }}</option>
                                         </select>
                                         <input type="hidden" id="ward_name" name="ward_name" value="{{ old('ward_name', $user->wards) }}">
@@ -423,4 +422,11 @@
     }
 
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
+
 @endsection

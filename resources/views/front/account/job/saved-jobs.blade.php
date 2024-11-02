@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route("home") }}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+                        <li class="breadcrumb-item active">Công việc yêu thích</li>
                     </ol>
                 </nav>
             </div>
@@ -54,8 +54,8 @@
                                             <tr id="saved-job-{{ $savedJob->id }}" class="active">
                                                 <td style="display: none"><input type="hidden" name="id" value="{{ $savedJob->id }}"></td>
                                                 <td>
-                                                    <div class="job-name fw-500">{{ $savedJob->job->title }}</div>
-                                                    <div class="info1">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->location }}</div>
+                                                    <div class="job-name fw-500">{{ Str::words(strip_tags($savedJob->job->title), 5)  }}</div>
+                                                    <div class="info1 fst-italic">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->province }}</div>
                                                 </td>
                                                 <td>{{ $savedJob->job->applications->count() }} ứng tuyển</td>
                                                 <td>

@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route("home") }}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+                        <li class="breadcrumb-item active">Chỉnh sửa công việc</li>
                     </ol>
                 </nav>
             </div>
@@ -26,7 +26,7 @@
                             <h3 class="fs-4 mb-1">Chỉnh sửa công việc</h3>
                             <div class="row">
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Tiêu đề<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Tiêu đề<span class="req">*</span></label>
                                     <input 
                                         type="text" 
                                         placeholder="Tiêu đề công việc" 
@@ -38,7 +38,7 @@
                                     <p></p>
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Ngành nghề<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Ngành nghề<span class="req">*</span></label>
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Chọn ngành nghề</option>
                                         @if ($careers->isNotEmpty())
@@ -55,7 +55,7 @@
                             
                             <div class="row">
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Hình thức làm việc<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Hình thức làm việc<span class="req">*</span></label>
                                     <select name="jobType" id="jobType" class="form-select">
                                         <option value="">Chọn hình thức làm việc</option>
                                         @if ($jobtypes->isNotEmpty())
@@ -69,7 +69,7 @@
                                     <p></p>
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <label for="" class="mb-2">Số lượng tuyển<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Số lượng tuyển<span class="req">*</span></label>
                                     <input 
                                         type="number" 
                                         min="1" 
@@ -85,7 +85,7 @@
                 
                             <div class="row">
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Mức lương</label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Mức lương</label>
                                     <input 
                                         type="text" 
                                         placeholder="Mức lương" 
@@ -97,7 +97,7 @@
                                 </div>
                 
                                 <div class="mb-4 col-md-6">
-                                    <label for="" class="mb-2">Vị trí cần tuyển<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Vị trí cần tuyển<span class="req">*</span></label>
                                     <input 
                                         type="text" 
                                         placeholder="Cấp bậc" 
@@ -111,32 +111,32 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Mô tả</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Mô tả công việc</label>
                                 <textarea class="textarea" name="description" id="description" cols="5" rows="5" placeholder="Mô tả công việc">
                                     {{ $job->description }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Phúc lợi</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Phúc lợi</label>
                                 <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi">
                                     {{ $job->benefits }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Trách nhiệm</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Trách nhiệm công việc</label>
                                 <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Trách nhiệm">
                                     {{ $job->responsibility }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Yêu cầu</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Kỹ năng & chuyên môn</label>
                                 <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Nhập yêu cầu công việc...">
                                     {{ $job->qualifications }}
                                 </textarea>
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Kinh nghiệm</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Kinh nghiệm tối thiểu</label>
                                 <select name="experience" id="experience" class="form-control">
                                     <option value="1" {{ ($job->experience == 1) ? 'selected' : '' }}>1 năm</option>
                                     <option value="2" {{ ($job->experience == 2) ? 'selected' : '' }}>2 năm</option>
@@ -153,7 +153,7 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Từ khóa<span class="req">*</span></label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Từ khóa<span class="req">*</span></label>
                                 <input 
                                     type="text" 
                                     placeholder="Nhập từ khóa..." 
@@ -169,7 +169,7 @@
                 
                             <div class="row">
                                 <div class="mb-4">
-                                    <label for="" class="mb-2">Tên công ty<span class="req">*</span></label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Tên công ty<span class="req">*</span></label>
                                     <input 
                                         type="text" 
                                         placeholder="Nhập tên công ty..." 
@@ -182,7 +182,7 @@
                                 </div>
                 
                                 <div class="mb-4">
-                                    <label for="address" class="form-label">Địa chỉ</label>
+                                    <label for="address" class="form-label mb-3 fs-5 fst-italic">Địa chỉ</label>
                                     <div class="input-group mb-3">
                                         <select class="form-select" id="province" name="province">
                                             @if(!empty($job->province))
@@ -211,14 +211,14 @@
                                         </select>
                                         <input type="hidden" id="ward_name" name="ward_name">
                                     </div>
-                                    <label for="" class="mb-2">Địa chỉ chi tiết</label>
+                                    <label for="" class="mb-3 fs-5 fst-italic">Địa chỉ chi tiết</label>
                                     <input type="text" class="form-control" id="location_detail" name="location_detail" placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội" value="{{ $job->location_detail }}">
                                 </div>
                                 
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-2">Website</label>
+                                <label for="" class="mb-3 fs-5 fst-italic">Website</label>
                                 <input 
                                     type="text" 
                                     placeholder="Nhập địa chỉ website..." 

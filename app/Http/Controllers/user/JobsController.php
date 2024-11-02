@@ -203,6 +203,7 @@ class JobsController extends Controller
             $application->employer_id = $employer_id;
             $application->applied_date = now();
             $application->cv_path = $filename ?? null;
+            $application->status = "0";
             $application->save();
 
             

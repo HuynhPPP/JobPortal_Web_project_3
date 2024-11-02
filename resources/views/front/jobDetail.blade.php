@@ -85,33 +85,31 @@
                             @endif
                             {!! nl2br($job->benefits) !!}
                         </div>
-                        <div class="border-bottom"></div>
-                        
-                        <!-- Employer -->
-                        @if (Auth::check() && Auth::user()->role === 'employer')
-                            <div class="pt-3 text-end">
-                            </div>
-                        @endif
-
-                        <!-- User -->
-                        @if (Auth::check() && Auth::user()->role === 'user')
-                            <div class="pt-3 text-end">
-                                <a href="#" 
-                                    onclick="applyJob({{ $job->id }})" 
-                                    class="btn btn-primary {{ ($userHasApplied == 1) ? 'disabled' : '' }}">
-                                    {{ ($userHasApplied == 1) ? 'Bạn đã nộp đơn cho công việc này' : 'Xin việc'}}
-                                </a>
-                            </div>
-                        @else
-                            <div class="pt-3 text-end">
-                                <a href="{{ route("account.login") }}" class="btn btn-primary">Đăng nhập để xin việc</a>       
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow border-0">
+                <!-- Employer -->
+                @if (Auth::check() && Auth::user()->role === 'employer')
+                    <div class="pt-3">
+                    </div>
+                @endif
+
+                <!-- User -->
+                @if (Auth::check() && Auth::user()->role === 'user')
+                    <div class="pt-3">
+                        <a href="#" 
+                            onclick="applyJob({{ $job->id }})" 
+                            class="btn btn-primary w-100 fs-5 {{ ($userHasApplied == 1) ? 'disabled' : '' }}">
+                            {{ ($userHasApplied == 1) ? 'Bạn đã nộp đơn cho công việc này' : 'Xin việc ngay'}}
+                        </a>
+                    </div>
+                @else
+                    <div class="pt-3">
+                        <a href="{{ route("account.login") }}" class="btn btn-primary">Đăng nhập để xin việc</a>       
+                    </div>
+                @endif
+                <div class="card shadow border-0 my-4">
                     <div class="job_sumary">
                         <div class="summery_header pb-1 pt-4">
                             <h3>Thông tin chung</h3>
@@ -205,32 +203,26 @@
 </section>
 
 @if (Auth::check() && Auth::user()->role === 'user')
-<!-- Bootstrap Modal -->
 <div class="modal fade" id="applyJobModal" tabindex="-1" aria-labelledby="applyJobModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!-- Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title" id="applyJobModalLabel">Bạn đang ứng tuyển tại công ty {{ $job->company_name }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            <!-- Modal Body: Form -->
             <div class="modal-body">
                 <form id="applyJobForm" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="{{ $job->id }}">
                     @csrf
-                    <!-- Họ tên -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Họ tên</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->fullname }}" readonly>
                     </div>
-                    <!-- Email -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}" readonly>
                     </div>
-                    <!-- Số điện thoại -->
                     <div class="mb-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
                         @if (Auth::user()->mobile)
@@ -239,17 +231,11 @@
                             <input type="text" class="form-control text-danger" id="phone" name="phone" value="Bạn chưa cập nhật số điện thoại" readonly>
                         @endif
                     </div>
-                    <!-- Nộp CV -->
                     <div class="mb-3">
                         <label for="cv" class="form-label">Nộp CV</label>
                         <input type="file" class="form-control" id="cv" name="cv" required>
                         <p></p>
                     </div>
-                    <!-- Thư giới thiệu -->
-                    {{-- <div class="mb-3">
-                        <label for="cover_letter" class="form-label">Thư giới thiệu</label>
-                        <textarea class="textarea" id="cover_letter" name="cover_letter" rows="4"></textarea>
-                    </div> --}}
                 </form>
             </div>
             

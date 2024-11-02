@@ -142,6 +142,7 @@
                         </div>
                         <div class="job_content pt-3">
                             <ul>
+                                <li>Thời điểm đăng: <span>{{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</span></li>
                                 <li>
                                     @if (empty($job->job_level))
                                         Cấp bậc: <span style="color: red">chưa cập nhật</span>
@@ -172,10 +173,21 @@
                                 </li>
                                 <li>
                                     @if (empty($job->keywords))
-                                        Các công nghệ sử dụng: <span style="color: red">chưa cập nhật</span>
+                                        Từ khoá: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Các công nghệ sử dụng: <a href="{{ route("jobs").'?keyword='.$job->keywords }}"> {{ $job->keywords }}</a>
-                                    @endif
+                                    <div class="keywords-section-detail">
+                                        <div class="d-flex flex-wrap gap-2 mt-2">
+                                            @php
+                                                $keywords = explode(',', $job->keywords);
+                                            @endphp
+                                            Từ khoá: 
+                                            @foreach ($keywords as $index => $keyword)
+                                                    <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge-detail">{{ trim($keyword) }}</a>
+                                                    
+                                            @endforeach
+                                        @endif
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -190,20 +202,23 @@
                             <ul>
                                 <li>Tên công ty: <span>{{ $job->company_name }}</span></li>
                                 <li>
-                                    @if (empty($job->province) && empty($job->district))
-                                        Địa chỉ: <span style="color: red">chưa cập nhật</span>
-                                    @else
+                                    @if (!empty($job->location_detail))
+                                        Địa chỉ: <span>{{ $job->location_detail }}</span>
+                                    @elseif (!empty($job->district) && !empty($job->district))
                                         Địa chỉ: <span> {{ $job->district }}, {{ $job->province }}</span>
+                                    @else
+                                        Địa chỉ: <span>{{ $job->location_detail }}</span>
                                     @endif
                                 </li>
                                 <li>
-                                    
                                     @if (empty($job->company_website))
                                         Webite: <span style="color: red">chưa cập nhật</span>
                                     @else
                                         Webite: <span><a href="{{ $job->company_website }}">{{ $job->company_website }}</a></span>
                                     @endif
                                 </li>
+                                <li>Nhà tuyển dụng: <span>{{ $job->user->fullname }}</span></li>
+                                <li>Email liên hệ: <span>{{ $job->user->email }}</span></li>
                             </ul>
                         </div>
                     </div>

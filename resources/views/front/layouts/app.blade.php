@@ -15,7 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/style.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/user/css/toastr.min.css') }}" />
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
-  
+  <link href="{{ asset('assets/user/css/select2.min.css') }}" rel="stylesheet" />
 </head>
 
 <body data-instant-intensity="mousedown">
@@ -80,6 +80,7 @@
 
   <script src="{{ asset('assets/user/js/jquery-3.6.0.min.js') }}"></script>
   <script src="https://esgoo.net/scripts/jquery.js"></script>
+  <script src="{{ asset('assets/user/js/select2.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/instantpages.5.1.0.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/lazyload.17.6.0.min.js') }}"></script>
