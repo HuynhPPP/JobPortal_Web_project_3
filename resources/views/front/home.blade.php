@@ -181,7 +181,7 @@
                                                         $keywords = explode(',', $featureJob->keywords); 
                                                     @endphp
                                                     @foreach ($keywords as $index => $keyword)
-                                                        @if ($index < 3) 
+                                                        @if ($index < 2) 
                                                             <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
                                                                 {{ trim($keyword) }}
                                                             </a>
@@ -301,7 +301,7 @@
                                                         $keywords = explode(',', $latesJob->keywords); 
                                                     @endphp
                                                     @foreach ($keywords as $index => $keyword)
-                                                        @if ($index < 3) 
+                                                        @if ($index < 1) 
                                                             <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
                                                                 {{ trim($keyword) }}
                                                             </a>
