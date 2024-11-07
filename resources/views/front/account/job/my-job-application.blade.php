@@ -58,7 +58,7 @@
                                                     <div class="info1 fst-italic">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->province }}</div>
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->locale('vi')->translatedFormat('d F, Y') }}</td>
-                                                <td>{{ $jobApplication->job->applications->count() }} ứng tuyển</td>
+                                                <td>{{ $jobApplication->job->applications->count() }} ứng viên</td>
                                                 <td>
                                                     @if ($jobApplication->status == 1)
                                                         <div class="job-status text-capitalize text-success">Đã phê duyệt</div>

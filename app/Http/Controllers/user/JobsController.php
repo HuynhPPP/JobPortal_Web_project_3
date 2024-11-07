@@ -292,5 +292,47 @@ class JobsController extends Controller
 
         return response()->download($file);
     }
+
+    public function approve(Request $request)
+    {
+        $application = JobApplication::find($request->id);
+        if ($application) {
+            if ($application->status == 1) {
+                $application->status = 0;
+                $message = 'Huỷ phê duyệt thành công';
+            } else {
+                $application->status = 1;
+                $message = 'Phê duyệt thành công';
+            }
+            $application->save();
+
+            return redirect()->route('JobDetail_employer', ['id' => $application->job_id]) 
+                            ->with('toastr', ['success' => $message]);
+        }
+
+        return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
+                        ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
+    }
+
+
+    public function sendMessage(Request $request, $id)
+    {
+        $application = JobApplication::find($id);
+
+        if ($application) {
+            $application->message = $request->message;
+            $message = 'Gửi thông báo thành công';
+            $application->save();
+
+            return redirect()->route('JobDetail_employer', ['id' => $application->job_id])
+                            ->with('toastr', ['success' => $message]);
+        }
+
+        return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
+                        ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
+    }
+
+
+    
     
 }

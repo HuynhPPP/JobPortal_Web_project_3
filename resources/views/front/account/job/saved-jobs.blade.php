@@ -57,7 +57,7 @@
                                                     <div class="job-name fw-500">{{ Str::words(strip_tags($savedJob->job->title), 5)  }}</div>
                                                     <div class="info1 fst-italic">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->province }}</div>
                                                 </td>
-                                                <td>{{ $savedJob->job->applications->count() }} ứng tuyển</td>
+                                                <td>{{ $savedJob->job->applications->count() }} ứng viên</td>
                                                 <td>
                                                     @if ($savedJob->job->status == 1)
                                                         <div class="job-status text-capitalize text-success">Hoạt động</div>

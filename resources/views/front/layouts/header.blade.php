@@ -18,11 +18,47 @@
           </li>
         </ul>
         @if (Auth::check())
-          <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}" type="submit">Thông tin tài
+        <!-- Biểu tượng thông báo -->
+          <div class="nav-item dropdown me-3">
+            <a href="#" class="nav-link position-relative" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-envelope fs-3"></i>
+              <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-danger">
+                3 <!-- Giả sử có 3 thông báo -->
+              </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="notificationDropdown">
+              <li class="dropdown-item">
+                <a href="#" class="d-flex align-items-center">
+                  <div class="me-3">
+                    <i class="fa fa-user text-primary"></i>
+                  </div>
+                  <div>
+                    <p class="mb-0">Một ứng viên mới vừa ứng tuyển</p>
+                    <small class="text-muted">5 phút trước</small>
+                  </div>
+                </a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#" class="d-flex align-items-center">
+                  <div class="me-3">
+                    <i class="fa fa-clock-o text-warning"></i>
+                  </div>
+                  <div>
+                    <p class="mb-0">Công việc sắp hết hạn ứng tuyển</p>
+                    <small class="text-muted">2 ngày tới</small>
+                  </div>
+                </a>
+              </li>
+              <li class="dropdown-item text-center">
+                <a href="#">Xem tất cả thông báo</a>
+              </li>
+            </ul>
+          </div>
+
+          <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
             khoản</a>
-          {{-- <a href="">Xin chào {{ Auth::user()->name }}</a> --}}
         @else
-          <a class="btn btn-outline-primary me-2" href="{{ route('account.login') }}" type="submit">Đăng nhập</a>
+          <a class="btn btn-outline-primary me-3" href="{{ route('account.login') }}" type="submit">Đăng nhập</a>
         @endif
         @if (Auth::check() && Auth::user()->role === 'employer')
           <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Đăng bài tuyển dụng</a>

@@ -50,7 +50,10 @@
                   <tbody class="border-0">
                     @if ($jobs->isNotEmpty())
                       @foreach ($jobs as $job)
+                      <form action="{{ route('account.deleteJob') }}" method="POST">
+                        @csrf
                         <tr class="active">
+                          <td style="display: none"><input type="hidden" name="id" value="{{ $job->id }}"></td>
                           <td>
                             <div class="job-name fw-500">{{ Str::words(strip_tags($job->title), 6) }}</div>
                             <div class="info1 fst-italic">{{ $job->jobType->name }} . {{ $job->province }}</div>
@@ -75,21 +78,31 @@
                               </button>
                               <ul class="dropdown-menu dropdown-menu-end">
                                 @if ($job->status == 1)
-                                  <li><a class="dropdown-item" href="{{ route('JobDetail_employer', $job->id) }}"> <i
-                                        class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
+                                  <li>
+                                    <a class="dropdown-item" href="{{ route('JobDetail_employer', $job->id) }}"> <i
+                                        class="fa fa-eye" aria-hidden="true"></i> Xem</a>
+                                  </li>
                                 @else
-                                  <li><a class="dropdown-item disabled"
+                                  <li>
+                                    <a class="dropdown-item disabled"
                                       href="{{ route('JobDetail_employer', $job->id) }}">
-                                      <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
+                                      <i class="fa fa-eye" aria-hidden="true"></i> Xem</a>
+                                  </li>
                                 @endif
-                                <li><a class="dropdown-item" href="{{ route('account.editJob', $job->id) }}"><i
-                                      class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i
-                                      class="fa fa-trash" aria-hidden="true"></i> Xoá</a></li>
+                                  <li>
+                                    <a class="dropdown-item" href="{{ route('account.editJob', $job->id) }}"><i
+                                      class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a>
+                                  </li>
+                                  <li>
+                                    <button type="submit" class="dropdown-item" onclick="return confirm('Bạn chắc chắn muốn huỷ ứng tuyển công việc này không?')">
+                                      <i class="fa fa-trash me-3" aria-hidden="true"></i> Xoá việc làm
+                                    </button>
+                                  </li>
                               </ul>
                             </div>
                           </td>
                         </tr>
+                      </form>
                       @endforeach
                     @else
                     <tr>
@@ -128,26 +141,6 @@
 @endsection
 
 @section('customJs')
-  <script type="text/javascript">
-    function deleteJob(jobId) {
-      if (confirm("Bạn muốn xoá công việc này không ?")) {
-        $.ajax({
-          url: '{{ route('account.deleteJob') }}',
-          type: 'post',
-          data: {
-            jobId: jobId
-          },
-          dataType: 'json',
-          success: function(response) {
-            window.location.href = '{{ route('account.myJobs') }}'
-          }
-        })
-      } else {
-
-      }
-    }
-  </script>
-
   <script type="text/javascript">
     $("#searchForm").submit(function(e) {
       e.preventDefault();

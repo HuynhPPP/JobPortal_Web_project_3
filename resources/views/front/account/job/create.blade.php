@@ -140,8 +140,13 @@
                             <div class="mb-4">
                                 <label for="keywords" class="mb-3 fs-5 fst-italic">Từ khóa</label>
                                 <input type="text" placeholder="Ví dụ: PHP, Java,..." id="keywords" name="keywords" class="form-control">
-                                <p></p>
                                 <div id="keywords-list" class="d-flex flex-wrap mt-2"></div>
+                            </div>
+
+                            <div class="row form-group">
+                                <label for="date" class="fs-5 fst-italic">Ngày hết hạn</labe1>
+                                <input type="date" name="expiration_date" id="expiration_date" class="form-control mt-3" value="{{ old('expiration_date') }}">
+                                <p></p>
                             </div>
                             
                 
@@ -254,6 +259,11 @@
                         .removeClass('invalid-feedback')
                         .html('');
 
+                    $("#expiration_date").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+
                     window.location.href="{{ route("account.myJobs") }}";
                 } else {
                     var errors = response.errors;
@@ -320,8 +330,6 @@
                         .html('');
                     }
                     
-                    
-                    // Company_name
                     if (errors.company_name) {
                         $("#company_name").addClass('is-invalid')
                         .siblings('p')
@@ -329,6 +337,18 @@
                         .html(errors.company_name);
                     } else {
                         $("#company_name").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('');
+                    }
+
+                    if (errors.expiration_date) {
+                        $("#expiration_date").addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(errors.expiration_date);
+                    } else {
+                        $("#expiration_date").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
@@ -409,24 +429,13 @@
         if (!keywords.includes(keyword)) {
             keywords.push(keyword);
 
-            // Tạo thẻ từ khóa mới
             const keywordTag = document.createElement('span');
             keywordTag.className = 'keyword-tag';
             keywordTag.textContent = keyword;
-
-            // Thêm thẻ vào danh sách hiển thị
             keywordsList.appendChild(keywordTag);
-
-            // Bạn có thể lưu `keywords` vào database nếu cần
         }
     }
-
 </script>
 
-<script>
-    $(document).ready(function() {
-        $('.select2').select2();
-    });
-</script>
 
 @endsection

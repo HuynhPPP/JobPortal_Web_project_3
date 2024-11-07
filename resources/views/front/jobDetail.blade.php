@@ -21,7 +21,6 @@
                     <div class="job_details_header">
                         <div class="single_jobs white-bg d-flex justify-content-between">
                             <div class="jobs_left d-flex align-items-center">
-                                
                                 <div class="jobs_conetent">
                                     <a href="#">
                                         <h4>{{ $job->title }}</h4>
@@ -36,12 +35,33 @@
                                             @endif
                                         </div>
                                         <div class="location d-flex align-items-center">
-                                            <i class="fa fa-calendar-times-o" aria-hidden="true" style="margin-right: 7px"></i> 
+                                            <i class="fa fa-clock-o" aria-hidden="true" style="margin-right: 7px"></i> 
                                             <p>{{ $job->jobType->name }}</p>
                                         </div>
+                                    </div>
+                                    <div class="links_locat d-flex align-items-center mt-3">
                                         <div class="location d-flex align-items-center">
-                                            <i class="fa fa-clock-o" style="margin-right: 7px"></i> 
-                                            <p>{{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</p>
+                                            <i class="fa fa-calendar" style="margin-right: 7px"></i>
+                                            <p>
+                                                Ngày đăng tuyển: {{ \Carbon\Carbon::parse($job->created_at)->format('d-m-Y') }} 
+                                                @if ($job->expiration_date)
+                                                    @php
+                                                        $daysLeft = \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($job->expiration_date), false);
+                                                        if ($daysLeft < 1) {
+                                                            $daysLeft = 1;
+                                                        }
+                                                        $textColor = '';
+                                                        if ($daysLeft < 3) {
+                                                            $textColor = 'color: red;';
+                                                        } elseif ($daysLeft < 10) {
+                                                            $textColor = 'color: yellow;';
+                                                        }
+                                                    @endphp
+                                                    @if ($daysLeft >= 0)
+                                                        - <span>Hết hạn trong: <span style="{{ $textColor }}">{{ $daysLeft }} ngày tới</span></span>
+                                                    @endif
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -57,7 +77,7 @@
                     </div>
                     <div class="descript_wrap white-bg">
                         <div class="single_wrap">
-                            <h4>Mô tả công việc</h4>
+                            <h4 style="color: #a8df8e">Mô tả công việc</h4>
                             @if (empty($job->description))
                                 <p>Chưa có thông tin</p>
                             @endif
@@ -65,21 +85,21 @@
                             
                         </div>
                         <div class="single_wrap">
-                            <h4>Trách nhiệm công việc</h4>
+                            <h4 style="color: #a8df8e">Trách nhiệm công việc</h4>
                             @if (empty($job->responsibility))
                                 <p>Chưa có thông tin</p>
                             @endif
                             {!! nl2br($job->responsibility) !!}
                         </div>
                         <div class="single_wrap">
-                            <h4>Kỹ năng & Chuyên môn</h4>
+                            <h4 style="color: #a8df8e">Kỹ năng & Chuyên môn</h4>
                             @if (empty($job->qualifications))
                                 <p>Chưa có thông tin</p>
                             @endif
                             {!! nl2br($job->qualifications) !!}
                         </div>
                         <div class="single_wrap">
-                            <h4>Phúc lợi dành cho bạn</h4>
+                            <h4 style="color: #a8df8e">Phúc lợi dành cho bạn</h4>
                             @if (empty($job->benefits))
                                 <p>Chưa có thông tin</p>
                             @endif
@@ -128,7 +148,7 @@
                                     @if (empty($job->salary))
                                         Mức lương: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Mức lương: <span>{{ $job->salary }}</span>
+                                        Mức lương: <span style="color: #0069DB ">{{ $job->salary }}</span>
                                     @endif
                                 </li>
                                 <li>
@@ -188,7 +208,7 @@
                                     @if (empty($job->company_website))
                                         Webite: <span style="color: red">chưa cập nhật</span>
                                     @else
-                                        Webite: <span><a href="{{ $job->company_website }}">{{ $job->company_website }}</a></span>
+                                        Webite: <span><a href="{{ $job->company_website }}" style="color: #0069DB">{{ $job->company_website }}</a></span>
                                     @endif
                                 </li>
                                 <li>Nhà tuyển dụng: <span>{{ $job->user->fullname }}</span></li>

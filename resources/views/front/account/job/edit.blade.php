@@ -162,8 +162,18 @@
                                     class="form-control"
                                     value="{{ $job->keywords }}"
                                 >
-                                <p></p>
                             </div>
+
+                            <form>
+                                <div class="row form-group">
+                                    <label for="date" class="fs-5 fst-italic">Ngày hết hạn</labe1>
+                                    <div class="col-sm-12 mt-3">
+                                        <div class="input-group date">
+                                            <input type="date" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                 
                             <h3 class="fs-4 mb-1 mt-5 border-top pt-5">Chi tiết công ty</h3>
                 

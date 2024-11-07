@@ -320,6 +320,7 @@ class AccountController extends Controller
             'vacancy' => 'required|integer',
             'level' => 'required|max:50',
             'company_name' => 'required|min:3|max:75',
+            'expiration_date' => 'nullable|date|after:today',
         ];
 
         $messages = [
@@ -335,6 +336,7 @@ class AccountController extends Controller
             'company_name.required' => 'Tên công ty không được để trống.',
             'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
             'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+            'expiration_date.after' => 'Ngày hết hạn phải là một ngày sau hôm nay.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -361,6 +363,7 @@ class AccountController extends Controller
             $job->wards = $request->ward_name;
             $job->location_detail = $request->location_detail;
             $job->company_website = $request->company_website;
+            $job->expiration_date = $request->expiration_date ? $request->expiration_date : null;
             $job->status = "0";
             $job->save();
 
@@ -500,22 +503,15 @@ class AccountController extends Controller
 
         $job = Job::where([
             'user_id' => Auth::user()->id,
-            'id' => $request->jobId,
+            'id' => $request->id,
         ])->first();
 
         if ($job == null) {
-            session()->flash('toastr', ['error' => 'Công việc không tìm thấy hoặc đã bị xoá']);
-            return response()->json([
-                'status' => true,
-            ]);
+            return redirect()->route('account.myJobs')->with('toastr', ['error' => 'Không tìm thấy công việc']);
         }
-
-        Job::where('id',$request->jobId)->delete();
-
-        session()->flash('toastr', ['success' => 'Xoá thành công']);
-        return response()->json([
-            'status' => true,
-        ]);
+    
+        $job->delete();
+        return redirect()->route('account.myJobs')->with('toastr', ['success' => 'Xoá việc làm thành công']);
     }
 
     public function myJobApplication(Request $request) {
@@ -553,26 +549,19 @@ class AccountController extends Controller
     
 
     public function savedJobs(Request $request) {
-        // $jobApplications = JobApplication::where('user_id', Auth::user()->id)
-        //                 ->with(['job','job.jobType','job.applications'])
-        //                 ->paginate(10);
 
         $savedJobsQuery = SavedJob::where('user_id', Auth::user()->id)
                         ->with(['job', 'job.jobType', 'job.applications'])
                         ->orderBy('created_at', 'DESC');
-    
-        // Nếu người dùng nhập từ khóa tìm kiếm
+
         if (!empty($request->keyword)) {
-            // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
             $savedJobsQuery->whereHas('job', function($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->keyword . '%');
             });
         }
         
-        // Phân trang kết quả tìm kiếm
         $savedJobs = $savedJobsQuery->paginate(8);
         
-        // Trả về view với kết quả tìm kiếm
         return view('front.account.job.saved-jobs', [
             'savedJobs' => $savedJobs,
         ]);

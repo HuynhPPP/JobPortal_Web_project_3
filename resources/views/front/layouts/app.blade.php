@@ -85,6 +85,7 @@
   <script src="{{ asset('assets/user/js/instantpages.5.1.0.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/lazyload.17.6.0.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/custom.js') }}"></script>
+  <script src="{{ asset('assets/user/js/datepicker.js') }}"></script>
   <script src="{{ asset('assets/user/trumbowyg/trumbowyg.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/toastr.min.js') }}"></script>
 

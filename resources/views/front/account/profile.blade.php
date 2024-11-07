@@ -155,7 +155,7 @@
                     <form action="" method="POST" id="changePasswordForm" name="changePasswordForm">
                         <div class="card-body p-4">
                             <h3 class="fs-4 mb-1">Thay đổi mật khẩu</h3>
-                            <p class="fs-5 fst-italic">Các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
+                            <p class="fs-5 fst-italic">Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
                             <div class="mb-4">
                                 <label for="" class="mb-3 fs-5">Mật khẩu cũ <span style="color: red">*</span></label>
                                 <input type="password" name="old_password" id="old_password" placeholder="Nhập mật khẩu cũ..." class="form-control">
