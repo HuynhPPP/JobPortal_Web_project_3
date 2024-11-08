@@ -9,6 +9,7 @@ use App\Models\JobType;
 use App\Models\Job;
 use App\Models\SavedJob;
 use App\Models\User;
+use App\Models\NotificationUser;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -293,44 +294,105 @@ class JobsController extends Controller
         return response()->download($file);
     }
 
-    public function approve(Request $request)
+    // public function approve(Request $request)
+    // {
+    //     $application = JobApplication::find($request->id);
+    //     if ($application) {
+    //         if ($application->status == 1) {
+    //             $application->status = 0;
+    //             $message = 'Huỷ phê duyệt thành công';
+    //             $type = 'approved';
+    //         } else {
+    //             $application->status = 1;
+    //             $message = 'Phê duyệt thành công';
+    //             $type = 'rejected';
+    //         }
+    //         $application->save();
+
+    //         \DB::table('notifications_user')->insert([
+    //             'user_id' => $application->user_id, 
+    //             'job_notification_id' => $application->id,
+    //             'type' => $type, 
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ]);
+
+    //         return redirect()->route('JobDetail_employer', ['id' => $application->job_id]) 
+    //                         ->with('toastr', ['success' => $message]);
+    //     }
+
+    //     return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
+    //                     ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
+    // }
+
+
+    // public function sendMessage(Request $request, $id)
+    // {
+    //     $application = JobApplication::find($id);
+
+    //     if ($application) {
+    //         $application->message = $request->message;
+    //         $message = 'Gửi thông báo thành công';
+    //         $application->save();
+
+    //         return redirect()->route('JobDetail_employer', ['id' => $application->job_id])
+    //                         ->with('toastr', ['success' => $message]);
+    //     }
+
+    //     return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
+    //                     ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
+    // }
+
+    public function processApplication(Request $request)
     {
         $application = JobApplication::find($request->id);
+
         if ($application) {
-            if ($application->status == 1) {
-                $application->status = 0;
-                $message = 'Huỷ phê duyệt thành công';
-            } else {
-                $application->status = 1;
-                $message = 'Phê duyệt thành công';
+            // Xử lý phê duyệt/hủy phê duyệt
+            if ($request->has('approval_status')) {
+                if ($request->approval_status == 1) {
+                    $application->status = 1;
+                    $type = 'approved';
+                } else {
+                    $application->status = 0;
+                    $type = 'rejected';
+                }
+
+                \DB::table('notifications_user')->insert([
+                    'user_id' => $application->user_id, 
+                    'job_notification_id' => $application->id,
+                    'type' => $type, 
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
             }
-            $application->save();
 
-            return redirect()->route('JobDetail_employer', ['id' => $application->job_id]) 
-                            ->with('toastr', ['success' => $message]);
-        }
+            if ($request->has('message')) {
+                $application->message = $request->message;
+            }
 
-        return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
-                        ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
-    }
-
-
-    public function sendMessage(Request $request, $id)
-    {
-        $application = JobApplication::find($id);
-
-        if ($application) {
-            $application->message = $request->message;
-            $message = 'Gửi thông báo thành công';
             $application->save();
 
             return redirect()->route('JobDetail_employer', ['id' => $application->job_id])
-                            ->with('toastr', ['success' => $message]);
+                            ->with('toastr', ['success' => 'Thông báo đã được gửi đi']);
         }
 
         return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
                         ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
     }
+
+    public function destroy($id)
+    {
+        $notification = NotificationUser::find($id);
+        if ($notification && $notification->user_id == auth()->id()) {
+            $notification->delete();
+            return redirect()->back();
+        }
+        return redirect()->back()->with('toastr', ['error' => 'Có lỗi xảy ra. Vui lòng thử lại.']);
+    }
+
+
 
 
     

@@ -47,7 +47,6 @@
             </div>
             <div class="col-md-6 my-5">
                 <h1>Welcome</h1>
-                
             </div>
         </div>
     </div>

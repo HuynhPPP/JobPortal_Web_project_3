@@ -18,7 +18,6 @@
                 @include('front.account.sidebar')
             </div>
             <div class="col-lg-9">
-                @include('front.message')
 
                 <form action="" method="post" id="editJobForm" name="editJobForm">
                     <div class="card border-0 shadow mb-4">
@@ -153,27 +152,22 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="" class="mb-3 fs-5 fst-italic">Từ khóa<span class="req">*</span></label>
-                                <input 
-                                    type="text" 
-                                    placeholder="Nhập từ khóa..." 
-                                    id="keywords" 
-                                    name="keywords" 
-                                    class="form-control"
-                                    value="{{ $job->keywords }}"
+                                <label for="keywords" class="mb-3 fs-5 fst-italic">Từ khóa</label>
+                                <input type="text" 
+                                       placeholder="Ví dụ: PHP, Java,..." 
+                                       id="keywords" 
+                                       name="keywords" 
+                                       class="form-control"
+                                       value="{{ str_replace(['[', ']', '"'], '', $job->keywords) }}"
                                 >
+                                <div id="keywords-list" class="d-flex flex-wrap mt-2"></div>
                             </div>
 
-                            <form>
-                                <div class="row form-group">
-                                    <label for="date" class="fs-5 fst-italic">Ngày hết hạn</labe1>
-                                    <div class="col-sm-12 mt-3">
-                                        <div class="input-group date">
-                                            <input type="date" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            <div class="row form-group">
+                                <label for="date" class="fs-5 fst-italic">Ngày hết hạn</labe1>
+                                <input type="date" name="expiration_date" id="expiration_date" class="form-control mt-3" value="{{ $job->expiration_date }}">
+                                <p></p>
+                            </div>
                 
                             <h3 class="fs-4 mb-1 mt-5 border-top pt-5">Chi tiết công ty</h3>
                 
@@ -294,7 +288,7 @@
                         .removeClass('invalid-feedback')
                         .html('');
 
-                    $("#keyword").removeClass('is-invalid')
+                    $("#expiration_date").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
@@ -382,18 +376,19 @@
                         .removeClass('invalid-feedback')
                         .html('');
                     }
-                    // Keywords
-                    if (errors.keyword) {
-                        $("#keyword").addClass('is-invalid')
+
+                    if (errors.expiration_date) {
+                        $("#expiration_date").addClass('is-invalid')
                         .siblings('p')
                         .addClass('invalid-feedback')
-                        .html(errors.keyword);
+                        .html(errors.expiration_date);
                     } else {
-                        $("#keyword").removeClass('is-invalid')
+                        $("#expiration_date").removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
                         .html('');
                     }
+                    
                     // Company_name
                     if (errors.company_name) {
                         $("#company_name").addClass('is-invalid')
@@ -469,5 +464,38 @@
         }
     });
 });
+</script>
+
+<script>
+    const keywordsInput = document.getElementById('keywords');
+    const keywordsList = document.getElementById('keywords-list');
+    let keywords = ""; 
+
+    keywordsInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && keywordsInput.value.trim() !== '') {
+            e.preventDefault();
+            addKeyword(keywordsInput.value.trim());
+            keywordsInput.value = '';
+        }
+    });
+
+    function addKeyword(keyword) {
+        if (keywords === "") {
+            keywords = []; 
+        }
+
+        if (!keywords.includes(keyword)) {
+            keywords.push(keyword);
+
+            const keywordTag = document.createElement('span');
+            keywordTag.className = 'keyword-tag';
+            keywordTag.textContent = keyword;
+            keywordsList.appendChild(keywordTag);
+        }
+    }
+
+    if (keywords.length === 0) {
+        keywords = ""; 
+    }
 </script>
 @endsection

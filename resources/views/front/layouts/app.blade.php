@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ asset('assets/user/css/font-awesome.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/user/trumbowyg/trumbowyg.min.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/style.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/message.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/user/css/toastr.min.css') }}" />
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
   <link href="{{ asset('assets/user/css/select2.min.css') }}" rel="stylesheet" />

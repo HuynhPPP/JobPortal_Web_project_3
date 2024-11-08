@@ -239,6 +239,25 @@ class AccountController extends Controller
         }
     }
 
+    public function notification()
+    {
+        $notifications = DB::table('notifications_user')
+            ->join('job_applications', 'notifications_user.job_notification_id', '=', 'job_applications.id')
+            ->join('jobs', 'job_applications.job_id', '=', 'jobs.id')
+            ->join('users as employer', 'jobs.user_id', '=', 'employer.id')  
+            ->where('notifications_user.user_id', auth()->id())
+            ->orderBy('notifications_user.created_at', 'desc')
+            ->select('notifications_user.*', 
+                              'employer.fullname as employer_name', 
+                              'employer.image as employer_image', 
+                              'job_applications.message as message',
+                              'jobs.title as job_title')
+            ->get();
+
+        return view('front.account.notification', compact('notifications'));
+
+    }
+
     public function logout() {
         Auth::logout();
         return redirect()->route('account.login');
@@ -394,15 +413,7 @@ class AccountController extends Controller
         }
             
         $jobs = $jobQuery->paginate(10);
-
-        foreach ($jobs as $job) {
-            $applicationCount = JobApplication::where('job_id', $job->id)->count();
-            if ($applicationCount >= $job->vacancy) {
-                $job->status = 3; 
-                $job->save();
-            }
-        }
-
+        
         return view('front.account.job.my-jobs', [
             'jobs' => $jobs,
         ]);
@@ -438,6 +449,7 @@ class AccountController extends Controller
             'vacancy' => 'required|integer',
             'level' => 'required|max:50',
             'company_name' => 'required|min:3|max:75',
+            'expiration_date' => 'nullable|date|after:today',
         ];
 
         $messages = [
@@ -453,6 +465,7 @@ class AccountController extends Controller
             'company_name.required' => 'Tên công ty không được để trống.',
             'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
             'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+            'expiration_date.after' => 'Ngày hết hạn phải là một ngày sau hôm nay.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -467,13 +480,18 @@ class AccountController extends Controller
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
             $levelsArray = explode(',', $request->level);
-            $job->job_level = json_encode(array_map('trim', $levelsArray));
+            $job->job_level = implode(', ', array_map('trim', $levelsArray));
             $job->description = $request->description;
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;
             $job->qualifications = $request->qualifications;
             $keywordsArray = explode(',', $request->keywords);
-            $job->keywords = json_encode(array_map('trim', $keywordsArray));
+            if (trim($request->keywords) === '') {
+                $job->keywords = '';
+            } else {
+                $keywordsArray = explode(',', $request->keywords);
+                $job->keywords = json_encode(array_map('trim', $keywordsArray));
+            }
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
             $job->province = $request->province_name ? $request->province_name : $job->province;
@@ -481,6 +499,7 @@ class AccountController extends Controller
             $job->wards = $request->ward_name ? $request->ward_name : $job->wards;
             $job->location_detail = $request->location_detail;
             $job->company_website = $request->company_website;
+            $job->expiration_date = $request->expiration_date ? $request->expiration_date : null;
             $job->save();
 
 

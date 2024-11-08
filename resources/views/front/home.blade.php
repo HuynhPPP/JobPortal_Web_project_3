@@ -23,13 +23,13 @@
                     </div>
                     <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
                         <select class="form-select" id="province" name="province">
-                            <option selected>Chọn khu vực</option>
+                            <option selected>Chọn tỉnh / thành phố</option>
                         </select>
                         <input type="hidden" id="province_name" name="province_name" value="{{ Request::get('province_name') }}">
                     </div>
                     <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
                         <select name="career" id="career" class="form-select">
-                            <option value="">Chọn lĩnh vực</option>
+                            <option value="">Chọn ngành nghề</option>
                             @if ($newCareers->isNotEmpty())
                                 @foreach ($newCareers as $career)
                                     <option value="{{ $career->id }}">{{ $career->name }}</option>
@@ -295,13 +295,16 @@
                                                 @endif                                         
                                             </div>
 
+                                            @if (empty($latesJob->keywords))
+                                                <p class="mt-3">Từ khoá: <span style="color: red">Chưa cập nhật</span></p>
+                                            @else
                                             <div class="keywords-section mt-3">
                                                 <div class="d-flex flex-wrap gap-2 mt-2">
                                                     @php
                                                         $keywords = explode(',', $latesJob->keywords); 
                                                     @endphp
                                                     @foreach ($keywords as $index => $keyword)
-                                                        @if ($index < 1) 
+                                                        @if ($index < 3) 
                                                             <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
                                                                 {{ trim($keyword) }}
                                                             </a>
@@ -312,6 +315,7 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            @endif
                                                                                        
         
                                             <div class="d-grid mt-3">

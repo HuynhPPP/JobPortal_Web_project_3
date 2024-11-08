@@ -18,7 +18,6 @@
                 @include('front.account.sidebar')
             </div>
             <div class="col-lg-9">
-                @include('front.message')
 
                 <form action="" method="post" id="createJobForm" name="createJobForm">
                     <div class="card border-0 shadow mb-4">
@@ -415,7 +414,7 @@
 <script>
     const keywordsInput = document.getElementById('keywords');
     const keywordsList = document.getElementById('keywords-list');
-    let keywords = [];
+    let keywords = ""; 
 
     keywordsInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && keywordsInput.value.trim() !== '') {
@@ -426,6 +425,10 @@
     });
 
     function addKeyword(keyword) {
+        if (keywords === "") {
+            keywords = []; 
+        }
+
         if (!keywords.includes(keyword)) {
             keywords.push(keyword);
 

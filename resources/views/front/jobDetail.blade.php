@@ -16,7 +16,6 @@
     <div class="container job_details_area">
         <div class="row pb-5">
             <div class="col-md-8">
-                @include('front.message')
                 <div class="card shadow border-0">
                     <div class="job_details_header">
                         <div class="single_jobs white-bg d-flex justify-content-between">
@@ -344,8 +343,6 @@
             }
         });
     }
-
-
 
     function saveJob(id) {
         event.preventDefault();

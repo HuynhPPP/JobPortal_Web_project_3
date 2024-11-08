@@ -18,7 +18,6 @@
                 @include('front.account.sidebar')
             </div>
             <div class="col-lg-9">
-                @include('front.message')
                 <div class="card border-0 shadow mb-4 p-3">
                     <div class="card-body card-form">
                         <div class="d-flex justify-content-between">
@@ -64,10 +63,10 @@
                                                         <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                                                     @elseif ($jobApplication->status == 0)
                                                         <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
-                                                    @elseif ($jobApplication->status == 2)
+                                                    {{-- @elseif ($jobApplication->status == 2)
                                                         <div class="job-status text-capitalize text-danger">Hết thời hạn ứng tuyển</div>
                                                     @else
-                                                        <div class="job-status text-warning">Công việc đã đủ số lượng ứng tuyển</div>
+                                                        <div class="job-status text-warning">Công việc đã đủ số lượng ứng tuyển</div> --}}
                                                     @endif
                                                 </td>
                                                 <td>

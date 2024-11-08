@@ -18,7 +18,6 @@
           @include('front.account.sidebar')
         </div>
         <div class="col-lg-9">
-          @include('front.message')
           <div class="card border-0 shadow mb-4 p-3">
             <div class="card-body card-form">
               <div class="d-flex justify-content-between">
@@ -65,10 +64,10 @@
                               <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                             @elseif ($job->status == 0)
                               <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
-                            @elseif ($job->status == 2)
-                              <div class="job-status text-capitalize text-danger">Hết thời hạn ứng tuyển</div>
-                            @else
-                              <div class="job-status text-success">Công việc đã đủ số lượng ứng tuyển</div>
+                            {{-- @elseif ($job->status == 2)
+                              <div class="job-status text-capitalize text-danger">Hết thời hạn ứng tuyển</div> --}}
+                            {{-- @else
+                              <div class="job-status text-success">Công việc đã đủ số lượng ứng tuyển</div> --}}
                             @endif
                           </td>
                           <td>
@@ -77,18 +76,11 @@
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                               </button>
                               <ul class="dropdown-menu dropdown-menu-end">
-                                @if ($job->status == 1)
                                   <li>
                                     <a class="dropdown-item" href="{{ route('JobDetail_employer', $job->id) }}"> <i
                                         class="fa fa-eye" aria-hidden="true"></i> Xem</a>
                                   </li>
-                                @else
-                                  <li>
-                                    <a class="dropdown-item disabled"
-                                      href="{{ route('JobDetail_employer', $job->id) }}">
-                                      <i class="fa fa-eye" aria-hidden="true"></i> Xem</a>
-                                  </li>
-                                @endif
+                                
                                   <li>
                                     <a class="dropdown-item" href="{{ route('account.editJob', $job->id) }}"><i
                                       class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a>

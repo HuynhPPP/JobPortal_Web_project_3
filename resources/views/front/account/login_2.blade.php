@@ -63,6 +63,11 @@
                 <button class="my-form__button" type="submit">
                     Đăng nhập
                 </button>
+                <p class="forgotPass">
+                    <a href="{{ route("account.forgotPassword") }}" 
+                        class="linkForgotPass">Quên mật khẩu?
+                    </a>
+                </p>
                 <div class="my-form__actions">
                     <div class="my-form__row">
                         <span>Bạn chưa có tài khoản?</span>

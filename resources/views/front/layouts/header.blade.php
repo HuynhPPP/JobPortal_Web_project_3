@@ -19,41 +19,46 @@
         </ul>
         @if (Auth::check())
         <!-- Biểu tượng thông báo -->
-          <div class="nav-item dropdown me-3">
-            <a href="#" class="nav-link position-relative" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-envelope fs-3"></i>
-              <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-danger">
-                3 <!-- Giả sử có 3 thông báo -->
-              </span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="notificationDropdown">
-              <li class="dropdown-item">
-                <a href="#" class="d-flex align-items-center">
-                  <div class="me-3">
-                    <i class="fa fa-user text-primary"></i>
-                  </div>
-                  <div>
-                    <p class="mb-0">Một ứng viên mới vừa ứng tuyển</p>
-                    <small class="text-muted">5 phút trước</small>
-                  </div>
+        <div class="nav-item dropdown me-3">
+          <a href="#" class="nav-link position-relative" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-bell fs-3"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3" style="width: 600px; max-height: 600px; overflow-y: auto;" aria-labelledby="notificationDropdown">
+              <li class="dropdown-header text-muted d-flex justify-content-between align-items-center fs-4">
+                  Thông báo mới
+              </li>
+              <li class="dropdown-divider"></li>
+      
+              <!-- Thông báo 1 -->
+              <li class="dropdown-item" style="background: #fffaef">
+                <a href="#" class="d-flex align-items-start">
+                    <img style="width: 15%;" src="{{ asset('assets/user/images/logo_web.jpg') }}" alt="User Image" class="rounded-circle" width="10" height="10">
+                    <div style="margin-left: 15px">
+                        <p class="mb-1 mt-3 font-weight-normal" style="color: #414042;">Bạn có thông báo đến từ nhà tuyển dụng <span style="color: red">Employer_6</span></p>
+                        <small class="text-muted">1 tiếng trước</small>
+                    </div>
                 </a>
               </li>
-              <li class="dropdown-item">
-                <a href="#" class="d-flex align-items-center">
-                  <div class="me-3">
-                    <i class="fa fa-clock-o text-warning"></i>
-                  </div>
-                  <div>
-                    <p class="mb-0">Công việc sắp hết hạn ứng tuyển</p>
-                    <small class="text-muted">2 ngày tới</small>
-                  </div>
+              <br>
+      
+              <!-- Thông báo 2 -->
+              <li class="dropdown-item" style="background: #fffaef">
+                <a href="#" class="d-flex align-items-start">
+                    <img style="width: 15%;" src="{{ asset('assets/user/images/logo_web.jpg') }}" alt="User Image" class="rounded-circle" width="10" height="10">
+                    <div style="margin-left: 15px">
+                        <p class="mb-1 mt-3 font-weight-normal" style="color: #414042;">Bạn có thông báo đến từ nhà tuyển dụng <span style="color: red">Employer_6</span></p>
+                        <small class="text-muted">1 tiếng trước</small>
+                    </div>
                 </a>
               </li>
-              <li class="dropdown-item text-center">
-                <a href="#">Xem tất cả thông báo</a>
+      
+              <li class="dropdown-divider"></li>
+              <li class="text-center">
+                  <a href="{{ route('account.notification') }}" class="text-primary">Xem tất cả</a>
               </li>
-            </ul>
-          </div>
+          </ul>
+        </div>
+      
 
           <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
             khoản</a>
