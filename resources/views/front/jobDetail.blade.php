@@ -53,7 +53,7 @@
                                                         if ($daysLeft < 3) {
                                                             $textColor = 'color: red;';
                                                         } elseif ($daysLeft < 10) {
-                                                            $textColor = 'color: yellow;';
+                                                            $textColor = 'color: #FBBF24;';
                                                         }
                                                     @endphp
                                                     @if ($daysLeft >= 0)

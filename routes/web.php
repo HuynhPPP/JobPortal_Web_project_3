@@ -43,6 +43,7 @@ Route::group(['prefix' => 'account'], function() {
     Route::group(['middleware' => 'auth'], function() {
         Route::get('/profile', [AccountController::class, 'profile'])->name('account.profile');
         Route::get('/notification', [AccountController::class, 'notification'])->name('account.notification');
+        Route::get('/notification-employer', [AccountController::class, 'notificationEmployer'])->name('account.notificationEmployer');
         Route::put('/update-profile', [AccountController::class, 'updateProfile'])->name('account.updateProfile');
         Route::put('/update-profile-company', [AccountController::class, 'updateProfileCompany'])->name('account.updateProfileCompany');
         Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout');
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'account'], function() {
 
         Route::post('/process-application/{id}', [JobsController::class, 'processApplication'])->name('process.application');
         Route::delete('/notifications/{id}', [JobsController::class, 'destroy'])->name('notifications.destroy');
+        Route::delete('/notifications_employer/{id}', [JobsController::class, 'delete_notification_Employer'])->name('notifications.destroyEmployer');
 
 
 

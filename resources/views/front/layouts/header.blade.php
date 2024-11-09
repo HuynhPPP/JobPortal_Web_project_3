@@ -19,47 +19,18 @@
         </ul>
         @if (Auth::check())
         <!-- Biểu tượng thông báo -->
-        <div class="nav-item dropdown me-3">
-          <a href="#" class="nav-link position-relative" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-bell fs-3"></i>
+        @if (Auth::check() && Auth::user()->role === 'user')
+        <a href="{{ route('account.notification') }}" style="color: #29B6F6; margin-right: 15px">
+          <i class="fa fa-envelope fa-2x" style="font-wright: 900"></i>
+          <span class="badge bg-danger badge-dot"></span>
+        </a>
+        @endif
+        @if (Auth::check() && Auth::user()->role === 'employer')
+          <a href="{{ route('account.notificationEmployer') }}" style="color: #29B6F6; margin-right: 15px">
+            <i class="fa fa-envelope fa-2x" style="font-wright: 900"></i>
+            <span class="badge bg-danger badge-dot"></span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3" style="width: 600px; max-height: 600px; overflow-y: auto;" aria-labelledby="notificationDropdown">
-              <li class="dropdown-header text-muted d-flex justify-content-between align-items-center fs-4">
-                  Thông báo mới
-              </li>
-              <li class="dropdown-divider"></li>
-      
-              <!-- Thông báo 1 -->
-              <li class="dropdown-item" style="background: #fffaef">
-                <a href="#" class="d-flex align-items-start">
-                    <img style="width: 15%;" src="{{ asset('assets/user/images/logo_web.jpg') }}" alt="User Image" class="rounded-circle" width="10" height="10">
-                    <div style="margin-left: 15px">
-                        <p class="mb-1 mt-3 font-weight-normal" style="color: #414042;">Bạn có thông báo đến từ nhà tuyển dụng <span style="color: red">Employer_6</span></p>
-                        <small class="text-muted">1 tiếng trước</small>
-                    </div>
-                </a>
-              </li>
-              <br>
-      
-              <!-- Thông báo 2 -->
-              <li class="dropdown-item" style="background: #fffaef">
-                <a href="#" class="d-flex align-items-start">
-                    <img style="width: 15%;" src="{{ asset('assets/user/images/logo_web.jpg') }}" alt="User Image" class="rounded-circle" width="10" height="10">
-                    <div style="margin-left: 15px">
-                        <p class="mb-1 mt-3 font-weight-normal" style="color: #414042;">Bạn có thông báo đến từ nhà tuyển dụng <span style="color: red">Employer_6</span></p>
-                        <small class="text-muted">1 tiếng trước</small>
-                    </div>
-                </a>
-              </li>
-      
-              <li class="dropdown-divider"></li>
-              <li class="text-center">
-                  <a href="{{ route('account.notification') }}" class="text-primary">Xem tất cả</a>
-              </li>
-          </ul>
-        </div>
-      
-
+        @endif
           <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
             khoản</a>
         @else

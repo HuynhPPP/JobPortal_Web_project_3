@@ -209,6 +209,7 @@
                                         <th>Số điện thoại</th>
                                         <th>Ngày ứng tuyển</th>
                                         <th>CV</th>
+                                        <th>Trạng thái</th>
                                         <th>Các tuỳ chỉnh</th>
                                     </tr>
                                     @if ($applications->isNotEmpty())
@@ -229,6 +230,13 @@
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('download-cv', $application->cv_path) }}" class="btn btn-primary">Tải CV</a>
+                                                </td>
+                                                <td>
+                                                    @if ($application->status == 1)
+                                                        <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
+                                                    @elseif ($application->status == 0)
+                                                        <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <div class="action-dots float-end">

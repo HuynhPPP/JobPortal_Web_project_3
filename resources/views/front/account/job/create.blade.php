@@ -415,6 +415,7 @@
     const keywordsInput = document.getElementById('keywords');
     const keywordsList = document.getElementById('keywords-list');
     let keywords = ""; 
+    keyword = keyword.normalize("NFC");
 
     keywordsInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && keywordsInput.value.trim() !== '') {

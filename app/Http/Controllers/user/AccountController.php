@@ -8,6 +8,7 @@ use App\Models\JobType;
 use App\Models\JobApplication;
 use App\Models\Job;
 use App\Models\SavedJob;
+use App\Models\NotificationEmployer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -255,8 +256,22 @@ class AccountController extends Controller
             ->get();
 
         return view('front.account.notification', compact('notifications'));
-
     }
+
+    public function notificationEmployer()
+    {
+        $notifications_employer = NotificationEmployer::with(['users', 'jobs'])
+            ->where('employer_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('front.account.notificationEmployer', compact('notifications_employer'));
+    }
+
+
+
+
+
 
     public function logout() {
         Auth::logout();
@@ -485,12 +500,14 @@ class AccountController extends Controller
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;
             $job->qualifications = $request->qualifications;
-            $keywordsArray = explode(',', $request->keywords);
-            if (trim($request->keywords) === '') {
+            $keywordsString = $request->keywords;
+            if (trim($keywordsString) === '') {
                 $job->keywords = '';
             } else {
-                $keywordsArray = explode(',', $request->keywords);
-                $job->keywords = json_encode(array_map('trim', $keywordsArray));
+                $keywordsString = trim($keywordsString, '[]"');
+                $keywordsArray = explode(',', $keywordsString);
+                $keywordsArray = array_map('trim', $keywordsArray);
+                $job->keywords = implode(', ', $keywordsArray);
             }
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
@@ -563,6 +580,16 @@ class AccountController extends Controller
         }
     
         $jobApplication->delete();
+    
+        DB::table('notifications_employer')->insert([
+            'employer_id' => $jobApplication->employer_id , 
+            'job_notification_id' => $jobApplication->job_id, 
+            'user_id' => Auth::user()->id,
+            'type' => 'canceled', 
+            'created_at' => now(), 
+            'updated_at' => now(),
+        ]);
+
         return redirect()->route('account.myJobApplication')->with('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công']);
     }
     
