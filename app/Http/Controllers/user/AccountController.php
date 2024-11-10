@@ -240,38 +240,7 @@ class AccountController extends Controller
         }
     }
 
-    public function notification()
-    {
-        $notifications = DB::table('notifications_user')
-            ->join('job_applications', 'notifications_user.job_notification_id', '=', 'job_applications.id')
-            ->join('jobs', 'job_applications.job_id', '=', 'jobs.id')
-            ->join('users as employer', 'jobs.user_id', '=', 'employer.id')  
-            ->where('notifications_user.user_id', auth()->id())
-            ->orderBy('notifications_user.created_at', 'desc')
-            ->select('notifications_user.*', 
-                              'employer.fullname as employer_name', 
-                              'employer.image as employer_image', 
-                              'job_applications.message as message',
-                              'jobs.title as job_title')
-            ->get();
-
-        return view('front.account.notification', compact('notifications'));
-    }
-
-    public function notificationEmployer()
-    {
-        $notifications_employer = NotificationEmployer::with(['users', 'jobs'])
-            ->where('employer_id', auth()->id())
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('front.account.notificationEmployer', compact('notifications_employer'));
-    }
-
-
-
-
-
+    
 
     public function logout() {
         Auth::logout();
@@ -593,7 +562,6 @@ class AccountController extends Controller
         return redirect()->route('account.myJobApplication')->with('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công']);
     }
     
-
     public function savedJobs(Request $request) {
 
         $savedJobsQuery = SavedJob::where('user_id', Auth::user()->id)
@@ -759,5 +727,33 @@ class AccountController extends Controller
         ]);
 
         return redirect()->route('account.login')->with('success', 'Cập nhật mật khẩu thành công.');
+    }
+
+    public function notification()
+    {
+        $notifications = DB::table('notifications_user')
+            ->join('job_applications', 'notifications_user.job_notification_id', '=', 'job_applications.id')
+            ->join('jobs', 'job_applications.job_id', '=', 'jobs.id')
+            ->join('users as employer', 'jobs.user_id', '=', 'employer.id')  
+            ->where('notifications_user.user_id', auth()->id())
+            ->orderBy('notifications_user.created_at', 'desc')
+            ->select('notifications_user.*', 
+                              'employer.fullname as employer_name', 
+                              'employer.image as employer_image', 
+                              'job_applications.message as message',
+                              'jobs.title as job_title')
+            ->paginate(9);
+
+        return view('front.account.notification', compact('notifications'));
+    }
+
+    public function notificationEmployer()
+    {
+        $notifications_employer = NotificationEmployer::with(['users', 'jobs'])
+            ->where('employer_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->paginate(9);
+
+        return view('front.account.notificationEmployer', compact('notifications_employer'));
     }
 }

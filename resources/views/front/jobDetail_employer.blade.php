@@ -197,6 +197,7 @@
                             <div class="job_details_header">
                                 <div class="single_jobs white-bg d-flex justify-content-between">
                                     <div class="jobs_left d-flex align-items-center">
+                                        <h2>Danh sách ứng viên</h2>
                                     </div>
                                     <div class="jobs_right"></div>
                                 </div>

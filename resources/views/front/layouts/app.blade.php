@@ -80,7 +80,7 @@
 
 
   <script src="{{ asset('assets/user/js/jquery-3.6.0.min.js') }}"></script>
-  <script src="https://esgoo.net/scripts/jquery.js"></script>
+  <script src="{{ asset('assets/user/js/jquery.js') }}"></script>
   <script src="{{ asset('assets/user/js/select2.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/instantpages.5.1.0.min.js') }}"></script>

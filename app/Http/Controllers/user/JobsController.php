@@ -357,11 +357,5 @@ class JobsController extends Controller
             return redirect()->back();
         }
         return redirect()->back()->with('toastr', ['error' => 'Có lỗi xảy ra. Vui lòng thử lại.']);
-    }
-
-
-
-
-    
-    
+    } 
 }

@@ -68,6 +68,7 @@
                 @empty
                 @endforelse
             </div>
+            {{ $notifications->links() }}
         @else
             <div class="container welcome-container">
                 <div class="row">
