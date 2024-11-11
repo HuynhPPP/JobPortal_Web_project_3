@@ -13204,3 +13204,35 @@ footer .nav-link {
     width: 100%;
     z-index: 1030;
 }
+
+
+.carousel-item .carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    /* Đảm bảo rằng văn bản nổi lên trên ảnh */
+    color: #fff;
+    /* Chọn màu văn bản dễ nhìn */
+}
+
+.carousel-item img {
+    height: 500px;
+    /* Tùy chỉnh chiều cao theo ý muốn */
+    object-fit: cover;
+    /* Đảm bảo ảnh không bị biến dạng */
+}
+
+.carousel-inner {
+    position: relative;
+}
+
+.carousel-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}

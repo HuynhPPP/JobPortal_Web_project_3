@@ -1,7 +1,7 @@
 @extends('front.layouts.app')
 
 @section('main')
-<section class="section-0 lazy d-flex bg-image-style dark align-items-center "   class="" data-bg="assets/user/images/banner5.jpg">
+{{-- <section class="section-0 lazy d-flex bg-image-style dark align-items-center " class="" data-bg="assets/user/images/banner5.jpg">
     <div class="container">
         <div class="row">
             <div class="col-12 col-xl-8">
@@ -11,7 +11,45 @@
             </div>
         </div>
     </div>
+</section> --}}
+<section class="section-0 lazy d-flex bg-image-style dark align-items-center">
+    <div class="container-fluid p-0">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="assets/user/images/banner6.jpg" class="d-block w-100 carousel-image" alt="Banner 1">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>Tìm công việc mơ ước của bạn</h1>
+                        <p>Hàng ngàn công việc đang chờ bạn.</p>
+                        <a href="{{ route('jobs') }}" class="btn btn-primary mt-3">Khám phá ngay</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/user/images/banner4.jpg" class="d-block w-100 carousel-image" alt="Banner 2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>Cơ hội nghề nghiệp cho bạn</h1>
+                        <p>Truy cập để khám phá cơ hội tuyệt vời.</p>
+                        <a href="{{ route('jobs') }}" class="btn btn-primary mt-3">Khám phá ngay</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/user/images/banner5.jpg" class="d-block w-100 carousel-image" alt="Banner 3">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>Kết nối với nhà tuyển dụng</h1>
+                        <p>Tìm kiếm việc làm nhanh chóng và dễ dàng.</p>
+                        <a href="{{ route('jobs') }}" class="btn btn-primary mt-3">Khám phá ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 
 <section class="section-1 py-5 "> 
     <div class="container">
@@ -65,7 +103,7 @@
                                             <div class="row justify-content-center text-center">
                                                 @foreach ($group as $career)
                                                     <div class="col-md-3">
-                                                        <a href="{{ route('jobs').'?career='.$career->id }}" class="card shadow-sm p-3 mb-4 fixed-card">
+                                                        <a href="{{ route('jobs').'?career='.$career->id }}" class="card shadow-sm p-3 mb-4 fixed-card" style="z-index: 10">
                                                             <div class="card-body">
                                                                 <h5 class="card-title fs-5">{{ $career->name }}</h5>
                                                                 <p class="card-text text-muted">{{ $career->jobs_count }} Việc Làm</p>
@@ -219,7 +257,6 @@
             <div class="job_listing_area">                    
                 <div class="job_lists">
                     <div class="row">
-
                         @if ($latesJobs->isNotEmpty())
                             @foreach ($latesJobs as $latesJob)
                                 <div class="col-md-4">
