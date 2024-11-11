@@ -17,13 +17,15 @@
               <li class="nav-item">
                 <a class="nav-link fs-5" aria-current="page" href="{{ route('jobs') }}">Tìm việc</a>
               </li>
-              <li class="nav-divider"></li>
+              
               @if (Auth::check() && Auth::user()->role === 'user')
+              <li class="nav-divider"></li>
               <li class="nav-item">
                 <a class="nav-link fs-5" aria-current="page" href="{{ route('account.notification') }}">Thông báo việc làm</a>
               </li>
               @endif
               @if (Auth::check() && Auth::user()->role === 'employer')
+              <li class="nav-divider"></li>
               <li class="nav-item">
                 <a class="nav-link fs-5" aria-current="page" href="{{ route('account.notificationEmployer') }}">Thông báo việc làm</a>
               </li>

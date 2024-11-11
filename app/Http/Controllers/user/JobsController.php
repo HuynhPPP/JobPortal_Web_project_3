@@ -116,7 +116,7 @@ class JobsController extends Controller
     public function detail_employer($id) {
         $job = Job::where([
             'id' => $id, 
-        ])->with(['jobType','career'])->first();
+        ])->with(['jobType','career','user'])->first();
 
         if ($job == null) {
             abort(404);
@@ -304,7 +304,6 @@ class JobsController extends Controller
         $application = JobApplication::find($request->id);
 
         if ($application) {
-            // Xử lý phê duyệt/hủy phê duyệt
             if ($request->has('approval_status')) {
                 if ($request->approval_status == 1) {
                     $application->status = 1;
@@ -332,10 +331,12 @@ class JobsController extends Controller
 
             return redirect()->route('JobDetail_employer', ['id' => $application->job_id])
                             ->with('toastr', ['success' => 'Thông báo đã được gửi đi']);
+        } else {
+            return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
+                            ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
         }
 
-        return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
-                        ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
+       
     }
 
     public function destroy($id)
@@ -351,7 +352,7 @@ class JobsController extends Controller
     public function delete_notification_Employer($id)
     {
         $notification = NotificationEmployer::find($id);
-        if ($notification && $notification->user_id == auth()->id()) {
+        if ($notification && $notification->employer_id  == auth()->id()) {
             $notification->delete();
             return redirect()->back();
         }

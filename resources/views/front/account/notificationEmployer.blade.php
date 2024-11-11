@@ -31,8 +31,8 @@
 
                         <div class="notification-list_content">
                             <div class="notification-list_img">
-                                <img src="{{ asset('assets/user/profile_picture/thumb/' . ($notification->users->image ?? 'logo-page.png')) }}" 
-                                    alt="{{ $notification->users->fullname ?? 'Ảnh đại diện mặc định' }}">
+                                <img src="{{ asset('assets/user/profile_picture/thumb/' . ($notification->users->image ?? 'notification_empty.png')) }}" 
+                                    alt="{{ $notification->users->fullname ?? 'logo' }}">
                             </div>
 
                             <div class="notification-list_detail">
@@ -46,6 +46,8 @@
                                         Người ứng tuyển <span style="font-weight: 600; font-style: italic">{{ $notification->users->fullname ?? 'N/A' }}</span> 
                                         đã huỷ ứng tuyển công việc của bạn - <span style="font-weight: 600; font-style: italic">{{ $notification->jobs->title ?? 'N/A' }}</span>
                                     </p>
+                                @elseif ($notification->type == 'job_near_expiration')
+                                    <p>Công việc <span style="font-weight: 600; font-style: italic">{{ $notification->jobs->title }}</span> sẽ hết hạn trong <span style="color: red">3 ngày tới!</span></p>
                                 @endif
                                 <p class="text-muted">
                                     <small>{{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</small>

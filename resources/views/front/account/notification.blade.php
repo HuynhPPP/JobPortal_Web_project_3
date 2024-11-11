@@ -31,8 +31,8 @@
     
                         <div class="notification-list_content">
                             <div class="notification-list_img">
-                                <img src="{{ asset('assets/user/profile_picture/thumb/' . ($notification->employer_image ?? 'logo-page.png')) }}" 
-                                     alt="{{ $notification->employer_name ?? 'Ảnh đại diện mặc định' }}">
+                                <img src="{{ asset('assets/user/profile_picture/thumb/' . ($notification->employer_image ?? 'notification_empty.png')) }}" 
+                                     alt="{{ $notification->employer_name ?? 'logo' }}">
                             </div>
                             <div class="notification-list_detail">
                                 @if ($notification->type == 'approved')
@@ -49,7 +49,8 @@
                                     <p class="text-warning">{{ $notification->message }}</p>
                                 @elseif ($notification->type == 'expired')
                                     <p>Công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }}</span> đã hết hạn ứng tuyển.</p>
-                                    <p class="text-muted">{{ $notification->message }}</p>
+                                @elseif ($notification->type == 'job_near_expiration')
+                                    <p>Công việc <span style="font-weight: 600; font-style: italic">{{ $notification->job_title }}</span> sẽ hết hạn trong <span style="color: red">3 ngày tới!</span></p>
                                 @elseif ($notification->type == 'deleted')
                                     <p>Nhà tuyển dụng <span style="font-weight: 600; font-style :italic">{{ $notification->employer_name }}</span> 
                                         đã xóa công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }} mà bạn đã ứng tuyển</span></p>

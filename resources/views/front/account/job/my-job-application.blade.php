@@ -62,11 +62,9 @@
                                                     @if ($jobApplication->status == 1)
                                                         <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                                                     @elseif ($jobApplication->status == 0)
-                                                        <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
-                                                    {{-- @elseif ($jobApplication->status == 2)
-                                                        <div class="job-status text-capitalize text-danger">Hết thời hạn ứng tuyển</div>
-                                                    @else
-                                                        <div class="job-status text-warning">Công việc đã đủ số lượng ứng tuyển</div> --}}
+                                                        <div class="job-status text-capitalize" style="color: #FBBF24">Đang chờ phê duyệt</div>
+                                                    @elseif ($jobApplication->status == 2)
+                                                        <div class="job-status text-capitalize text-danger"></div>                                           
                                                     @endif
                                                 </td>
                                                 <td>

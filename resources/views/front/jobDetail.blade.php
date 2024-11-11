@@ -126,7 +126,7 @@
                     </div>
                 @else
                     <div class="pt-3">
-                        <a href="{{ route("account.login") }}" class="btn btn-primary">Đăng nhập để xin việc</a>       
+                        <a href="{{ route("account.login") }}" class="btn btn-primary w-100 fs-5">Đăng nhập để xin việc</a>       
                     </div>
                 @endif
                 <div class="card shadow border-0 my-4">
@@ -176,8 +176,7 @@
                                             @endphp
                                             Từ khoá: 
                                             @foreach ($keywords as $index => $keyword)
-                                                    <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge-detail">{{ trim($keyword) }}</a>
-                                                    
+                                                    <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge-detail">{{ trim($keyword) }}</a>                                                
                                             @endforeach
                                         @endif
                                         </div>
