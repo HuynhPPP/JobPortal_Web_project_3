@@ -61,8 +61,8 @@
                 <div class="row">
                     <div class="col-12">
                         <img src="{{ asset('assets/user/images/notification_empty.png') }}" alt="Illustration" class="welcome-image mb-4">
-                        <h2 class="mb-3">Chào mừng bạn đến với phần tin nhắn</h2>
-                        <p class="mb-4">Khi người dùng ứng tuyển việc làm của bạn, bạn sẽ thấy tin nhắn ở đây</p>
+                        <h2 class="mb-3">Chào mừng bạn đến với phần thông báo</h2>
+                        <p class="mb-4">Khi người dùng ứng tuyển việc làm của bạn, bạn sẽ thấy thông báo ở đây</p>
                     </div>
                 </div>
             </div>

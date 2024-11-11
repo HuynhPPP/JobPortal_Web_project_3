@@ -5,13 +5,14 @@
     <div class="container pt-5">
         <div class="row">
             <div class="col">
-                <nav aria-label="breadcrumb" class=" rounded-3 p-3">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="{{ route("jobs") }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;Quay lại trang tìm việc</a></li>
-                    </ol>
-                </nav>
+              <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item"><a href="{{ route('home') }}">Trang chủ</a></li>
+                  <li class="breadcrumb-item active">Chi tiết việc làm</li>
+                </ol>
+              </nav>
             </div>
-        </div> 
+        </div>
     </div>
     <div class="container job_details_area">
         <div class="row pb-5">

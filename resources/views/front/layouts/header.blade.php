@@ -9,36 +9,35 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-0 ms-sm-0 me-auto mb-2 mb-lg-0 ms-lg-4">
-          <li class="nav-item">
-            <a class="nav-link fs-5" aria-current="page" href="{{ route('home') }}">Trang chủ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link fs-5" aria-current="page" href="{{ route('jobs') }}">Tìm việc</a>
-          </li>
-        </ul>
-        @if (Auth::check())
-        <!-- Biểu tượng thông báo -->
-        @if (Auth::check() && Auth::user()->role === 'user')
-        <a href="{{ route('account.notification') }}" style="color: #29B6F6; margin-right: 15px">
-          <i class="fa fa-envelope fa-2x" style="font-wright: 900"></i>
-          <span class="badge bg-danger badge-dot"></span>
-        </a>
-        @endif
-        @if (Auth::check() && Auth::user()->role === 'employer')
-          <a href="{{ route('account.notificationEmployer') }}" style="color: #29B6F6; margin-right: 15px">
-            <i class="fa fa-envelope fa-2x" style="font-wright: 900"></i>
-            <span class="badge bg-danger badge-dot"></span>
-          </a>
-        @endif
-          <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
-            khoản</a>
-        @else
-          <a class="btn btn-outline-primary me-3" href="{{ route('account.login') }}" type="submit">Đăng nhập</a>
-        @endif
-        @if (Auth::check() && Auth::user()->role === 'employer')
-          <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Đăng bài tuyển dụng</a>
-        @endif
+          <ul class="navbar-nav ms-0 ms-sm-0 me-auto mb-2 mb-lg-0 ms-lg-4">
+              <li class="nav-item">
+                <a class="nav-link fs-5" aria-current="page" href="{{ route('home') }}">Trang chủ</a>
+              </li>
+              <li class="nav-divider"></li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" aria-current="page" href="{{ route('jobs') }}">Tìm việc</a>
+              </li>
+              <li class="nav-divider"></li>
+              @if (Auth::check() && Auth::user()->role === 'user')
+              <li class="nav-item">
+                <a class="nav-link fs-5" aria-current="page" href="{{ route('account.notification') }}">Thông báo việc làm</a>
+              </li>
+              @endif
+              @if (Auth::check() && Auth::user()->role === 'employer')
+              <li class="nav-item">
+                <a class="nav-link fs-5" aria-current="page" href="{{ route('account.notificationEmployer') }}">Thông báo việc làm</a>
+              </li>
+              @endif
+          </ul>
+          @if (Auth::check())
+            <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
+              khoản</a>
+          @else
+            <a class="btn btn-outline-primary me-3" href="{{ route('account.login') }}" type="submit">Đăng nhập</a>
+          @endif
+          @if (Auth::check() && Auth::user()->role === 'employer')
+            <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Đăng bài tuyển dụng</a>
+          @endif
       </div>
     </div>
   </nav>
