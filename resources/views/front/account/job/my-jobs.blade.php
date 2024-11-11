@@ -54,7 +54,7 @@
                         <tr class="active">
                           <td style="display: none"><input type="hidden" name="id" value="{{ $job->id }}"></td>
                           <td>
-                            <div class="job-name fw-500">{{ Str::words(strip_tags($job->title), 6) }}</div>
+                            <div class="job-name fw-500">{{ Str::words(strip_tags($job->title), 5) }}</div>
                             <div class="info1 fst-italic">{{ $job->jobType->name }} . {{ $job->province }}</div>
                           </td>
                           <td>{{ \Carbon\Carbon::parse($job->created_at)->locale('vi')->translatedFormat('d F, Y') }}</td>
@@ -64,10 +64,6 @@
                               <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                             @elseif ($job->status == 0)
                               <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
-                            {{-- @elseif ($job->status == 2)
-                              <div class="job-status text-capitalize text-danger">Hết thời hạn ứng tuyển</div> --}}
-                            {{-- @else
-                              <div class="job-status text-success">Công việc đã đủ số lượng ứng tuyển</div> --}}
                             @endif
                           </td>
                           <td>

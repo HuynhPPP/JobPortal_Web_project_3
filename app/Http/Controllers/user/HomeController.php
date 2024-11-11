@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    // Show Home Page
     public function index() {
 
         $careers = Careers::where('status', 1)

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Mail\ResetPasswordEmail;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -505,19 +506,21 @@ class AccountController extends Controller
     }
 
     public function deleteJob(Request $request) {
-
         $job = Job::where([
             'user_id' => Auth::user()->id,
             'id' => $request->id,
         ])->first();
-
+    
         if ($job == null) {
             return redirect()->route('account.myJobs')->with('toastr', ['error' => 'Không tìm thấy công việc']);
         }
-    
+
+        JobApplication::where('job_id', $job->id)->delete();
+
         $job->delete();
+    
         return redirect()->route('account.myJobs')->with('toastr', ['success' => 'Xoá việc làm thành công']);
-    }
+    }    
 
     public function myJobApplication(Request $request) {
         $jobApplicationsQuery = JobApplication::where('user_id', Auth::user()->id)

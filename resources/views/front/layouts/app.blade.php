@@ -140,6 +140,43 @@
     });
   </script>
 
+  <script>
+    window.addEventListener('beforeunload', function () {
+      var progressBar = document.getElementById('progressBar');
+      var progressContainer = document.getElementById('progressBarContainer');
+
+      // Hiển thị thanh tiến trình khi trang bắt đầu chuyển
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
+      progressBar.setAttribute('aria-valuenow', 0);
+
+      var progress = 0;
+      var interval = setInterval(function () {
+        if (progress < 90) {
+          progress += 2; // Tăng chiều rộng dần lên 90% khi đang chuyển trang
+          progressBar.style.width = progress + '%';
+          progressBar.setAttribute('aria-valuenow', progress);
+        } else {
+          clearInterval(interval); // Dừng tăng khi đạt đến 90%
+        }
+      }, 50); // Điều chỉnh tốc độ tăng (ms)
+    });
+
+    document.addEventListener('readystatechange', function () {
+      var progressBar = document.getElementById('progressBar');
+      var progressContainer = document.getElementById('progressBarContainer');
+
+      if (document.readyState === 'complete') {
+        // Khi trang tải hoàn tất, hoàn thành thanh tiến trình
+        progressBar.style.width = '100%';
+        progressBar.setAttribute('aria-valuenow', 100);
+        setTimeout(function () {
+          progressContainer.style.display = 'none'; // Ẩn sau khi tải xong
+        }, 500); // Ẩn sau 0.5 giây
+      }
+    });
+  </script>
+
   @yield('customJs')
 </body>
 

@@ -42,4 +42,7 @@
       </div>
     </div>
   </nav>
+  <div id="progressBarContainer" class="progress" style="height: 5px;">
+    <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
 </header>

@@ -85,7 +85,7 @@
             </div>
           </form>
         </div>
-        <div class="col-md-8 col-lg-9 ">
+        <div class="col-md-8 col-lg-9">
           <div class="job_listing_area">
             <div class="job_lists">
               <div class="row">
@@ -94,8 +94,8 @@
                     <div class="col-md-4">
                       <div class="card border-0 p-3 shadow mb-4" style="height: 400px">
                         <div class="card-body">
-                          <h3 class="border-0 fs-5 pb-2 mb-0">{{ Str::words(strip_tags($job->title), 5) }}</h3>
-                          <p>{{ Str::words(strip_tags($job->company_name), 5) }}</p>
+                          <h3 class="border-0 fs-5 pb-2 mb-0">{{ Str::words(strip_tags($job->title), 6) }}</h3>
+                          <p>{{ Str::words(strip_tags($job->company_name), 6) }}</p>
                           <div class="bg-light p-3 border">
 
                             @if (empty($job->province) && empty($job->district))
@@ -172,7 +172,6 @@
           </div>
           {{ $jobs->links() }}
         </div>
-
       </div>
     </div>
   </section>

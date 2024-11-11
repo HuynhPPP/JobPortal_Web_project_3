@@ -116,7 +116,6 @@ class JobsController extends Controller
     public function detail_employer($id) {
         $job = Job::where([
             'id' => $id, 
-            'status' => 1,
         ])->with(['jobType','career'])->first();
 
         if ($job == null) {

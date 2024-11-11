@@ -52,8 +52,7 @@
                                     <p class="text-muted">{{ $notification->message }}</p>
                                 @elseif ($notification->type == 'deleted')
                                     <p>Nhà tuyển dụng <span style="font-weight: 600; font-style :italic">{{ $notification->employer_name }}</span> 
-                                        đã xóa công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }}.</span></p>
-                                    <p class="text-danger">{{ $notification->message }}</p>
+                                        đã xóa công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }} mà bạn đã ứng tuyển</span></p>
                                 @else
                                     <p>Nhà tuyển dụng <span style="font-weight: 600; font-style :italic">{{ $notification->employer_name }}</span> 
                                         đã thay đổi thông tin công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }}</span></p>
@@ -76,7 +75,7 @@
                         <img src="{{ asset('assets/user/images/notification_empty.png') }}" alt="Illustration" class="welcome-image mb-4">
                         <h2 class="mb-3">Chào mừng bạn đến với phần tin nhắn</h2>
                         <p class="mb-4">Khi nhà tuyển dụng liên hệ với bạn, bạn sẽ thấy tin nhắn ở đây</p>
-                        <button class="btn btn-primary mb-2"><a href="" style="color: white">Tìm việc làm</a></button>
+                        <button class="btn btn-primary mb-2"><a href="{{ route('jobs') }}" style="color: white">Tìm việc làm</a></button>
                     </div>
                 </div>
             </div>
