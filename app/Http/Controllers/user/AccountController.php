@@ -741,7 +741,6 @@ class AccountController extends Controller
             ->select('notifications_user.*', 
                               'employer.fullname as employer_name', 
                               'employer.image as employer_image', 
-                              'job_applications.message as message',
                               'jobs.title as job_title')
             ->paginate(9);
 

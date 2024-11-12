@@ -316,15 +316,12 @@ class JobsController extends Controller
                 \DB::table('notifications_user')->insert([
                     'user_id' => $application->user_id, 
                     'job_notification_id' => $application->id,
+                    'message' => $request->message ? $request->message : null,
                     'type' => $type, 
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
 
-            }
-
-            if ($request->has('message')) {
-                $application->message = $request->message;
             }
 
             $application->save();

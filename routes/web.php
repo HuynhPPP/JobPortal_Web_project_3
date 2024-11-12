@@ -64,9 +64,5 @@ Route::group(['prefix' => 'account'], function() {
         Route::post('/process-application/{id}', [JobsController::class, 'processApplication'])->name('process.application');
         Route::delete('/notifications/{id}', [JobsController::class, 'destroy'])->name('notifications.destroy');
         Route::delete('/notifications_employer/{id}', [JobsController::class, 'delete_notification_Employer'])->name('notifications.destroyEmployer');
-
-
-
-
     });
 });

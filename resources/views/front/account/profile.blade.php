@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route("home") }}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+                        <li class="breadcrumb-item active">Thông tin tài khoản</li>
                     </ol>
                 </nav>
             </div>

@@ -41,7 +41,7 @@
                                     <p class="text-muted">{{ $notification->message }}</p>
                                 @elseif ($notification->type == 'rejected')
                                     <p>Nhà tuyển dụng <span style="font-weight: 600; font-style :italic">{{ $notification->employer_name }}</span> 
-                                        đã từ chối công việc bạn đã ứng tuyển - <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }}</span></p>
+                                        đã từ chối đơn xin ứng tuyển của bạn tại công việc - <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }}</span></p>
                                     <p class="text-danger">{{ $notification->message }}</p>
                                 @elseif ($notification->type == 'job_reached')
                                     <p>Công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }}</span> 
