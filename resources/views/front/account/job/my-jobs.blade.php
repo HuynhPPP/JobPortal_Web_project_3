@@ -61,13 +61,15 @@
                           <td class="text-center">{{ $job->vacancy }}</td>
                           <td>
                             @if ($job->status == 1)
-                              <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
+                                <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                             @elseif ($job->status == 0)
-                              <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
+                                <div class="job-status text-capitalize text-warning">Đang chờ phê duyệt</div>
                             @elseif ($job->status == 2)
-                              <div class="job-status text-capitalize text-warning">Hết thời hạn ứng tuyển</div>
+                                <div class="job-status text-capitalize text-warning">Hết thời hạn ứng tuyển</div>
+                            @elseif ($job->status == 3)
+                                <div class="job-status text-capitalize text-danger">Đã đủ số lượng ứng tuyển</div>
                             @endif
-                          </td>
+                          </td>                        
                           <td>
                             <div class="action-dots float-end">
                               <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">

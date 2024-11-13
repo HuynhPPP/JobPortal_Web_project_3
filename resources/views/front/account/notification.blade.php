@@ -54,10 +54,6 @@
                                 @elseif ($notification->type == 'deleted')
                                     <p>Nhà tuyển dụng <span style="font-weight: 600; font-style :italic">{{ $notification->employer_name }}</span> 
                                         đã xóa công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }} mà bạn đã ứng tuyển</span></p>
-                                @else
-                                    <p>Nhà tuyển dụng <span style="font-weight: 600; font-style :italic">{{ $notification->employer_name }}</span> 
-                                        đã thay đổi thông tin công việc <span style="font-weight: 600; font-style :italic">{{ $notification->job_title }}</span></p>
-                                    <p class="text-muted">{{ $notification->message }}</p>
                                 @endif
                                 <p class="text-muted">
                                     <small>{{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</small>

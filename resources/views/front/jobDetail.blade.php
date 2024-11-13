@@ -22,9 +22,15 @@
                         <div class="single_jobs white-bg d-flex justify-content-between">
                             <div class="jobs_left d-flex align-items-center">
                                 <div class="jobs_conetent">
-                                    <a href="#">
-                                        <h4>{{ $job->title }}</h4>
-                                    </a>
+                                    <div class="d-flex align-items-center mb-3 me-md-auto text-dark">
+                                        <img src="{{ asset('assets/user/profile_picture/thumb/'.$job->user->image) }}" 
+                                             class="bi me-2" alt="logo" width="40" height="32" style="width: 15%;
+                                                                                                      background: #fff;
+                                                                                                      border-radius: 8px;
+                                                                                                      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);">
+                                        <span class="fs-4" style="margin-left: 10px; color: #212529">{{ $job->title }}</span>
+                                    </div>
+
                                     <div class="links_locat d-flex align-items-center">
                                         <div class="location d-flex align-items-center">
                                             <i class="fa fa-map-marker" style="margin-right: 7px"></i> 
@@ -77,7 +83,7 @@
                     </div>
                     <div class="descript_wrap white-bg">
                         <div class="single_wrap">
-                            <h4 style="color: #a8df8e">Mô tả công việc</h4>
+                            <h4 style="color: #1E40AF; font-weight:600">Mô tả công việc</h4>
                             @if (empty($job->description))
                                 <p>Chưa có thông tin</p>
                             @endif
@@ -85,21 +91,21 @@
                             
                         </div>
                         <div class="single_wrap">
-                            <h4 style="color: #a8df8e">Trách nhiệm công việc</h4>
+                            <h4 style="color: #1E40AF; font-weight:600">Trách nhiệm công việc</h4>
                             @if (empty($job->responsibility))
                                 <p>Chưa có thông tin</p>
                             @endif
                             {!! nl2br($job->responsibility) !!}
                         </div>
                         <div class="single_wrap">
-                            <h4 style="color: #a8df8e">Kỹ năng & Chuyên môn</h4>
+                            <h4 style="color: #1E40AF; font-weight:600">Kỹ năng & Chuyên môn</h4>
                             @if (empty($job->qualifications))
                                 <p>Chưa có thông tin</p>
                             @endif
                             {!! nl2br($job->qualifications) !!}
                         </div>
                         <div class="single_wrap">
-                            <h4 style="color: #a8df8e">Phúc lợi dành cho bạn</h4>
+                            <h4 style="color: #1E40AF; font-weight:600">Phúc lợi dành cho bạn</h4>
                             @if (empty($job->benefits))
                                 <p>Chưa có thông tin</p>
                             @endif

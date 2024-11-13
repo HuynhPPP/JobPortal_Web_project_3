@@ -63,10 +63,12 @@
                                                         <div class="job-status text-capitalize text-success">Đã phê duyệt</div>
                                                     @elseif ($jobApplication->status == 0)
                                                         <div class="job-status text-capitalize" style="color: #FBBF24">Đang chờ phê duyệt</div>
-                                                    @elseif ($jobApplication->status == 2)
-                                                        <div class="job-status text-capitalize text-danger"></div>                                           
+                                                    @elseif ($jobApplication->job->status == 3 && $jobApplication->status == 0)
+                                                        <div class="job-status text-capitalize text-danger">Đã đủ số lượng ứng tuyển</div>
+                                                    @else 
+                                                        <div class="job-status text-capitalize text-danger">Việc làm đã bị xoá</div>
                                                     @endif
-                                                </td>
+                                                </td>                                                                                               
                                                 <td>
                                                     <div class="action-dots float-end">
                                                         <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">

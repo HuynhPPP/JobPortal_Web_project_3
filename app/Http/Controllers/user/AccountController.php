@@ -387,7 +387,7 @@ class AccountController extends Controller
     public function myJobs(Request $request) {
 
         $jobQuery = Job::where('user_id', Auth::user()->id)
-                ->with('jobType')
+                ->with('jobType', 'applications')
                 ->orderBy('created_at','DESC');
 
         if (!empty($request->keyword)) {
@@ -396,6 +396,13 @@ class AccountController extends Controller
         }
             
         $jobs = $jobQuery->paginate(10);
+
+        foreach ($jobs as $job) {
+            if ($job->applications->count() >= $job->vacancy && $job->status == 1) {
+                $job->status = 3; 
+                $job->save();
+            }
+        }
         
         return view('front.account.job.my-jobs', [
             'jobs' => $jobs,
@@ -532,12 +539,19 @@ class AccountController extends Controller
         }
             
         $jobApplications = $jobApplicationsQuery->paginate(10);
+
+        foreach ($jobApplications as $jobApplication) {
+            $job = $jobApplication->job;
+            if ($job && $job->applications->count() >= $job->vacancy) {
+                $job->status = 3; 
+                $job->save();
+            }
+        }
         
         return view('front.account.job.my-job-application', [
             'jobApplications' => $jobApplications
         ]);
     }
-    
 
     public function removeJobs(Request $request) {
         $jobApplication = JobApplication::where([

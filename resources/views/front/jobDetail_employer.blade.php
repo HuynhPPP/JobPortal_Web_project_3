@@ -22,12 +22,6 @@
                             <div class="single_jobs white-bg d-flex justify-content-between">
                                 <div class="jobs_left d-flex align-items-center">
                                     <div class="jobs_conetent">
-                                        {{-- <div class="d-flex ">
-                                            <img src="{{ asset('assets/user/profile_picture/thumb/'.$job->user->image) }}" class="img-thumbnail" alt="logo">
-                                            <a href="#">
-                                                <h4>{{ $job->title }}</h4>
-                                            </a>
-                                        </div> --}}
                                         <div class="d-flex align-items-center mb-3 me-md-auto text-dark">
                                             <img src="{{ asset('assets/user/profile_picture/thumb/'.$job->user->image) }}" 
                                                  class="bi me-2" alt="logo" width="40" height="32" style="width: 15%;
