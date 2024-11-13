@@ -137,9 +137,10 @@
                             </div>
                 
                             <div class="mb-4">
-                                <label for="keywords" class="mb-3 fs-5 fst-italic">Từ khóa</label>
-                                <input type="text" placeholder="Ví dụ: PHP, Java,..." id="keywords" name="keywords" class="form-control">
-                                <div id="keywords-list" class="d-flex flex-wrap mt-2"></div>
+                                <div class="mb-4">
+                                    <label for="keywords" class="mb-3 fs-5 fst-italic">Từ khóa</label>
+                                    <input type="text" id="keywords" name="keywords" class="form-control" placeholder="Ví dụ: PHP, Java,...">
+                                </div>                                
                             </div>
 
                             <div class="row form-group">
@@ -412,36 +413,6 @@
 </script>
 
 <script>
-    const keywordsInput = document.getElementById('keywords');
-    const keywordsList = document.getElementById('keywords-list');
-    let keywords = ""; 
-    keyword = keyword.normalize("NFC");
-
-    keywordsInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter' && keywordsInput.value.trim() !== '') {
-            e.preventDefault();
-            addKeyword(keywordsInput.value.trim());
-            keywordsInput.value = '';
-        }
-    });
-
-    function addKeyword(keyword) {
-        if (keywords === "") {
-            keywords = []; 
-        }
-
-        if (!keywords.includes(keyword)) {
-            keywords.push(keyword);
-
-            const keywordTag = document.createElement('span');
-            keywordTag.className = 'keyword-tag';
-            keywordTag.textContent = keyword;
-            keywordsList.appendChild(keywordTag);
-        }
-    }
-</script>
-
-<script>
     document.addEventListener('DOMContentLoaded', () => {
         const element = document.getElementById('choices-single-default');
         const choices = new Choices(element, {
@@ -453,4 +424,19 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Khởi tạo Choices cho input từ khóa
+        const keywordInput = document.getElementById('keywords');
+        const choices = new Choices(keywordInput, {
+            removeItemButton: true, // Hiển thị nút xóa cho mỗi từ khóa
+            uniqueItemText: 'Từ khóa này đã có', // Thông báo khi nhập trùng
+            placeholder: true,       // Hiển thị placeholder trong ô input
+            placeholderValue: 'Nhập từ khóa (Ví dụ: PHP, Java)', // Giá trị placeholder
+            delimiter: ',',         // Dùng dấu "," làm phân cách giữa các từ khóa
+            editItems: true,         // Cho phép chỉnh sửa các từ khóa đã nhập
+            removeItems: true        // Cho phép xóa các từ khóa
+        });
+    });
+</script>
 @endsection

@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <label for="" class="mb-3 fs-5 fst-italic">Ngành nghề<span class="req">*</span></label>
-                                    <select name="category" id="category" class="form-control">
+                                    <select name="category" id="choices-single-default" class="form-control">
                                         <option value="">Chọn ngành nghề</option>
                                         @if ($careers->isNotEmpty())
                                             @foreach ($careers as $career)
@@ -154,13 +154,12 @@
                             <div class="mb-4">
                                 <label for="keywords" class="mb-3 fs-5 fst-italic">Từ khóa</label>
                                 <input type="text" 
-                                       placeholder="Ví dụ: PHP, Java,..." 
                                        id="keywords" 
                                        name="keywords" 
-                                       class="form-control"
+                                       class="form-control" 
+                                       placeholder="Ví dụ: PHP, Java,..."
                                        value="{{ str_replace(['[', ']', '"'], '', $job->keywords) }}"
                                 >
-                                <div id="keywords-list" class="d-flex flex-wrap mt-2"></div>
                             </div>
 
                             <div class="row form-group">
@@ -467,36 +466,30 @@
 </script>
 
 <script>
-    const keywordsInput = document.getElementById('keywords');
-    const keywordsList = document.getElementById('keywords-list');
-    let keywords = ""; 
-    keyword = decodeURIComponent(escape(keyword));
-
-    keywordsInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter' && keywordsInput.value.trim() !== '') {
-            e.preventDefault();
-            addKeyword(keywordsInput.value.trim());
-            keywordsInput.value = '';
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        const element = document.getElementById('choices-single-default');
+        const choices = new Choices(element, {
+            searchEnabled: true,
+            placeholder: true,
+            placeholderValue: 'Chọn ngành nghề',
+            itemSelectText: 'Nhấn để chọn',
+        });
     });
+</script>
 
-    function addKeyword(keyword) {
-        if (keywords === "") {
-            keywords = []; 
-        }
-
-        if (!keywords.includes(keyword)) {
-            keywords.push(keyword);
-
-            const keywordTag = document.createElement('span');
-            keywordTag.className = 'keyword-tag';
-            keywordTag.textContent = keyword;
-            keywordsList.appendChild(keywordTag);
-        }
-    }
-
-    if (keywords.length === 0) {
-        keywords = ""; 
-    }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Khởi tạo Choices cho input từ khóa
+        const keywordInput = document.getElementById('keywords');
+        const choices = new Choices(keywordInput, {
+            removeItemButton: true, // Hiển thị nút xóa cho mỗi từ khóa
+            uniqueItemText: 'Từ khóa này đã có', // Thông báo khi nhập trùng
+            placeholder: true,       // Hiển thị placeholder trong ô input
+            placeholderValue: 'Nhập từ khóa (Ví dụ: PHP, Java)', // Giá trị placeholder
+            delimiter: ',',         // Dùng dấu "," làm phân cách giữa các từ khóa
+            editItems: true,         // Cho phép chỉnh sửa các từ khóa đã nhập
+            removeItems: true        // Cho phép xóa các từ khóa
+        });
+    });
 </script>
 @endsection
