@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{{ asset('assets/user/trumbowyg/trumbowyg.min.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/style.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/message.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/user/choices/public/assets/styles/choices.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/user/css/toastr.min.css') }}" />
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
   <link href="{{ asset('assets/user/css/select2.min.css') }}" rel="stylesheet" />
@@ -82,6 +83,7 @@
   <script src="{{ asset('assets/user/js/jquery-3.6.0.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/jquery.js') }}"></script>
   <script src="{{ asset('assets/user/js/select2.min.js') }}"></script>
+  <script src="{{ asset('assets/user/choices/public/assets/scripts/choices.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/instantpages.5.1.0.min.js') }}"></script>
   <script src="{{ asset('assets/user/js/lazyload.17.6.0.min.js') }}"></script>

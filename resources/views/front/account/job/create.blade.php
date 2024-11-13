@@ -37,15 +37,15 @@
                                 </div>
                                 <div class="col-md-6 mb-4 search_select_box">
                                     <label for="" class="mb-3 fs-5 fst-italic">Ngành nghề<span class="req">*</span></label>
-                                    <select name="category" id="category" class="form-select">
+                                    <select id="choices-single-default" name="category">
                                         @if ($careers->isNotEmpty())
                                             @foreach ($careers as $career)
-                                            <option value="{{ $career->id }}" {{ old('category') == $career->id ? 'selected' : '' }}>
-                                                {{ $career->name }}
-                                            </option>
+                                                <option value="{{ $career->id }}" {{ old('category') == $career->id ? 'selected' : '' }}>
+                                                    {{ $career->name }}
+                                                </option>
                                             @endforeach
                                         @endif
-                                    </select>
+                                    </select>                        
                                     <p></p>
                                 </div>
                             </div>
@@ -441,5 +441,16 @@
     }
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const element = document.getElementById('choices-single-default');
+        const choices = new Choices(element, {
+            searchEnabled: true,
+            placeholder: true,
+            placeholderValue: 'Chọn ngành nghề',
+            itemSelectText: 'Nhấn để chọn',
+        });
+    });
+</script>
 
 @endsection

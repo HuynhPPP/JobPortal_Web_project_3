@@ -253,9 +253,9 @@
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-end">
                                                             <li>
-                                                                <a class="dropdown-item" href="#" onclick="showMessagePopup(event, {{ $application->id }})">
+                                                                <button type="button" class="dropdown-item" onclick="showMessagePopup(event, {{ $application->id }})">
                                                                     <i class="fa fa-envelope-open" aria-hidden="true"></i> Phê duyệt & Gửi thông báo
-                                                                </a>
+                                                                </button>
                                                             </li>
                                                         </ul> 
                                                     </div>
@@ -272,7 +272,6 @@
                                                                     @csrf
                                                                     <input type="hidden" name="id" value="{{ $application->id }}">
                                                                     
-                                                                    <!-- Checkbox để phê duyệt -->
                                                                     <div class="mb-3">
                                                                         <label for="approvalSelect{{ $application->id }}" class="form-label fs-5 mb-2">Trạng thái xét duyệt</label>
                                                                         <select class="form-select" id="approvalSelect{{ $application->id }}" name="approval_status">
@@ -281,8 +280,6 @@
                                                                         </select>
                                                                     </div>
                                                                     
-                                                
-                                                                    <!-- Textarea để gửi thông báo -->
                                                                     <div class="mb-3">
                                                                         <label for="messageContent_{{ $application->id }}" class="form-label fs-5 mb-2">Nội dung tin nhắn</label>
                                                                         <textarea class="form-control" id="messageContent_{{ $application->id }}" name="message" rows="3"></textarea>

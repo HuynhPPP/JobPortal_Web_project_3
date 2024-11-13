@@ -325,14 +325,12 @@ class JobsController extends Controller
 
             $application->save();
 
-            return redirect()->route('JobDetail_employer', ['id' => $application->job_id])
-                            ->with('toastr', ['success' => 'Thông báo đã được gửi đi']);
+            return redirect(url()->previous())->with('toastr', ['success' => 'Thông báo đã được gửi đi']);
+
         } else {
             return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
                             ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
         }
-
-       
     }
 
     public function destroy($id)

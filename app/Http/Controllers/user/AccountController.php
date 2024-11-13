@@ -66,7 +66,7 @@ class AccountController extends Controller
             $user->role = $request->input('role', 'user');
             $user->save();
 
-            session()->flash('success', 'Bạn đã đăng ký thành công.');
+            session()->flash('toastr', ['success' => 'Đăng ký thành công']);
 
             return response()->json([
                 'status' => true,
