@@ -91,59 +91,84 @@
               <div class="row">
                 @if ($jobs->isNotEmpty())
                   @foreach ($jobs as $job)
-                    <div class="col-md-4">
-                      <div class="card border-0 p-3 shadow mb-4" style="height: 400px">
-                        <div class="card-body">
-                          <h3 class="border-0 fs-5 pb-2 mb-0">{{ Str::words(strip_tags($job->title), 6) }}</h3>
-                          <p>{{ Str::words(strip_tags($job->company_name), 6) }}</p>
-                          <div class="bg-light p-3 border">
-
-                            @if (empty($job->province) && empty($job->district))
-                              <p class="mb-0">
-                                <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                <span class="ps-1" style="color: red">Chưa cập nhật</span>
-                              </p>
-                            @else
-                              <p class="mb-0">
-                                <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                <span class="ps-1">{{ $job->district }}, {{ $job->province }}</span>
-                              </p>
-                            @endif
-
-                            @if (empty($job->jobType->name))
-                              <p class="mb-0">
-                                <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                <span class="ps-1" style="color: red">Chưa cập nhật</span>
-                              </p>
-                            @else
-                              <p class="mb-0">
-                                <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                <span class="ps-1">{{ $job->jobType->name }}</span>
-                              </p>
-                            @endif
-
-                            @if (!is_null($job->salary))
-                              <p class="mb-0">
-                                <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                <span class="ps-1">{{ $job->salary }}</span>
-                              </p>
-                            @else
-                              <p class="mb-0">
-                                <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                <span class="ps-1" style="color: red">Chưa cập nhật</span>
-                              </p>
-                            @endif
+                    <div class="col-md-6">
+                        <div class="card border-0 p-3 shadow mb-4" style="height: 400px">
+                          @if ($job->isFeatured === 1)
+                          <div class="ilabel position-absolute ilabel-warning end-0">
+                            HOT
                           </div>
+                          @endif
+                          <div class="card-body">
+                              @if (Auth::check() && Auth::user()->role === 'employer')
+                                <a href="{{ route('JobDetail_employer', $job->id) }}" class="text-dark"><h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3></a>
+                              @else
+                                <a href="{{ route('jobDetail', $job->id) }}" class="text-dark"><h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3></a>
+                              @endif
+                            <p>{{ $job->company_name }}</p>
+                            <div class="bg-light p-3 border">
+                              @if (empty($job->province) && empty($job->district))
+                                <p class="mb-0">
+                                  <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                  <span class="ps-1" style="color: red">Chưa cập nhật</span>
+                                </p>
+                              @else
+                                <p class="mb-0">
+                                  <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                  <span class="ps-1">{{ $job->district }}, {{ $job->province }}</span>
+                                </p>
+                              @endif
 
-                          <div class="d-grid mt-3">
-                            @if (Auth::check() && Auth::user()->role === 'employer')
-                              <a href="{{ route('JobDetail_employer', $job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
-                            @else
-                              <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
-                            @endif
+                              @if (empty($job->jobType->name))
+                                <p class="mb-0">
+                                  <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                  <span class="ps-1" style="color: red">Chưa cập nhật</span>
+                                </p>
+                              @else
+                                <p class="mb-0">
+                                  <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                  <span class="ps-1">{{ $job->jobType->name }}</span>
+                                </p>
+                              @endif
+
+                              @if (!is_null($job->salary))
+                                <p class="mb-0">
+                                  <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                  <span class="ps-1">{{ $job->salary }}</span>
+                                </p>
+                              @else
+                                <p class="mb-0">
+                                  <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                  <span class="ps-1" style="color: red">Chưa cập nhật</span>
+                                </p>
+                              @endif
+                            </div>
+
+                            <div class="d-grid">
+                              <hr>
+                              @if (empty($job->keywords))
+                                  <p>Từ khoá: <span style="color: red">Chưa cập nhật</span></p>
+                              @else
+                                <div class="keywords-section">
+                                  <div class="d-flex flex-wrap gap-2">
+                                      @php
+                                          $keywords = explode(',', $job->keywords); 
+                                      @endphp
+                                      @foreach ($keywords as $index => $keyword)
+                                          @if ($index < 4) 
+                                              <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
+                                                  {{ trim($keyword) }}
+                                              </a>
+                                          @endif
+                                      @endforeach
+                                      @if (count($keywords) > 4) 
+                                          <span>...</span>
+                                      @endif
+                                  </div>
+                                </div>
+                              @endif
+                            </div>
                           </div>
                         </div>
-                      </div>
                     </div>
                   @endforeach
                 @else

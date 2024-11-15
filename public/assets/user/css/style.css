@@ -13242,3 +13242,23 @@ footer .nav-link {
     margin: 0.75rem 0.5rem;
     background-color: #D7D7DB;
 }
+
+.ilabel-warning {
+    background-color: #ff9119;
+}
+
+.ilabel {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    flex-direction: column-reverse;
+    justify-content: space-evenly;
+    align-content: stretch;
+    flex-wrap: wrap;
+}
