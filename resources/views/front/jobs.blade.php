@@ -28,7 +28,7 @@
               </div>
 
               <div class="mb-4">
-                <h2>Địa điểm</h2>
+                <h2>Tỉnh / thành phố</h2>
                 <select class="form-select" id="province" name="province">
                   <option selected>Chọn tỉnh / thành</option>
                 </select>
