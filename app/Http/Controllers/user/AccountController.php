@@ -146,7 +146,7 @@ class AccountController extends Controller
     ]);
 
     $rules = [
-      'name' = 'required|min|max|regex',
+      'name' => 'required|min:5|max:18|regex:/^[a-zA-Z\s]+$/',
     ];
 
 
@@ -164,7 +164,7 @@ class AccountController extends Controller
 
     $messages = [
       'name.required' => 'Trường họ và tên không được để trống.',
-      'name.min' => 'Tên người dùng phải chứa ít nhất 6 ký tự.',
+      'name.min' => 'Tên người dùng phải chứa ít nhất 5 ký tự.',
       'name.max' => 'Tên người dùng chỉ chứa tối đa 18 ký tự.',
       'name.regex' => 'Tên người dùng không hợp lệ.',
       'email.required' => 'Trường email không được để trống.',
@@ -208,11 +208,11 @@ class AccountController extends Controller
     ]);
 
     $rules = [
-      'company_name.required' => 'Trường họ và tên không được để trống.',
+      'company_name' => 'required|min:5|max:18|regex:/^[a-zA-Z\s]+$/',
     ];
 
     $messages = [
-      'company_name.required' => 'Trường họ và tên không được để trống.',
+      'company_name.required' => 'Trường tên công ty không được để trống.',
     ];
 
     $validator = Validator::make($request->all(), $rules, $messages);
