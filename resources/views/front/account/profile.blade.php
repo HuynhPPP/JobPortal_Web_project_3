@@ -150,33 +150,34 @@
                 </div>
                 @endif
                 
-                <div class="card border-0 shadow mb-4">
-                    <form action="" method="POST" id="changePasswordForm" name="changePasswordForm">
-                        <div class="card-body p-4">
-                            <h3 class="fs-4 mb-1">Thay đổi mật khẩu</h3>
-                            <p class="fs-5 fst-italic">Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
-                            <div class="mb-4">
-                                <label for="" class="mb-3 fs-5">Mật khẩu cũ <span style="color: red">*</span></label>
-                                <input type="password" name="old_password" id="old_password" placeholder="Nhập mật khẩu cũ..." class="form-control">
-                                <p></p>
+                @if (Auth::check() && Auth::user()->password !== null && Auth::user()->password !== '')
+                    <div class="card border-0 shadow mb-4">
+                        <form action="" method="POST" id="changePasswordForm" name="changePasswordForm">
+                            <div class="card-body p-4">
+                                <h3 class="fs-4 mb-1">Thay đổi mật khẩu</h3>
+                                <p class="fs-5 fst-italic">Lưu ý: các trường chứa dấu <span style="color: red">*</span> là bắt buộc</p>
+                                <div class="mb-4">
+                                    <label for="" class="mb-3 fs-5">Mật khẩu cũ <span style="color: red">*</span></label>
+                                    <input type="password" name="old_password" id="old_password" placeholder="Nhập mật khẩu cũ..." class="form-control">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="mb-3 fs-5">Mật khẩu mới <span style="color: red">*</span></label>
+                                    <input type="password" name="new_password" id="new_password" placeholder="Nhập mật khẩu mới..." class="form-control">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="mb-3 fs-5">Xác nhận mật khẩu <span style="color: red">*</span></label>
+                                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Nhập lại mật khẩu mới..." class="form-control">
+                                    <p></p>
+                                </div>                        
                             </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-3 fs-5">Mật khẩu mới <span style="color: red">*</span></label>
-                                <input type="password" name="new_password" id="new_password" placeholder="Nhập mật khẩu mới..." class="form-control">
-                                <p></p>
+                            <div class="card-footer  p-4">
+                                <button type="submit" class="btn btn-primary">Cập nhật</button>
                             </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-3 fs-5">Xác nhận mật khẩu <span style="color: red">*</span></label>
-                                <input type="password" name="confirm_password" id="confirm_password" placeholder="Nhập lại mật khẩu mới..." class="form-control">
-                                <p></p>
-                            </div>                        
-                        </div>
-                        <div class="card-footer  p-4">
-                            <button type="submit" class="btn btn-primary">Cập nhật</button>
-                        </div>
-                    </form>
-                </div>     
-
+                        </form>
+                    </div>     
+                @endif
             </div>
         </div>
     </div>
