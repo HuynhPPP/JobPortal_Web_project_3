@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 13, 2024 at 05:42 PM
+-- Generation Time: Nov 19, 2024 at 12:14 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.8
 
@@ -190,7 +190,7 @@ INSERT INTO `job_applications` (`id`, `job_id`, `user_id`, `employer_id`, `appli
 (41, 165, 16, 25, '2024-10-31 19:23:54', 'tankhuong02@gmail.com_1730427834.docx', 1, '2024-10-31 19:23:54', '2024-11-12 07:46:37'),
 (42, 168, 29, 28, '2024-10-31 19:38:52', 'User_5@gmail.com_1730428732.docx', 0, '2024-10-31 19:38:52', '2024-10-31 19:38:52'),
 (43, 165, 29, 25, '2024-10-31 19:39:42', 'User_5@gmail.com_1730428782.docx', 0, '2024-10-31 19:39:42', '2024-10-31 19:39:42'),
-(44, 161, 29, 24, '2024-10-31 20:00:17', 'User_5@gmail.com_1730430017.docx', 1, '2024-10-31 20:00:17', '2024-11-13 08:44:37'),
+(44, 161, 29, 24, '2024-10-31 20:00:17', 'User_5@gmail.com_1730430017.docx', 0, '2024-10-31 20:00:17', '2024-11-17 01:46:24'),
 (45, 161, 16, 24, '2024-10-31 20:02:27', 'tankhuong02@gmail.com_1730430147.docx', 1, '2024-10-31 20:02:27', '2024-11-12 19:56:52'),
 (56, 160, 16, 24, '2024-11-12 20:09:49', 'tankhuong02@gmail.com_1731467389.pdf', 0, '2024-11-12 20:09:49', '2024-11-12 20:09:49');
 
@@ -315,7 +315,8 @@ INSERT INTO `notifications_user` (`id`, `user_id`, `job_notification_id`, `type`
 (28, 16, 41, 'rejected', 'Có một vài vấn đề về CV của bạn, chúng tôi sẽ tiến hành kiểm tra lại. Chúc bạn một ngày tốt lành', '2024-11-11 02:24:25', '2024-11-11 02:24:25'),
 (31, 16, 41, 'approved', 'CV của bạn đã được thông qua, hãy đến địa chỉ trong phần mô tả công việc để trao đôi thêm thông tin. Chúc bạn một ngày tốt lành.', '2024-11-12 07:46:37', '2024-11-12 07:46:37'),
 (32, 16, 45, 'approved', NULL, '2024-11-12 19:56:52', '2024-11-12 19:56:52'),
-(37, 29, 44, 'approved', NULL, '2024-11-13 08:44:37', '2024-11-13 08:44:37');
+(37, 29, 44, 'approved', NULL, '2024-11-13 08:44:37', '2024-11-13 08:44:37'),
+(38, 29, 44, 'rejected', NULL, '2024-11-17 01:46:24', '2024-11-17 01:46:24');
 
 -- --------------------------------------------------------
 
@@ -376,7 +377,6 @@ CREATE TABLE `users` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `google_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `province` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -385,7 +385,7 @@ CREATE TABLE `users` (
   `location_detail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `company_website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` enum('admin','user','employer') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('admin','user','employer') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
   `status` tinyint NOT NULL DEFAULT '2',
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -396,33 +396,34 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `email`, `email_verified_at`, `password`, `google_id`, `image`, `company_name`, `province`, `district`, `wards`, `location_detail`, `company_website`, `mobile`, `role`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'khangduong.dev@gmail.com', NULL, '$2y$10$VV1F3Jay0QujfGHqxwXL..Phva9Ru4UEUXURinp0Sh.J7ZZwv0MCS', NULL, '1-1724308469.jpg', '', '', '', '', '', '', '0369455664', 'admin', 1, NULL, '2024-08-20 05:53:17', '2024-09-12 13:01:15'),
-(2, 'Nguyễn Văn A', 'nguyenvana@gmail.com', NULL, '$2y$10$9o759dq3.ulqEnQXQMyz6.BC/dX5.gi927/sDn34YxulT3dAP3x7C', NULL, NULL, NULL, '', '', '', '', '', '0976584986', 'user', 1, NULL, '2024-08-20 05:54:50', '2024-10-05 10:32:05'),
-(3, 'Mark Done', 'duongkhang6401@gmail.com', NULL, '$2y$10$VV1F3Jay0QujfGHqxwXL..Phva9Ru4UEUXURinp0Sh.J7ZZwv0MCS', NULL, NULL, NULL, '', '', '', '', '', '0973648758', 'user', 1, NULL, '2024-08-22 04:58:57', '2024-10-08 07:34:52'),
-(6, 'Cristian', 'admin@gmail.com', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '', '', '', '', '', '0973648758', 'user', 1, 'K1ghOsT4Np', '2024-08-30 04:49:13', '2024-10-05 11:13:32'),
-(8, 'Mathilde Kub', 'hermann.garrison@example.net', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '', '', '', '', '', '0367804658', 'employer', 1, 'QNSkuHNHrA', '2024-08-30 04:49:13', '2024-10-06 01:57:49'),
-(9, 'Daisha Turner', 'missouri.howell@example.org', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '', '', '', '', '', '0367804658', 'user', 0, '4uDF3PXr0r', '2024-08-30 04:49:13', '2024-10-05 10:31:22'),
-(10, 'Jermain Kuhic', 'nikolaus.forrest@example.net', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '', '', '', '', '', '0367804658', 'employer', 0, '4LTTZDyoI2', '2024-08-30 04:49:13', '2024-10-08 07:50:52'),
-(12, 'Armand Wehner', 'kwindler@example.net', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '', '', '', '', '', '0976584986', 'employer', 0, 'n3nJAXHMNj', '2024-08-30 04:49:13', '2024-10-08 07:50:57'),
-(15, 'Mathilde Kub', 'xhalvorson@example.com', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '', '', '', '', '', '0367804658', 'employer', 1, 'bCCmVxAIaS', '2024-08-30 04:49:13', '2024-10-06 01:50:47'),
-(16, 'Huỳnh Thanh Phan', 'tankhuong02@gmail.com', NULL, '$2y$12$mt8wEgoM20/qY3EWzgK3qO/Wpngg8XBtW67FtbFF/TiV8n3d7Bkd.', NULL, '16-1731511020.jpg', '', '', '', '', '', '', '0919092423', 'user', 2, NULL, '2024-10-08 07:57:27', '2024-11-13 08:17:00'),
-(17, 'Huỳnh Phan', 'htkhuong2101499@student.ctuet.edu.vn', NULL, '$2y$12$QNvm2IWTwPYL995IftXaLOVllbRmS2v8CDqc5YTlyoKhTEiqUkh8u', NULL, '17-1728714896.jpg', 'SoftRoad Việt Nam', 'Tỉnh An Giang', 'Huyện Châu Phú', 'Thị trấn Vĩnh Thạnh Trung', NULL, NULL, NULL, 'employer', 2, NULL, '2024-10-08 08:13:39', '2024-10-28 08:38:40'),
-(18, 'user2', 'user2@gmail.com', NULL, '$2y$12$QatXCE5MBkK6gNqOc8WVFuvsAwNeivMkEkWUrMwFPpj8e.HgUUEki', NULL, NULL, NULL, '', '', '', '', '', NULL, 'user', 2, NULL, '2024-10-14 19:43:14', '2024-10-14 19:43:14'),
-(19, 'employer2', 'employer2@gmail.com', NULL, '$2y$12$CzyzP9nyqcpzeD/NUum5HeAyowiisJBcpU/IEw6D2ZvLwAT4yyIrW', NULL, NULL, NULL, '', '', '', '', '', NULL, 'employer', 2, NULL, '2024-10-14 19:44:50', '2024-10-14 19:44:50'),
-(20, 'Nguyễn Văn Bình', 'nguybinh@0324gmail.com', NULL, '$2y$12$oyf0ycdBg0fdUdH1Drs6lOQNv/OMfb.DcBprPmqZ85HD6MXHukm2i', NULL, '20-1729388625.jpg', NULL, '', '', '', '', '', NULL, 'user', 2, NULL, '2024-10-17 07:58:55', '2024-10-19 18:43:46'),
-(21, 'Employer_3', 'Employer_3@gmail.com', NULL, '$2y$12$.yeBcns5uLpXbyGTCizWvONz5B52VWlre4BTo3yYDKYDweL6MbWFO', NULL, '21-1730088476.png', 'CÔNG TY TNHH LIÊN DOANH XÚC TIẾN ĐẦU TƯ VÀ HỢP TÁC QUỐC TẾ FDI', 'Thành phố Hà Nội', 'Quận Cầu Giấy', 'Phường Dịch Vọng', 'Tòa nhà Golden Palm - 21 Lê Văn Lương, Phường Nhân Chính, Quận Thanh Xuân, Thành phố Hà Nội', 'https://vnfdi.com/', '09776754654', 'employer', 2, NULL, '2024-10-26 20:01:09', '2024-10-27 21:07:56'),
-(22, 'Employer_4', 'Employer_4@gmail.com', NULL, '$2y$12$ngpukETQcIWoOhwoba.E..PsRPVQlngrHt4R/kZQTZ4bWTz6Bjb0G', NULL, '22-1730089031.png', 'CÔNG TY CỔ PHẦN MAISON RETAIL MANAGEMENT INTERNATIONAL', 'Thành phố Hồ Chí Minh', 'Quận 1', 'Phường Tân Định', 'Quận 1, Thành phố Hồ Chí Minh', 'https://maisonrmi.com/vi/gioi-thieu/', NULL, 'employer', 2, NULL, '2024-10-27 01:25:05', '2024-10-27 21:19:22'),
-(23, 'Employer_5', 'Employer_5@gmail.com', NULL, '$2y$12$0fBqdRRcpzBIPctL/LJ/GuFXMb7bMYWT/9cK54SSzNfZOlASPNnaC', NULL, '23-1730020809.png', 'Tổng Công ty Bưu điện Việt Nam (Vietnam Post)', 'Thành phố Hà Nội', 'Quận Nam Từ Liêm', 'Phường Mỹ Đình 2', 'Tòa nhà Vietnam Post - Số 5 Phạm Hùng, Phường Mỹ Đình 2, Quận Nam Từ Liêm, Thành phố Hà Nội', 'http://www.vnpost.vn/', NULL, 'employer', 2, NULL, '2024-10-27 01:52:11', '2024-10-27 02:21:12'),
-(24, 'Employer_6', 'Employer_6@gmail.com', NULL, '$2y$12$RbmjFUDx2/OR/gnwt2ZWo.Iprb2SPSAY16DzdOenlphRH6SWkdH1G', NULL, '24-1730028640.jpg', 'PRIME TECH SOLUTION COMPANY LIMITED', 'Thành phố Hồ Chí Minh', 'Quận Gò Vấp', 'Phường 17', 'Victory Tower, 318 - 320 Nguyễn Oanh, Phường 17, Quận Gò Vấp, Thành phố Hồ Chí Minh', NULL, NULL, 'employer', 2, NULL, '2024-10-27 04:25:14', '2024-10-27 04:35:01'),
-(25, 'Employer_7', 'Employer_7@gmail.com', NULL, '$2y$12$WshDcfpl/AWXZ3SMPjcZYuChhmWjUA8iXu27oucU1WfB.N9AtlK..', NULL, '25-1730110091.webp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'employer', 2, NULL, '2024-10-28 03:05:53', '2024-10-28 03:08:13'),
-(26, 'Employer_8', 'Employer_8@gmail.com', NULL, '$2y$12$nk8fleU.UZj52MgVJpaZ9e8EE78.TQ7Wx2TK79VYR5aaYAxbRX902', NULL, '26-1730110816.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'employer', 2, NULL, '2024-10-28 03:19:06', '2024-10-28 03:20:16'),
-(27, 'Employer_9', 'Employer_9@gmail.com', NULL, '$2y$12$.3UD6j.h0/JpTugveb0PXu9APyb96lNkEy2OOpW9g6nLrT93aBOMO', NULL, '27-1730111479.png', 'Tập Đoàn Công nghệ Quảng Ích', 'Thành phố Hà Nội', 'Quận Hoàng Mai', 'Phường Yên Sở', 'Z5-46 TTTM LePARC, KM 1,5 Pháp Vân, CV Yên Sở, Phường Yên Sở, Quận Hoàng Mai, Thành phố Hà Nội', 'https://qig.vn/', NULL, 'employer', 2, NULL, '2024-10-28 03:28:11', '2024-10-28 03:32:06'),
-(28, 'Employer_10', 'Employer_10@gmail.com', NULL, '$2y$12$m91kwQxGBL/ejXNFk0FOQ.fMfiydzpR7fOl2bGib7D9ahyKJ.vVK.', NULL, '28-1730112173.png', 'CÔNG TY CỔ PHẦN XÂY DỰNG GỐM SỨ VIỆT HƯƠNG', 'Thành phố Đà Nẵng', 'Quận Cẩm Lệ', NULL, '243 Diên Hồng, Hòa Xuân, Quận Cẩm Lệ, Đà Nẵng', 'https://viethuongceramics.com', NULL, 'employer', 2, NULL, '2024-10-28 03:42:36', '2024-10-28 03:43:52'),
-(29, 'User_5', 'User_5@gmail.com', NULL, '$2y$12$b9lLG3uap9ce/1kFNYDgw.Wi/fNf4cFUQiLFLISTOg0JXAR7ISuxO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'user', 2, NULL, '2024-10-29 01:00:18', '2024-10-29 01:00:18'),
-(31, 'Employer_11', 'Employer_11@gmail.com', NULL, '$2y$12$UKij6aC7aHohiU7MOn33mOjexs7j3fLIOBPzhjjTDT/PSuZo1rsIi', NULL, '31-1731517859.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'employer', 2, NULL, '2024-11-13 10:09:31', '2024-11-13 10:10:59'),
-(32, 'Employer_12', 'Employer_12@gmail.com', NULL, '$2y$12$9JsvEmYm3ulua3sZRVAPxOn0Y1OO4MvH3w9UXsyxdS3oXa4BhAmiO', NULL, '32-1731518319.png', 'Công Ty Cổ Phần Belie (DHC Viet Nam)', 'Thành phố Hà Nội', 'Quận Đống Đa', 'Phường Khâm Thiên', 'Địa chỉ văn phòng: 170 Đê La Thành, Đống Đa, Hà Nội', 'https://dhcvietnam.com.vn/', NULL, 'employer', 2, NULL, '2024-11-13 10:17:30', '2024-11-13 10:26:28'),
-(33, 'Employer_13', 'Employer_13@gmail.com', NULL, '$2y$12$XSFEy.wD2YCVXchiFPduJusAzJ30suptFF59v6063aRk2UMwBWS8.', NULL, '33-1731519372.png', 'Công Ty TNHH PHD', 'Thành phố Hà Nội', 'Quận Tây Hồ', 'Phường Yên Phụ', '46 phố An Dương, phường Yên Phụ, quận Tây Hồ, Thành phố Hà Nội.', 'https://freshgarden.vn/', NULL, 'employer', 2, NULL, '2024-11-13 10:35:38', '2024-11-13 10:38:22');
+INSERT INTO `users` (`id`, `fullname`, `email`, `email_verified_at`, `password`, `image`, `company_name`, `province`, `district`, `wards`, `location_detail`, `company_website`, `mobile`, `role`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'khangduong.dev@gmail.com', NULL, '$2y$10$VV1F3Jay0QujfGHqxwXL..Phva9Ru4UEUXURinp0Sh.J7ZZwv0MCS', '1-1724308469.jpg', '', '', '', '', '', '', '0369455664', 'admin', 1, NULL, '2024-08-20 05:53:17', '2024-09-12 13:01:15'),
+(2, 'Nguyễn Văn A', 'nguyenvana@gmail.com', NULL, '$2y$10$9o759dq3.ulqEnQXQMyz6.BC/dX5.gi927/sDn34YxulT3dAP3x7C', NULL, NULL, '', '', '', '', '', '0976584986', 'user', 1, NULL, '2024-08-20 05:54:50', '2024-10-05 10:32:05'),
+(3, 'Mark Done', 'duongkhang6401@gmail.com', NULL, '$2y$10$VV1F3Jay0QujfGHqxwXL..Phva9Ru4UEUXURinp0Sh.J7ZZwv0MCS', NULL, NULL, '', '', '', '', '', '0973648758', 'user', 1, NULL, '2024-08-22 04:58:57', '2024-10-08 07:34:52'),
+(6, 'Cristian', 'admin@gmail.com', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, '', '', '', '', '', '0973648758', 'user', 1, 'K1ghOsT4Np', '2024-08-30 04:49:13', '2024-10-05 11:13:32'),
+(8, 'Mathilde Kub', 'hermann.garrison@example.net', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, '', '', '', '', '', '0367804658', 'employer', 1, 'QNSkuHNHrA', '2024-08-30 04:49:13', '2024-10-06 01:57:49'),
+(9, 'Daisha Turner', 'missouri.howell@example.org', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, '', '', '', '', '', '0367804658', 'user', 0, '4uDF3PXr0r', '2024-08-30 04:49:13', '2024-10-05 10:31:22'),
+(10, 'Jermain Kuhic', 'nikolaus.forrest@example.net', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, '', '', '', '', '', '0367804658', 'employer', 0, '4LTTZDyoI2', '2024-08-30 04:49:13', '2024-10-08 07:50:52'),
+(12, 'Armand Wehner', 'kwindler@example.net', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, '', '', '', '', '', '0976584986', 'employer', 0, 'n3nJAXHMNj', '2024-08-30 04:49:13', '2024-10-08 07:50:57'),
+(15, 'Mathilde Kub', 'xhalvorson@example.com', '2024-08-30 04:49:13', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, '', '', '', '', '', '0367804658', 'employer', 1, 'bCCmVxAIaS', '2024-08-30 04:49:13', '2024-10-06 01:50:47'),
+(16, 'Huỳnh Phan', 'tankhuong02@gmail.com', NULL, '$2y$12$mt8wEgoM20/qY3EWzgK3qO/Wpngg8XBtW67FtbFF/TiV8n3d7Bkd.', '16-1731511020.jpg', '', '', '', '', '', '', '0919092423', 'user', 2, NULL, '2024-10-08 07:57:27', '2024-11-19 05:03:59'),
+(17, 'Huỳnh Phan', 'htkhuong2101499@student.ctuet.edu.vn', NULL, '$2y$12$QNvm2IWTwPYL995IftXaLOVllbRmS2v8CDqc5YTlyoKhTEiqUkh8u', '17-1728714896.jpg', 'SoftRoad Việt Nam', 'Tỉnh An Giang', 'Huyện Châu Phú', 'Thị trấn Vĩnh Thạnh Trung', NULL, NULL, NULL, 'employer', 2, NULL, '2024-10-08 08:13:39', '2024-10-28 08:38:40'),
+(18, 'user2', 'user2@gmail.com', NULL, '$2y$12$QatXCE5MBkK6gNqOc8WVFuvsAwNeivMkEkWUrMwFPpj8e.HgUUEki', NULL, NULL, '', '', '', '', '', NULL, 'user', 2, NULL, '2024-10-14 19:43:14', '2024-10-14 19:43:14'),
+(19, 'employer2', 'employer2@gmail.com', NULL, '$2y$12$CzyzP9nyqcpzeD/NUum5HeAyowiisJBcpU/IEw6D2ZvLwAT4yyIrW', NULL, NULL, '', '', '', '', '', NULL, 'employer', 2, NULL, '2024-10-14 19:44:50', '2024-10-14 19:44:50'),
+(20, 'Nguyễn Văn Bình', 'nguybinh@0324gmail.com', NULL, '$2y$12$oyf0ycdBg0fdUdH1Drs6lOQNv/OMfb.DcBprPmqZ85HD6MXHukm2i', '20-1729388625.jpg', NULL, '', '', '', '', '', NULL, 'user', 2, NULL, '2024-10-17 07:58:55', '2024-10-19 18:43:46'),
+(21, 'Employer_3', 'Employer_3@gmail.com', NULL, '$2y$12$.yeBcns5uLpXbyGTCizWvONz5B52VWlre4BTo3yYDKYDweL6MbWFO', '21-1730088476.png', 'CÔNG TY TNHH LIÊN DOANH XÚC TIẾN ĐẦU TƯ VÀ HỢP TÁC QUỐC TẾ FDI', 'Thành phố Hà Nội', 'Quận Cầu Giấy', 'Phường Dịch Vọng', 'Tòa nhà Golden Palm - 21 Lê Văn Lương, Phường Nhân Chính, Quận Thanh Xuân, Thành phố Hà Nội', 'https://vnfdi.com/', '09776754654', 'employer', 2, NULL, '2024-10-26 20:01:09', '2024-10-27 21:07:56'),
+(22, 'Employer_4', 'Employer_4@gmail.com', NULL, '$2y$12$ngpukETQcIWoOhwoba.E..PsRPVQlngrHt4R/kZQTZ4bWTz6Bjb0G', '22-1730089031.png', 'CÔNG TY CỔ PHẦN MAISON RETAIL MANAGEMENT INTERNATIONAL', 'Thành phố Hồ Chí Minh', 'Quận 1', 'Phường Tân Định', 'Quận 1, Thành phố Hồ Chí Minh', 'https://maisonrmi.com/vi/gioi-thieu/', NULL, 'employer', 2, NULL, '2024-10-27 01:25:05', '2024-10-27 21:19:22'),
+(23, 'Employer_5', 'Employer_5@gmail.com', NULL, '$2y$12$0fBqdRRcpzBIPctL/LJ/GuFXMb7bMYWT/9cK54SSzNfZOlASPNnaC', '23-1730020809.png', 'Tổng Công ty Bưu điện Việt Nam (Vietnam Post)', 'Thành phố Hà Nội', 'Quận Nam Từ Liêm', 'Phường Mỹ Đình 2', 'Tòa nhà Vietnam Post - Số 5 Phạm Hùng, Phường Mỹ Đình 2, Quận Nam Từ Liêm, Thành phố Hà Nội', 'http://www.vnpost.vn/', NULL, 'employer', 2, NULL, '2024-10-27 01:52:11', '2024-10-27 02:21:12'),
+(24, 'Employer_6', 'Employer_6@gmail.com', NULL, '$2y$12$RbmjFUDx2/OR/gnwt2ZWo.Iprb2SPSAY16DzdOenlphRH6SWkdH1G', '24-1730028640.jpg', 'PRIME TECH SOLUTION COMPANY LIMITED', 'Thành phố Hồ Chí Minh', 'Quận Gò Vấp', 'Phường 17', 'Victory Tower, 318 - 320 Nguyễn Oanh, Phường 17, Quận Gò Vấp, Thành phố Hồ Chí Minh', NULL, NULL, 'employer', 2, NULL, '2024-10-27 04:25:14', '2024-11-19 05:06:22'),
+(25, 'Employer_7', 'Employer_7@gmail.com', NULL, '$2y$12$WshDcfpl/AWXZ3SMPjcZYuChhmWjUA8iXu27oucU1WfB.N9AtlK..', '25-1730110091.webp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'employer', 2, NULL, '2024-10-28 03:05:53', '2024-10-28 03:08:13'),
+(26, 'Employer_8', 'Employer_8@gmail.com', NULL, '$2y$12$nk8fleU.UZj52MgVJpaZ9e8EE78.TQ7Wx2TK79VYR5aaYAxbRX902', '26-1730110816.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'employer', 2, NULL, '2024-10-28 03:19:06', '2024-10-28 03:20:16'),
+(27, 'Employer_9', 'Employer_9@gmail.com', NULL, '$2y$12$.3UD6j.h0/JpTugveb0PXu9APyb96lNkEy2OOpW9g6nLrT93aBOMO', '27-1730111479.png', 'Tập Đoàn Công nghệ Quảng Ích', 'Thành phố Hà Nội', 'Quận Hoàng Mai', 'Phường Yên Sở', 'Z5-46 TTTM LePARC, KM 1,5 Pháp Vân, CV Yên Sở, Phường Yên Sở, Quận Hoàng Mai, Thành phố Hà Nội', 'https://qig.vn/', NULL, 'employer', 2, NULL, '2024-10-28 03:28:11', '2024-10-28 03:32:06'),
+(28, 'Employer_10', 'Employer_10@gmail.com', NULL, '$2y$12$m91kwQxGBL/ejXNFk0FOQ.fMfiydzpR7fOl2bGib7D9ahyKJ.vVK.', '28-1730112173.png', 'CÔNG TY CỔ PHẦN XÂY DỰNG GỐM SỨ VIỆT HƯƠNG', 'Thành phố Đà Nẵng', 'Quận Cẩm Lệ', NULL, '243 Diên Hồng, Hòa Xuân, Quận Cẩm Lệ, Đà Nẵng', 'https://viethuongceramics.com', NULL, 'employer', 2, NULL, '2024-10-28 03:42:36', '2024-10-28 03:43:52'),
+(29, 'User_5', 'User_5@gmail.com', NULL, '$2y$12$b9lLG3uap9ce/1kFNYDgw.Wi/fNf4cFUQiLFLISTOg0JXAR7ISuxO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'user', 2, NULL, '2024-10-29 01:00:18', '2024-10-29 01:00:18'),
+(31, 'Employer_11', 'Employer_11@gmail.com', NULL, '$2y$12$UKij6aC7aHohiU7MOn33mOjexs7j3fLIOBPzhjjTDT/PSuZo1rsIi', '31-1731517859.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'employer', 2, NULL, '2024-11-13 10:09:31', '2024-11-13 10:10:59'),
+(32, 'Employer_12', 'Employer_12@gmail.com', NULL, '$2y$12$9JsvEmYm3ulua3sZRVAPxOn0Y1OO4MvH3w9UXsyxdS3oXa4BhAmiO', '32-1731518319.png', 'Công Ty Cổ Phần Belie (DHC Viet Nam)', 'Thành phố Hà Nội', 'Quận Đống Đa', 'Phường Khâm Thiên', 'Địa chỉ văn phòng: 170 Đê La Thành, Đống Đa, Hà Nội', 'https://dhcvietnam.com.vn/', NULL, 'employer', 2, NULL, '2024-11-13 10:17:30', '2024-11-13 10:26:28'),
+(33, 'Employer_13', 'Employer_13@gmail.com', NULL, '$2y$12$XSFEy.wD2YCVXchiFPduJusAzJ30suptFF59v6063aRk2UMwBWS8.', '33-1731519372.png', 'Công Ty TNHH PHD', 'Thành phố Hà Nội', 'Quận Tây Hồ', 'Phường Yên Phụ', '46 phố An Dương, phường Yên Phụ, quận Tây Hồ, Thành phố Hà Nội.', 'https://freshgarden.vn/', NULL, 'employer', 2, NULL, '2024-11-13 10:35:38', '2024-11-13 10:38:22'),
+(35, 'User', 'izazoy1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'user', 2, NULL, '2024-11-18 09:10:55', '2024-11-18 09:10:55');
 
 --
 -- Indexes for dumped tables
@@ -553,7 +554,7 @@ ALTER TABLE `notifications_employer`
 -- AUTO_INCREMENT for table `notifications_user`
 --
 ALTER TABLE `notifications_user`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `saved_jobs`
@@ -565,7 +566,7 @@ ALTER TABLE `saved_jobs`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Constraints for dumped tables

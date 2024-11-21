@@ -246,6 +246,7 @@ body {
     border-radius: 2rem;
     background: url('../images/login/jobs_background.jpg');
     background-position: cover;
+    background-size: cover;
     max-height: 90rem;
 }
 
