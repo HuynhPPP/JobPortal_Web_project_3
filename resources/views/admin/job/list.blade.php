@@ -2,7 +2,7 @@
 @section('content')
   <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
     <div class="flex-grow-1">
-      <h4 class="fs-18 fw-semibold mb-0">Quản lý tin tuyển dụng</h4>
+      <h4 class="fs-18 fw-semibold mb-0">Quản lý tin việc làm</h4>
     </div>
     <form action="{{ route('admin.job') }}" class="row row-cols-lg-auto g-2 align-items-center">
       <div class="col">

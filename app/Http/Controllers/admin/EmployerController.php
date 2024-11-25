@@ -23,8 +23,11 @@ class EmployerController extends Controller
   }
   public function editEmployer($id)
   {
+    if (!ctype_digit($id)) {
+      abort(404);
+    }
     $employers = User::where('role', 'employer')->orderBy('updated_at', 'DESC')->paginate(5);
-    $employer = User::where('role', 'employer')->where('id', $id)->first();
+    $employer = User::where('role', 'employer')->findOrFail($id)->first();
     return view('admin.employer.edit', compact('employers', 'employer'));
   }
   public function updateEmployer(Request $request, $id)

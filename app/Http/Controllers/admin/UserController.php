@@ -23,8 +23,11 @@ class UserController extends Controller
   }
   public function editUser($id)
   {
+    if (!ctype_digit($id)) {
+      abort(404);
+    }
     $users = User::where('role', 'user')->orderBy('updated_at', 'DESC')->paginate(5);
-    $user = User::where('role', 'user')->where('id', $id)->first();
+    $user = User::where('role', 'user')->findOrFail($id)->first();
     return view('admin.user.edit', compact('users', 'user'));
   }
   public function updateUser(Request $request, $id)

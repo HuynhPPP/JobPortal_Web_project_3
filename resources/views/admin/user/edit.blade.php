@@ -97,7 +97,7 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->fullname }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->mobile }}</td>
+                    <td>{{ $user->mobile ? $user->mobile : '...' }}</td>
                     <td>
                       @if ($user->status == env('STATUS_ACTIVE'))
                         <span>Hoạt động</span>

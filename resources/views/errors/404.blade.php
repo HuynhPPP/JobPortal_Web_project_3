@@ -41,7 +41,8 @@
                 class="my-3">
               <h2 class="fw-bold mt-3 text-primary lh-base">Không tìm thấy trang !</h2>
               <h4 class="fw-bold mt-2 text-dark lh-base">Trang này không có sẵn</h4>
-              <a href="/" class="btn btn-primary">Về trang chủ <i class="ti ti-home ms-1"></i></a>
+              <a href="{{ route('admin.home') }}" class="btn btn-primary">Về trang chủ <i
+                  class="ti ti-home ms-1"></i></a>
             </div>
           </div>
         </div>

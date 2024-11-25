@@ -26,7 +26,10 @@ class JobController extends Controller
   }
   public function editJob($id)
   {
-    $job = Job::with('jobType')->find($id);
+    if (!ctype_digit($id)) {
+      abort(404);
+    }
+    $job = Job::with('jobType')->findOrFail($id);
     $jobTypes = JobType::orderBy('name', 'ASC')->get();
     $careers = Career::orderBy('name', 'ASC')->get();
     return view('admin.job.edit', compact('job', 'jobTypes', 'careers'));
