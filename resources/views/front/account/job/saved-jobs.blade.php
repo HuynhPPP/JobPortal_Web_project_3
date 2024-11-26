@@ -51,7 +51,6 @@
                                         <form action="{{ route('account.removeSavedJob') }}" method="POST">
                                             @csrf 
                                             <tr id="saved-job-{{ $savedJob->id }}" class="active">
-                                                <td style="display: none"><input type="hidden" name="id" value="{{ $savedJob->id }}"></td>
                                                 <td>
                                                     <div class="job-name fw-500">{{ Str::words(strip_tags($savedJob->job->title), 5)  }}</div>
                                                     <div class="info1 fst-italic">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->province }}</div>
@@ -76,10 +75,32 @@
                                                                 <i class="fa fa-eye" aria-hidden="true"></i> Xem
                                                             </a></li>
                                                             <li>
-                                                                <button type="submit" class="dropdown-item" onclick="return confirm('Bạn chắc chắn muốn huỷ yêu thích công việc này không?')">
+                                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-job-id="{{ $savedJob->id }}">
                                                                     <i class="fa fa-trash me-3" aria-hidden="true"></i> Huỷ yêu thích
                                                                 </button>
                                                             </li>
+                                                            
+                                                            <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="confirmModalLabel">Xác nhận</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Bạn chắc chắn muốn huỷ yêu thích công việc này không?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                                                                            <form id="deleteForm" method="POST" action="{{ route('account.removeSavedJob') }}">
+                                                                                @csrf 
+                                                                                <input type="hidden" name="id" id="job_id"> <!-- Input ẩn để lưu ID công việc -->
+                                                                                <button type="submit" class="btn btn-danger">Có</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -120,6 +141,8 @@
         </div>
     </div>
 </section>
+
+
 @endsection
 
 @section('customJs')
@@ -136,6 +159,15 @@
             url += '&keyword='+keyword;
         }
         window.location.href=url;
+    });
+</script>
+
+<script>
+    document.querySelectorAll('.dropdown-item').forEach(button => {
+        button.addEventListener('click', function () {
+            const jobId = this.getAttribute('data-job-id'); // Lấy ID công việc từ thuộc tính data-job-id
+            document.getElementById('job_id').value = jobId; // Gán giá trị vào input ẩn
+        });
     });
 </script>
 @endsection

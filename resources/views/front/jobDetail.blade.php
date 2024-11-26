@@ -119,9 +119,31 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="pt-3">
-            <a href="{{ route('account.login') }}" class="btn btn-primary w-100 fs-5">Đăng nhập để xin việc</a>
-          </div>
+          @if (Auth::check() && Auth::user()->role === 'user')
+              @php
+                  $hasApplied = \App\Models\JobApplication::where('job_id', $job->id)
+                      ->where('user_id', Auth::id())
+                      ->exists();
+              @endphp
+
+              @if ($hasApplied)
+                  <div class="pt-3">
+                      <button class="btn btn-success w-100 fs-5" disabled>
+                          Bạn đã nộp đơn cho công việc này
+                      </button>
+                  </div>
+              @else
+                  <div class="pt-3">
+                      <button class="btn btn-primary w-100 fs-5" data-bs-toggle="modal" data-bs-target="#applyJobModal">
+                          Xin việc ngay
+                      </button>
+                  </div>
+              @endif
+          @else
+              <div class="pt-3">
+                  <a href="{{ route('account.login') }}" class="btn btn-primary w-100 fs-5">Đăng nhập để xin việc</a>
+              </div>
+          @endif
           <div class="card shadow border-0 my-4">
             <div class="job_sumary">
               <div class="summery_header pb-1 pt-4">

@@ -77,7 +77,6 @@ class JobsController extends Controller
 
         $job = Job::where([
             'id' => $id, 
-            'status' => 1,
         ])->with(['jobType','career','user'])->first();
 
         if ($job == null) {
