@@ -48,7 +48,6 @@
                                 <tbody class="border-0">
                                     @if ($savedJobs->isNotEmpty())
                                         @foreach ($savedJobs as $savedJob)
-                                        <form action="{{ route('account.removeSavedJob') }}" method="POST">
                                             @csrf 
                                             <tr id="saved-job-{{ $savedJob->id }}" class="active">
                                                 <td>
@@ -75,12 +74,28 @@
                                                                 <i class="fa fa-eye" aria-hidden="true"></i> Xem
                                                             </a></li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal" data-job-id="{{ $savedJob->id }}">
+                                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $savedJob->id }}" data-job-id="{{ $savedJob->id }}">
                                                                     <i class="fa fa-trash me-3" aria-hidden="true"></i> Huỷ yêu thích
                                                                 </button>
                                                             </li>
-                                                            
-                                                            <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                                                            <div class="modal fade" id="confirmModal-{{ $savedJob->id }}" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content py-4">
+                                                                        <div class="modal-body text-center">
+                                                                            <h1>Bạn chắc chắn muốn huỷ yêu thích công việc này?</h1>
+                                                                        </div>
+                                                                        <div class="modal-footer border-0 justify-content-around">
+                                                                            <button type="button" class="btn btn-outline-secondary px-5 rounded-5" data-bs-dismiss="modal">Huỷ</button>
+                                                                            <form id="deleteForm" method="POST" action="{{ route('account.removeSavedJob') }}">
+                                                                                @csrf
+                                                                                <input type="hidden" name="id" id="job_id">
+                                                                                <button type="submit" class="btn btn-primary px-5 rounded-5">Có</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>                                                            
+                                                            {{-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -100,12 +115,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                         </ul>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        </form>
                                         @endforeach
                                     @else
                                         <tr>
@@ -163,11 +177,15 @@
 </script>
 
 <script>
-    document.querySelectorAll('.dropdown-item').forEach(button => {
-        button.addEventListener('click', function () {
-            const jobId = this.getAttribute('data-job-id'); // Lấy ID công việc từ thuộc tính data-job-id
-            document.getElementById('job_id').value = jobId; // Gán giá trị vào input ẩn
-        });
+    document.querySelectorAll('.dropdown-item[data-bs-toggle="modal"]').forEach(button => {
+    button.addEventListener('click', function () {
+        const jobId = this.getAttribute('data-job-id');
+        const modalId = this.getAttribute('data-bs-target');
+        const modal = document.querySelector(modalId);
+        if (modal) {
+            modal.querySelector('#job_id').value = jobId;
+        }
     });
+});
 </script>
 @endsection

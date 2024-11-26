@@ -2,46 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Đăng nhập- TopWork - Việc làm hàng đầu</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/user/css/toastr.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/user/css/login_style.css') }}">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>404</title>
+
+	<!-- Google font -->
+	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/images/logo_web.jpg') }}" />
+
+	<!-- Custom stlylesheet -->
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/user/css/404_page.css') }}" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
 </head>
 
 <body>
-    <div class="form-wrapper">
-        <main class="form-side">
-            <h1>Lỗi 404 - Không tìm thấy trang bạn truy cập !</h1>
-        </main>
-        <aside class="info-side">
-            <div class="blockquote-wrapper">
-            </div>
-        </aside>
-    </div>
 
-    <script src="{{ asset('assets/user/js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/user/js/toastr.min.js') }}"></script>
+	<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<div></div>
+				<h1>404</h1>
+			</div>
+			<h2>Trang không tồn tại !</h2>
+			<p>Bạn đang cố gắng truy cập trang không tồn tại hoặc đã bị xoá. Vui lòng thử lại !</p>
+			<a href="{{ route('home') }}">Trang chủ</a>
+		</div>
+	</div>
 
-    @if (session()->has('toastr'))
-        <script>
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "timeOut": "6000"
-        };
-
-        @foreach (session('toastr') as $type => $message)
-            toastr.{{ $type }}('{{ $message }}');
-        @endforeach
-        </script>
-    @endif
-    
-    
-</body>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
 </html>
