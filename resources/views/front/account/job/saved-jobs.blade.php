@@ -48,8 +48,10 @@
                                 <tbody class="border-0">
                                     @if ($savedJobs->isNotEmpty())
                                         @foreach ($savedJobs as $savedJob)
+                                        <form id="remove-job-form-{{ $savedJob->id }}" action="{{ route('account.removeSavedJob') }}" method="POST">
                                             @csrf 
                                             <tr id="saved-job-{{ $savedJob->id }}" class="active">
+                                                <td style="display: none"><input type="hidden" name="id" value="{{ $savedJob->id }}"></td>
                                                 <td>
                                                     <div class="job-name fw-500">{{ Str::words(strip_tags($savedJob->job->title), 5)  }}</div>
                                                     <div class="info1 fst-italic">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->province }}</div>
@@ -74,52 +76,15 @@
                                                                 <i class="fa fa-eye" aria-hidden="true"></i> Xem
                                                             </a></li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $savedJob->id }}" data-job-id="{{ $savedJob->id }}">
+                                                                <button type="button" class="dropdown-item" onclick="confirmation({{ $savedJob->id }})">
                                                                     <i class="fa fa-trash me-3" aria-hidden="true"></i> Huỷ yêu thích
                                                                 </button>
                                                             </li>
-                                                            <div class="modal fade" id="confirmModal-{{ $savedJob->id }}" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content py-4">
-                                                                        <div class="modal-body text-center">
-                                                                            <h1>Bạn chắc chắn muốn huỷ yêu thích công việc này?</h1>
-                                                                        </div>
-                                                                        <div class="modal-footer border-0 justify-content-around">
-                                                                            <button type="button" class="btn btn-outline-secondary px-5 rounded-5" data-bs-dismiss="modal">Huỷ</button>
-                                                                            <form id="deleteForm" method="POST" action="{{ route('account.removeSavedJob') }}">
-                                                                                @csrf
-                                                                                <input type="hidden" name="id" id="job_id">
-                                                                                <button type="submit" class="btn btn-primary px-5 rounded-5">Có</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>                                                            
-                                                            {{-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="confirmModalLabel">Xác nhận</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            Bạn chắc chắn muốn huỷ yêu thích công việc này không?
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
-                                                                            <form id="deleteForm" method="POST" action="{{ route('account.removeSavedJob') }}">
-                                                                                @csrf 
-                                                                                <input type="hidden" name="id" id="job_id"> <!-- Input ẩn để lưu ID công việc -->
-                                                                                <button type="submit" class="btn btn-danger">Có</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> --}}
                                                         </ul>
                                                     </div>
                                                 </td>
                                             </tr>
+                                        </form>
                                         @endforeach
                                     @else
                                         <tr>
@@ -176,16 +141,23 @@
     });
 </script>
 
-<script>
-    document.querySelectorAll('.dropdown-item[data-bs-toggle="modal"]').forEach(button => {
-    button.addEventListener('click', function () {
-        const jobId = this.getAttribute('data-job-id');
-        const modalId = this.getAttribute('data-bs-target');
-        const modal = document.querySelector(modalId);
-        if (modal) {
-            modal.querySelector('#job_id').value = jobId;
-        }
-    });
-});
+<script type="text/javascript">
+    function confirmation(jobId) {
+        Swal.fire({
+            html: '<h3>Bạn có chắc chắn ?</h3>',
+            text: "Công việc sẽ bị huỷ yêu thích !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`remove-job-form-${jobId}`).submit();
+            }
+        });
+    }
 </script>
+
 @endsection

@@ -147,7 +147,7 @@
                                                 </div>
                                                     
                                                 <h3 class="border-0 fs-5 pb-2 mb-0 mt-3">
-                                                    {{ Str::words(strip_tags($featureJob->title), 7) }}
+                                                    {{ Str::words(strip_tags($featureJob->title), 5) }}
                                                 </h3>
 
                                                 @if (!empty($featureJob->company_name))

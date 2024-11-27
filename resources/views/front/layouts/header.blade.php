@@ -14,9 +14,15 @@
                 <a class="nav-link fs-5" aria-current="page" href="{{ route('home') }}">Trang chủ</a>
               </li>
               <li class="nav-divider"></li>
-              <li class="nav-item">
-                <a class="nav-link fs-5" aria-current="page" href="{{ route('jobs') }}">Tìm việc</a>
-              </li>
+              @if (Auth::check() && Auth::user()->role === 'user')
+                <li class="nav-item">
+                  <a class="nav-link fs-5" aria-current="page" href="{{ route('jobs') }}">Tìm việc</a>
+                </li>
+              @else
+                <li class="nav-item">
+                  <a class="nav-link fs-5" aria-current="page" href="{{ route('jobs') }}">Trang việc làm</a>
+                </li>
+              @endif
               
               @if (Auth::check() && Auth::user()->role === 'user')
               <li class="nav-divider"></li>

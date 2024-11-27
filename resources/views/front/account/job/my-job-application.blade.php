@@ -48,7 +48,7 @@
                                 <tbody class="border-0">
                                     @if ($jobApplications->isNotEmpty())
                                         @foreach ($jobApplications as $jobApplication)
-                                        <form action="{{ route('account.removeJobs') }}" method="POST">
+                                        <form id="remove-jobApplication-form-{{ $jobApplication->id }}" action="{{ route('account.removeJobs') }}" method="POST">
                                             @csrf
                                             <tr class="active">
                                                 <td style="display: none"><input type="hidden" name="id" value="{{ $jobApplication->id }}"></td>
@@ -72,9 +72,8 @@
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-end">
                                                             <li><a class="dropdown-item" href="{{ route("jobDetail",$jobApplication->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> Xem</a></li>
-                                                            
                                                             <li>
-                                                                <button type="submit" class="dropdown-item" onclick="return confirm('Bạn chắc chắn muốn huỷ ứng tuyển công việc này không?')">
+                                                                <button type="button" class="dropdown-item" onclick="confirmation({{ $jobApplication->id }})">
                                                                     <i class="fa fa-trash me-3" aria-hidden="true"></i> Huỷ ứng tuyển
                                                                 </button>
                                                             </li>
@@ -135,4 +134,23 @@
         window.location.href=url;
     });
 </script>
+
+<script type="text/javascript">
+    function confirmation(jobId) {
+        Swal.fire({
+            html: '<h3>Bạn có chắc chắn ?</h3>',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`remove-jobApplication-form-${jobId}`).submit();
+            }
+        });
+    }
+</script>
+
 @endsection

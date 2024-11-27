@@ -49,7 +49,7 @@
                   <tbody class="border-0">
                     @if ($jobs->isNotEmpty())
                       @foreach ($jobs as $job)
-                      <form action="{{ route('account.deleteJob') }}" method="POST">
+                      <form id="remove-job-form-{{ $job->id }}" action="{{ route('account.deleteJob') }}" method="POST">
                         @csrf
                         <tr class="active">
                           <td style="display: none"><input type="hidden" name="id" value="{{ $job->id }}"></td>
@@ -86,9 +86,9 @@
                                       class="fa fa-edit" aria-hidden="true"></i> Chỉnh sửa</a>
                                   </li>
                                   <li>
-                                    <button type="submit" class="dropdown-item" onclick="return confirm('Bạn chắc chắn muốn huỷ ứng tuyển công việc này không?')">
+                                    <button type="button" class="dropdown-item" onclick="confirmation({{ $job->id }})">
                                       <i class="fa fa-trash me-3" aria-hidden="true"></i> Xoá việc làm
-                                    </button>
+                                  </button>
                                   </li>
                               </ul>
                             </div>
@@ -147,4 +147,22 @@
       window.location.href = url;
     });
   </script>
+
+<script type="text/javascript">
+  function confirmation(jobId) {
+      Swal.fire({
+          html: '<h3>Bạn có chắc chắn ?</h3>',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Có',
+          cancelButtonText: 'Không'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              document.getElementById(`remove-job-form-${jobId}`).submit();
+          }
+      });
+  }
+</script>
 @endsection
