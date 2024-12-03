@@ -121,7 +121,7 @@
                             @if ($featureJobs->isNotEmpty())
                                 @foreach ($featureJobs as $featureJob)
                                     <div class="col-md-4">
-                                        <div class="card border-0 p-3 shadow mb-4">
+                                        <div class="card border-0 p-3 shadow mb-4" style="height: auto">
                                             <div class="card-body">
                                                 <div class="d-flex home_jobs">
                                                     <div class="col-10">
@@ -199,19 +199,18 @@
                                                 </div>
 
                                                 <div class="keywords-section mt-3">
-                                                    <div class="d-flex flex-wrap gap-2 mt-2">
+                                                    <div class="d-flex gap-2 mt-2">
                                                         @php
                                                             $keywords = explode(',', $featureJob->keywords); 
                                                         @endphp
                                                         @foreach ($keywords as $index => $keyword)
-                                                            @if ($index < 2) 
+                                                            @if ($index < 3) 
                                                                 <a href="{{ route('jobs', ['keyword' => trim($keyword)]) }}" class="keyword-badge">
                                                                     {{ trim($keyword) }}
                                                                 </a>
                                                             @endif
                                                         @endforeach
                                                         @if (count($keywords) > 3) 
-                                                            <span>...</span>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -323,7 +322,7 @@
                                                     <p class="mt-3">Từ khoá: <span style="color: red">Chưa cập nhật</span></p>
                                                 @else
                                                 <div class="keywords-section mt-3">
-                                                    <div class="d-flex flex-wrap gap-2 mt-2">
+                                                    <div class="d-flex gap-2 mt-2">
                                                         @php
                                                             $keywords = explode(',', $latesJob->keywords); 
                                                         @endphp
@@ -348,7 +347,6 @@
                                                     @else
                                                         <a href="{{ route('jobDetail',$latesJob->id) }}" class="btn btn-primary btn-lg">Chi tiết</a>
                                                     @endif  
-                                                    
                                                 </div>
                                             </div>
                                         </div>

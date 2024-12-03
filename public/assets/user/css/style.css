@@ -12594,8 +12594,20 @@ button:active,
 }
 
 .section-4 .job_details_area .job_sumary .summery_header {
-    border-bottom: 1px solid #eaeaea;
     padding: 40px;
+}
+
+.divider {
+    border-bottom: 1px solid rgba(128, 137, 150, 0.1);
+    height: 1px;
+    margin: 0.5em 0 1.5em;
+}
+
+.divider span {
+    display: block;
+    width: 100px;
+    height: 1px;
+    background-color: #a8df8e;
 }
 
 .section-4 .job_details_area .job_sumary .summery_header h3 {

@@ -119,6 +119,7 @@
               <div class="summery_header pb-1 pt-4">
                 <h3>Thông tin chung</h3>
               </div>
+              <div class="divider"><span></span></div>
               <div class="job_content pt-3">
                 <ul>
                   <li>Thời điểm đăng: <span>{{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</span></li>
@@ -178,6 +179,7 @@
               <div class="summery_header pb-1 pt-4">
                 <h3>Thông tin chi tiết công ty</h3>
               </div>
+              <div class="divider"><span></span></div>
               <div class="job_content pt-3">
                 <ul>
                   <li>Tên công ty: <span>{{ $job->company_name }}</span></li>

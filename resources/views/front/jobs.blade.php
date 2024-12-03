@@ -97,7 +97,7 @@
                             HOT
                           </div>
                         @endif
-                        <div class="card-body">
+                        <div class="card-body mt-4">
                           @if (Auth::check() && Auth::user()->role === 'employer')
                             <a href="{{ route('JobDetail_employer', $job->id) }}" class="text-dark">
                               <h3 class="border-0 fs-5 pb-2 mb-0 d-inline">{{ $job->title }}</h3>
