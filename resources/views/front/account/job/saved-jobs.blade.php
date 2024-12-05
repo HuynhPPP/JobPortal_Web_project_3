@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route("home") }}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+                        <li class="breadcrumb-item active">Công việc yêu thích</li>
                     </ol>
                 </nav>
             </div>
@@ -18,7 +18,6 @@
                 @include('front.account.sidebar')
             </div>
             <div class="col-lg-9">
-                @include('front.message')
                 <div class="card border-0 shadow mb-4 p-3">
                     <div class="card-body card-form">
                         <div class="d-flex justify-content-between">
@@ -49,15 +48,15 @@
                                 <tbody class="border-0">
                                     @if ($savedJobs->isNotEmpty())
                                         @foreach ($savedJobs as $savedJob)
-                                        <form action="{{ route('account.removeSavedJob') }}" method="POST">
+                                        <form id="remove-job-form-{{ $savedJob->id }}" action="{{ route('account.removeSavedJob') }}" method="POST">
                                             @csrf 
                                             <tr id="saved-job-{{ $savedJob->id }}" class="active">
                                                 <td style="display: none"><input type="hidden" name="id" value="{{ $savedJob->id }}"></td>
                                                 <td>
-                                                    <div class="job-name fw-500">{{ $savedJob->job->title }}</div>
-                                                    <div class="info1">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->location }}</div>
+                                                    <div class="job-name fw-500">{{ Str::words(strip_tags($savedJob->job->title), 5)  }}</div>
+                                                    <div class="info1 fst-italic">{{ $savedJob->job->jobType->name }} . {{ $savedJob->job->province }}</div>
                                                 </td>
-                                                <td>{{ $savedJob->job->applications->count() }} ứng tuyển</td>
+                                                <td>{{ $savedJob->job->applications->count() }} ứng viên</td>
                                                 <td>
                                                     @if ($savedJob->job->status == 1)
                                                         <div class="job-status text-capitalize text-success">Hoạt động</div>
@@ -77,7 +76,7 @@
                                                                 <i class="fa fa-eye" aria-hidden="true"></i> Xem
                                                             </a></li>
                                                             <li>
-                                                                <button type="submit" class="dropdown-item" onclick="return confirm('Bạn chắc chắn muốn huỷ yêu thích công việc này không?')">
+                                                                <button type="button" class="dropdown-item" onclick="confirmation({{ $savedJob->id }})">
                                                                     <i class="fa fa-trash me-3" aria-hidden="true"></i> Huỷ yêu thích
                                                                 </button>
                                                             </li>
@@ -86,11 +85,27 @@
                                                 </td>
                                             </tr>
                                         </form>
-                                        
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="5" class="text-danger">Bạn chưa có công việc yêu thích</td>
+                                            <td colspan="5">
+                                                <div class="card-error-find">
+                                                    <div class="card-body-error-find">
+                                                     <img alt="Illustration of a piggy bank with a magnifying glass" 
+                                                       height="100" 
+                                                       src="https://storage.googleapis.com/a1aa/image/wbdDxuRHo2aDNtL5eFnlzmLSJ5fXAOdRDeHnXiZSLwjffvSdC.jpg" 
+                                                       width="100"/>
+                                                     <div class="text-content">
+                                                      <h5 class="mt-3">
+                                                       Oops! Không tìm thấy công việc
+                                                      </h5>
+                                                      <p>
+                                                       TopWork chưa tìm thấy công việc bạn tìm kiếm vào lúc này.
+                                                      </p>
+                                                     </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endif
                                 </tbody>                               
@@ -105,6 +120,8 @@
         </div>
     </div>
 </section>
+
+
 @endsection
 
 @section('customJs')
@@ -123,4 +140,24 @@
         window.location.href=url;
     });
 </script>
+
+<script type="text/javascript">
+    function confirmation(jobId) {
+        Swal.fire({
+            html: '<h3>Bạn có chắc chắn ?</h3>',
+            text: "Công việc sẽ bị huỷ yêu thích !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`remove-job-form-${jobId}`).submit();
+            }
+        });
+    }
+</script>
+
 @endsection

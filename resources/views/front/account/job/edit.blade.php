@@ -8,7 +8,7 @@
           <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item"><a href="{{ route('home') }}">Trang chủ</a></li>
-              <li class="breadcrumb-item active">Cài đặt tài khoản</li>
+              <li class="breadcrumb-item active">Chỉnh sửa công việc</li>
             </ol>
           </nav>
         </div>
@@ -18,7 +18,6 @@
           @include('front.account.sidebar')
         </div>
         <div class="col-lg-9">
-          @include('front.message')
 
           <form action="" method="post" id="editJobForm" name="editJobForm">
             <div class="card border-0 shadow mb-4">
@@ -26,14 +25,14 @@
                 <h3 class="fs-4 mb-1">Chỉnh sửa công việc</h3>
                 <div class="row">
                   <div class="col-md-6 mb-4">
-                    <label for="" class="mb-2">Tiêu đề<span class="req">*</span></label>
+                    <label for="" class="mb-3 fs-5 fst-italic">Tiêu đề<span class="req">*</span></label>
                     <input type="text" placeholder="Tiêu đề công việc" id="title" name="title"
                       class="form-control" value="{{ $job->title }}">
                     <p></p>
                   </div>
                   <div class="col-md-6 mb-4">
-                    <label for="" class="mb-2">Ngành nghề<span class="req">*</span></label>
-                    <select name="category" id="category" class="form-control">
+                    <label for="" class="mb-3 fs-5 fst-italic">Ngành nghề<span class="req">*</span></label>
+                    <select name="category" id="choices-single-default" class="form-control">
                       <option value="">Chọn ngành nghề</option>
                       @if ($careers->isNotEmpty())
                         @foreach ($careers as $career)
@@ -49,7 +48,8 @@
 
                 <div class="row">
                   <div class="col-md-6 mb-4">
-                    <label for="" class="mb-2">Hình thức làm việc<span class="req">*</span></label>
+                    <label for="" class="mb-3 fs-5 fst-italic">Hình thức làm việc<span
+                        class="req">*</span></label>
                     <select name="jobType" id="jobType" class="form-select">
                       <option value="">Chọn hình thức làm việc</option>
                       @if ($jobtypes->isNotEmpty())
@@ -63,7 +63,7 @@
                     <p></p>
                   </div>
                   <div class="col-md-6 mb-4">
-                    <label for="" class="mb-2">Số lượng tuyển<span class="req">*</span></label>
+                    <label for="" class="mb-3 fs-5 fst-italic">Số lượng tuyển<span class="req">*</span></label>
                     <input type="number" min="1" placeholder="Số lượng tuyển" id="vacancy" name="vacancy"
                       class="form-control" value="{{ $job->vacancy }}">
                     <p></p>
@@ -72,13 +72,14 @@
 
                 <div class="row">
                   <div class="mb-4 col-md-6">
-                    <label for="" class="mb-2">Mức lương</label>
+                    <label for="" class="mb-3 fs-5 fst-italic">Mức lương</label>
                     <input type="text" placeholder="Mức lương" id="salary" name="salary" class="form-control"
                       value="{{ $job->salary }}">
                   </div>
 
                   <div class="mb-4 col-md-6">
-                    <label for="" class="mb-2">Vị trí cần tuyển<span class="req">*</span></label>
+                    <label for="" class="mb-3 fs-5 fst-italic">Vị trí cần tuyển<span
+                        class="req">*</span></label>
                     <input type="text" placeholder="Cấp bậc" id="level" name="level" class="form-control"
                       value="{{ $job->job_level }}">
                     <p></p>
@@ -86,27 +87,27 @@
                 </div>
 
                 <div class="mb-4">
-                  <label for="" class="mb-2">Mô tả</label>
+                  <label for="" class="mb-3 fs-5 fst-italic">Mô tả công việc</label>
                   <textarea class="textarea" name="description" id="description" cols="5" rows="5"
                     placeholder="Mô tả công việc">
                                     {{ $job->description }}
                                 </textarea>
                 </div>
                 <div class="mb-4">
-                  <label for="" class="mb-2">Phúc lợi</label>
+                  <label for="" class="mb-3 fs-5 fst-italic">Phúc lợi</label>
                   <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Phúc lợi">
                                     {{ $job->benefits }}
                                 </textarea>
                 </div>
                 <div class="mb-4">
-                  <label for="" class="mb-2">Trách nhiệm</label>
+                  <label for="" class="mb-3 fs-5 fst-italic">Trách nhiệm công việc</label>
                   <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5"
                     placeholder="Trách nhiệm">
                                     {{ $job->responsibility }}
                                 </textarea>
                 </div>
                 <div class="mb-4">
-                  <label for="" class="mb-2">Yêu cầu</label>
+                  <label for="" class="mb-3 fs-5 fst-italic">Kỹ năng & chuyên môn</label>
                   <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5"
                     placeholder="Nhập yêu cầu công việc...">
                                     {{ $job->qualifications }}
@@ -114,7 +115,7 @@
                 </div>
 
                 <div class="mb-4">
-                  <label for="" class="mb-2">Kinh nghiệm</label>
+                  <label for="" class="mb-3 fs-5 fst-italic">Kinh nghiệm tối thiểu</label>
                   <select name="experience" id="experience" class="form-control">
                     <option value="1" {{ $job->experience == 1 ? 'selected' : '' }}>1 năm</option>
                     <option value="2" {{ $job->experience == 2 ? 'selected' : '' }}>2 năm</option>
@@ -131,24 +132,30 @@
                 </div>
 
                 <div class="mb-4">
-                  <label for="" class="mb-2">Từ khóa<span class="req">*</span></label>
-                  <input type="text" placeholder="Nhập từ khóa..." id="keywords" name="keywords"
-                    class="form-control" value="{{ $job->keywords }}">
-                  <p></p>
+                  <label for="keywords" class="mb-3 fs-5 fst-italic">Từ khóa</label>
+                  <input type="text" id="keywords" name="keywords" class="form-control"
+                    placeholder="Ví dụ: PHP, Java,..." value="{{ str_replace(['[', ']', '"'], '', $job->keywords) }}">
+                </div>
+
+                <div class="row form-group">
+                  <label for="date" class="fs-5 fst-italic">Ngày hết hạn</labe1>
+                    <input type="date" name="expiration_date" id="expiration_date" class="form-control mt-3"
+                      value="{{ $job->expiration_date }}">
+                    <p></p>
                 </div>
 
                 <h3 class="fs-4 mb-1 mt-5 border-top pt-5">Chi tiết công ty</h3>
 
                 <div class="row">
                   <div class="mb-4">
-                    <label for="" class="mb-2">Tên công ty<span class="req">*</span></label>
+                    <label for="" class="mb-3 fs-5 fst-italic">Tên công ty<span class="req">*</span></label>
                     <input type="text" placeholder="Nhập tên công ty..." id="company_name" name="company_name"
                       class="form-control" value="{{ $job->company_name }}">
                     <p></p>
                   </div>
 
                   <div class="mb-4">
-                    <label for="address" class="form-label">Địa chỉ</label>
+                    <label for="address" class="form-label mb-3 fs-5 fst-italic">Địa chỉ</label>
                     <div class="input-group mb-3">
                       <select class="form-select" id="province" name="province">
                         @if (!empty($job->province))
@@ -163,7 +170,7 @@
                         @if (!empty($job->district))
                           <option selected>{{ $job->district }}</option>
                         @else
-                          <option selected>Chọn tỉnh / thành</option>
+                          <option selected>Chọn quận / huyện</option>
                         @endif
                       </select>
                       <input type="hidden" id="district_name" name="district_name">
@@ -172,12 +179,12 @@
                         @if (!empty($job->wards))
                           <option selected>{{ $job->wards }}</option>
                         @else
-                          <option selected>Chọn tỉnh / thành</option>
+                          <option selected>Chọn phường / xã</option>
                         @endif
                       </select>
                       <input type="hidden" id="ward_name" name="ward_name">
                     </div>
-                    <label for="" class="mb-2">Địa chỉ chi tiết</label>
+                    <label for="" class="mb-3 fs-5 fst-italic">Địa chỉ chi tiết</label>
                     <input type="text" class="form-control" id="location_detail" name="location_detail"
                       placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội"
                       value="{{ $job->location_detail }}">
@@ -186,7 +193,7 @@
                 </div>
 
                 <div class="mb-4">
-                  <label for="" class="mb-2">Website</label>
+                  <label for="" class="mb-3 fs-5 fst-italic">Website</label>
                   <input type="text" placeholder="Nhập địa chỉ website..." id="company_website"
                     name="company_website" class="form-control" value="{{ $job->company_website }}">
                 </div>
@@ -195,10 +202,28 @@
                 <button type="submit" class="btn btn-primary">Lưu công việc</button>
               </div>
             </div>
-          </form>
-
+            <label for="" class="mb-2">Địa chỉ chi tiết</label>
+            <input type="text" class="form-control" id="location_detail" name="location_detail"
+              placeholder="Ví dụ: Tầng 14, Richy Tower, Phường Yên Hoà, Quận Cầu Giấy, Thành phố Hà Nội"
+              value="{{ $job->location_detail }}">
         </div>
+
       </div>
+
+      <div class="mb-4">
+        <label for="" class="mb-2">Website</label>
+        <input type="text" placeholder="Nhập địa chỉ website..." id="company_website" name="company_website"
+          class="form-control" value="{{ $job->company_website }}">
+      </div>
+    </div>
+    <div class="card-footer p-4">
+      <button type="submit" class="btn btn-primary">Lưu công việc</button>
+    </div>
+    </div>
+    </form>
+
+    </div>
+    </div>
     </div>
   </section>
 @endsection
@@ -209,56 +234,178 @@
       e.preventDefault();
       $("button[type=submit]").prop("disabled", true);
       $.ajax({
-        url: '{{ route('account.updateJob', $job->id) }}',
-        type: 'POST',
-        dataType: 'json',
-        data: $("#editJobForm").serializeArray(),
-        success: function(response) {
-          $("button[type=submit]").prop("disabled", false);
-          if (response.status == true) {
-            $("#title").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+          url: '{{ route('account.updateJob', $job->id) }}',
+          type: 'POST',
+          dataType: 'json',
+          data: $("#editJobForm").serializeArray(),
+          success: function(response) {
+            $("button[type=submit]").prop("disabled", false);
+            if (response.status == true) {
+              $("#title").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-            $("#category").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+              $("#category").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-            $("#jobType").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+              $("#jobType").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-            $("#vacancy").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+              $("#vacancy").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-            $("#location").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+              $("#location").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-            $("#description").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+              $("#description").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-            $("#keyword").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+              <<
+              <<
+              << < HEAD
+              $("#keyword").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html(''); ===
+              ===
+              =
+              $("#expiration_date").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html(''); >>>
+              >>>
+              > user
 
-            $("#company_name").removeClass('is-invalid')
-              .siblings('p')
-              .removeClass('invalid-feedback')
-              .html('');
+              $("#company_name").removeClass('is-invalid')
+                .siblings('p')
+                .removeClass('invalid-feedback')
+                .html('');
 
-            window.location.href = "{{ route('account.myJobs') }}";
-          } else {
-            var errors = response.errors;
+              <<
+              <<
+              << < HEAD
+              window.location.href = "{{ route('account.myJobs') }}";
+            } else {
+              var errors = response.errors; ===
+              ===
+              =
+              window.location.href = "{{ route('account.myJobs') }}";
+            } else {
+              var errors = response.errors;
+
+              toastr.warning('Có lỗi xảy ra, hãy kiểm tra lại !');
+
+              // Title
+              if (errors.title) {
+                $("#title").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.title);
+              } else {
+                $("#title").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+              // Category
+              if (errors.category) {
+                $("#category").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.category);
+              } else {
+                $("#category").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+              // JobType
+              if (errors.jobType) {
+                $("#jobType").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.jobType);
+              } else {
+                $("#jobType").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+              // Vacancy
+              if (errors.vacancy) {
+                $("#vacancy").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.vacancy);
+              } else {
+                $("#vacancy").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+              // Location
+              if (errors.location) {
+                $("#location").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.location);
+              } else {
+                $("#location").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+              // Description
+              if (errors.description) {
+                $("#description").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.description);
+              } else {
+                $("#description").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+
+              if (errors.expiration_date) {
+                $("#expiration_date").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.expiration_date);
+              } else {
+                $("#expiration_date").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+
+              // Company_name
+              if (errors.company_name) {
+                $("#company_name").addClass('is-invalid')
+                  .siblings('p')
+                  .addClass('invalid-feedback')
+                  .html(errors.company_name);
+              } else {
+                $("#company_name").removeClass('is-invalid')
+                  .siblings('p')
+                  .removeClass('invalid-feedback')
+                  .html('');
+              }
+            } >>>
+            >>>
+            > user
 
             // Title
             if (errors.title) {
@@ -360,7 +507,9 @@
 
         }
       });
-    });
+    }); <<
+    <<
+    << < HEAD
   </script>
 
   <script>
@@ -423,3 +572,36 @@
     });
   </script>
 @endsection
+=======
+});
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const element = document.getElementById('choices-single-default');
+    const choices = new Choices(element, {
+      searchEnabled: true,
+      placeholder: true,
+      placeholderValue: 'Chọn ngành nghề',
+      itemSelectText: 'Nhấn để chọn',
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Khởi tạo Choices cho input từ khóa
+    const keywordInput = document.getElementById('keywords');
+    const choices = new Choices(keywordInput, {
+      removeItemButton: true, // Hiển thị nút xóa cho mỗi từ khóa
+      uniqueItemText: 'Từ khóa này đã có', // Thông báo khi nhập trùng
+      placeholder: true, // Hiển thị placeholder trong ô input
+      placeholderValue: 'Nhập từ khóa (Ví dụ: PHP, Java)', // Giá trị placeholder
+      delimiter: ',', // Dùng dấu "," làm phân cách giữa các từ khóa
+      editItems: true, // Cho phép chỉnh sửa các từ khóa đã nhập
+      removeItems: true // Cho phép xóa các từ khóa
+    });
+  });
+</script>
+@endsection
+>>>>>>> user

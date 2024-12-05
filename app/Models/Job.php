@@ -8,20 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
   use HasFactory;
-  public function career()
-  {
-    return $this->belongsTo(Career::class);
-  }
+
+  protected $table = 'jobs';
+
   public function jobType()
   {
     return $this->belongsTo(JobType::class);
   }
+
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
+
+  public function career()
+  {
+    return $this->belongsTo(Careers::class);
+  }
+
   public function applications()
   {
     return $this->hasMany(JobApplication::class);
-  }
-  public function user()
-  {
-    return $this->belongsTo(User::class, 'user_id');
   }
 }

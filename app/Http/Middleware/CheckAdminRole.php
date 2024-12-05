@@ -19,6 +19,6 @@ class CheckAdminRole
         }
 
         // Nếu không phải admin, chuyển hướng đến trang profile hoặc trang khác
-        return redirect()->route('account.profile');
+        return redirect()->route('front.404_Page');
     }
 }

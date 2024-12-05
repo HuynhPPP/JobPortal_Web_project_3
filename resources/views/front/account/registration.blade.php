@@ -8,7 +8,7 @@
             <div class="col-md-5">
                 <div class="card shadow border-0 p-5">
                     <h1 class="h3">Đăng ký</h1>
-                    <form action="" name="registrationForm" id="registrationForm">
+                    <form action=""  name="registrationForm" id="registrationForm">
                         <div class="mb-3">
                             <label for="" class="mb-2">Họ và tên <span style="color: red">*</span></label>
                             <input type="text" name="name" id="name" class="form-control" placeholder="Nhập họ và tên...">
@@ -78,5 +78,4 @@
         });
     });
 </script>
-
 @endsection

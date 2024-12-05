@@ -9,6 +9,8 @@ use App\Models\JobType;
 use App\Models\Job;
 use App\Models\SavedJob;
 use App\Models\User;
+use App\Models\NotificationUser;
+use App\Models\NotificationEmployer;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -26,7 +28,6 @@ class JobsController extends Controller
 
         $jobs = Job::where('status', 1);
 
-        // Search using keyword
         if (!empty($request->keyword)) {
             $jobs = $jobs->where(function($query) use ($request) {
                 $query->orwhere('title','like','%'.$request->keyword.'%');
@@ -34,24 +35,20 @@ class JobsController extends Controller
             });
         }
 
-        // Search using location
-        if (!empty($request->location)) {
-            $jobs = $jobs->where('company_location',$request->location);
+        if (!empty($request->province)) {
+            $jobs = $jobs->where('province',$request->province);
         }
 
-        // Search using careers
         if (!empty($request->career)) {
             $jobs = $jobs->where('career_id',$request->career);
         }
 
         $jobTypeArray = [];
-        // Search using jobType
         if (!empty($request->jobType)) {
             $jobTypeArray = explode(',',$request->jobType);
             $jobs = $jobs->whereIn('job_type_id',$jobTypeArray);
         }
 
-        // Search using experience
         if (!empty($request->experience)) {
             $jobs = $jobs->where('experience',$request->experience);
         }
@@ -65,7 +62,7 @@ class JobsController extends Controller
             $jobs = $jobs->orderBy('created_at','DESC');
         }
 
-        $jobs = $jobs->paginate(9);
+        $jobs = $jobs->paginate(8);
 
         return view('front.jobs', [
             'careers' => $careers,
@@ -75,14 +72,12 @@ class JobsController extends Controller
         ]);
     }
 
-   
     public function detail($id) {
         
 
         $job = Job::where([
-                                    'id' => $id, 
-                                    'status' => 1,
-                                  ])->with(['jobType','career'])->first();
+            'id' => $id, 
+        ])->with(['jobType','career','user'])->first();
 
         if ($job == null) {
             abort(404);
@@ -119,12 +114,15 @@ class JobsController extends Controller
     public function detail_employer($id) {
         $job = Job::where([
             'id' => $id, 
-            'status' => 1,
-        ])->with(['jobType','career'])->first();
+        ])->with(['jobType','career','user'])->first();
 
         if ($job == null) {
             abort(404);
         }
+
+        $applicationCount = JobApplication::where('job_id', $id)->count();
+
+        $isApplicationFull = $applicationCount == $job->vacancy;
 
         $applications = JobApplication::where('job_id',$id)->with('user')->get();
 
@@ -133,6 +131,7 @@ class JobsController extends Controller
         return view('front.jobDetail_employer',[
             'job' => $job,
             'applications' => $applications,
+            'isApplicationFull' => $isApplicationFull,
         ]);
     }
 
@@ -190,33 +189,30 @@ class JobsController extends Controller
                 ]);
             }
 
-            
-            if ($request->hasFile('cv')) {
-                
-                $file = $request->file('cv');
-
-                
+            if ($request->hasFile('cv')) {          
+                $file = $request->file('cv');          
                 $filename = Auth::user()->email . '_' . time() . '.' . $file->getClientOriginalExtension();
-
-                
-                $destinationPath = public_path('/assets/user/CV');
-
-                
+                $destinationPath = public_path('/assets/user/CV'); 
                 $file->move($destinationPath, $filename);
             }
 
-        
             $application = new JobApplication();
             $application->job_id = $id;
             $application->user_id = Auth::user()->id;
             $application->employer_id = $employer_id;
             $application->applied_date = now();
             $application->cv_path = $filename ?? null;
+            $application->status = "0";
             $application->save();
 
+            NotificationEmployer::create([
+                'employer_id' => $employer_id,
+                'job_notification_id' => $id,
+                'user_id' => Auth::user()->id,
+                'type' => 'applied',
+            ]);
             
             $employer = User::where('id',$employer_id)->first();
-
             $mailData = [
                 'employer' => $employer,
                 'user' => Auth::user(),
@@ -300,5 +296,59 @@ class JobsController extends Controller
 
         return response()->download($file);
     }
-    
+
+    public function processApplication(Request $request)
+    {
+        $application = JobApplication::find($request->id);
+
+        if ($application) {
+            if ($request->has('approval_status')) {
+                if ($request->approval_status == 1) {
+                    $application->status = 1;
+                    $type = 'approved';
+                } else {
+                    $application->status = 0;
+                    $type = 'rejected';
+                }
+
+                \DB::table('notifications_user')->insert([
+                    'user_id' => $application->user_id, 
+                    'job_notification_id' => $application->id,
+                    'message' => $request->message ? $request->message : null,
+                    'type' => $type, 
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+            }
+
+            $application->save();
+
+            return redirect(url()->previous())->with('toastr', ['success' => 'Thông báo đã được gửi đi']);
+
+        } else {
+            return redirect()->route('JobDetail_employer', ['id' => $request->job_id])
+                            ->with('toastr', ['error' => 'Có lỗi xảy ra, hãy thử lại!']);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $notification = NotificationUser::find($id);
+        if ($notification && $notification->user_id == auth()->id()) {
+            $notification->delete();
+            return redirect()->back();
+        }
+        return redirect()->back()->with('toastr', ['error' => 'Có lỗi xảy ra. Vui lòng thử lại.']);
+    }
+
+    public function delete_notification_Employer($id)
+    {
+        $notification = NotificationEmployer::find($id);
+        if ($notification && $notification->employer_id  == auth()->id()) {
+            $notification->delete();
+            return redirect()->back();
+        }
+        return redirect()->back()->with('toastr', ['error' => 'Có lỗi xảy ra. Vui lòng thử lại.']);
+    } 
 }

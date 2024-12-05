@@ -9,6 +9,7 @@ use App\Models\JobType;
 use App\Models\JobApplication;
 use App\Models\Job;
 use App\Models\SavedJob;
+use App\Models\NotificationEmployer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Mail\ResetPasswordEmail;
 use App\Notifications\NewJobNotification;
 use Intervention\Image\ImageManager;
@@ -27,7 +29,7 @@ class AccountController extends Controller
 {
   public function registration()
   {
-    return view('front.account.registration');
+    return view('front.account.registration_2');
   }
 
   public function processRegistration(Request $request)
@@ -68,7 +70,7 @@ class AccountController extends Controller
       $user->role = $request->input('role', 'user');
       $user->save();
 
-      session()->flash('success', 'Bạn đã đăng ký thành công.');
+      session()->flash('toastr', ['success' => 'Đăng ký thành công']);
 
       return response()->json([
         'status' => true,
@@ -82,11 +84,9 @@ class AccountController extends Controller
     }
   }
 
-
-  // Show user login page
   public function login()
   {
-    return view('front.account.login');
+    return view('front.account.login_2');
   }
 
   public function authenticate(Request $request)
@@ -147,10 +147,7 @@ class AccountController extends Controller
     ]);
 
     $rules = [
-      'name.required' => 'Trường họ và tên không được để trống.',
-      'name.min' => 'Tên người dùng phải chứa ít nhất 6 ký tự.',
-      'name.max' => 'Tên người dùng chỉ chứa tối đa 18 ký tự.',
-      'name.regex' => 'Tên người dùng không hợp lệ.',
+      'name' => 'required|min:5|max:18',
     ];
 
 
@@ -161,20 +158,18 @@ class AccountController extends Controller
     }
 
     if ($request->mobile !== $currentMobile) {
-      $rules['mobile'] = 'numeric|unique:users,mobile,' . $id . ',id';
+      $rules['mobile'] = 'nullable|numeric|unique:users,mobile,' . $id . ',id';
     } else {
-      $rules['mobile'] = 'numeric';
+      $rules['mobile'] = 'nullable|numeric';
     }
 
     $messages = [
       'name.required' => 'Trường họ và tên không được để trống.',
-      'name.min' => 'Tên người dùng phải chứa ít nhất 6 ký tự.',
+      'name.min' => 'Tên người dùng phải chứa ít nhất 5 ký tự.',
       'name.max' => 'Tên người dùng chỉ chứa tối đa 18 ký tự.',
-      'name.regex' => 'Tên người dùng không hợp lệ.',
       'email.required' => 'Trường email không được để trống.',
       'email.email' => 'Email phải đúng định dạng.',
       'email.unique' => 'Email này đã được sử dụng.',
-      'mobile.numeric' => 'Số điện thoại phải là số.',
       'mobile.unique' => 'Số điện thoại này đã được sử dụng.',
     ];
 
@@ -185,7 +180,6 @@ class AccountController extends Controller
       $user->fullname = $request->name;
       $user->email = $request->email;
       $user->mobile = $request->mobile;
-      $user->designation = $request->designation;
       $user->save();
 
       session()->flash('toastr', ['success' => 'Cập nhật thành công']);
@@ -204,6 +198,53 @@ class AccountController extends Controller
     }
   }
 
+  public function updateProfileCompany(Request $request)
+  {
+
+    $id = Auth::user()->id;
+
+    $request->merge([
+      'company_name' => preg_replace('/\s+/', ' ', trim($request->input('company_name'))),
+    ]);
+
+    $rules = [
+      'company_name' => 'required|min:5|max:30',
+    ];
+
+    $messages = [
+      'company_name.required' => 'Trường tên công ty không được để trống.',
+      'company_name.min' => 'Tên công ty phải chứa ít nhất 5 ký tự.',
+      'company_name.max' => 'Tên công ty chỉ chứa tối đa 30 ký tự.',
+    ];
+
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->passes()) {
+      $user = User::find($id);
+      $user->company_name = $request->company_name;
+      $user->province = $request->province_name ? $request->province_name : $user->province;
+      $user->district = $request->district_name ? $request->district_name : $user->district;
+      $user->wards = $request->ward_name ? $request->ward_name : $user->wards;
+      $user->location_detail = $request->location_detail;
+      $user->company_website = $request->company_website;
+      $user->save();
+
+      session()->flash('toastr', ['success' => 'Cập nhật thành công']);
+
+      return response()->json([
+        'status' => true,
+        'errors' => [],
+      ]);
+    } else {
+      session()->flash('toastr', value: ['warning' => 'Cập nhật chưa được thay đổi !']);
+
+      return response()->json([
+        'status' => false,
+        'errors' => $validator->errors(),
+      ]);
+    }
+  }
 
   public function logout()
   {
@@ -213,7 +254,6 @@ class AccountController extends Controller
 
   public function updateProfilePicture(Request $request)
   {
-    // dd($request->all());
 
     $id = Auth::user()->id;
 
@@ -238,12 +278,10 @@ class AccountController extends Controller
 
       $image->move($profilePicturePath, $imageName);
 
-      // Create a small thumbnail
       $sourcePath = public_path('/assets/user/profile_picture/' . $imageName);
       $manager = new ImageManager(Driver::class);
       $image = $manager->read($sourcePath);
 
-      // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
       $image->cover(150, 150);
       $image->toPng()->save($thumbPath . $imageName);
 
@@ -254,7 +292,6 @@ class AccountController extends Controller
       User::where('id', $id)->update(['image' => $imageName]);
 
       session()->flash('toastr', ['success' => 'Đăng ảnh đại diện thành công']);
-      // session()->flash('success','Đăng ảnh đại diện thành công.');
 
       return response()->json([
         'status' => true,
@@ -274,9 +311,13 @@ class AccountController extends Controller
     $careers = Careers::orderby('name', 'ASC')->where('status', 1)->get();
 
     $jobtype = JobType::orderby('name', 'ASC')->where('status', 1)->get();
+
+    $user = Auth::user();
+
     return view('front.account.job.create', [
       'careers' => $careers,
       'jobtypes' => $jobtype,
+      'user' => $user,
     ]);
   }
 
@@ -289,9 +330,8 @@ class AccountController extends Controller
       'jobType' => 'required',
       'vacancy' => 'required|integer',
       'level' => 'required|max:50',
-      'description' => 'required',
-      'keywords' => 'required',
       'company_name' => 'required|min:3|max:75',
+      'expiration_date' => 'nullable|date|after:today',
     ];
 
     $messages = [
@@ -304,11 +344,10 @@ class AccountController extends Controller
       'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
       'level.required' => 'Vị trí cần tuyển không được để trống.',
       'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
-      'description.required' => 'Mô tả công việc không được để trống.',
-      'keywords.required' => 'Từ khóa không được để trống.',
       'company_name.required' => 'Tên công ty không được để trống.',
       'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
       'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+      'expiration_date.after' => 'Ngày hết hạn phải là một ngày sau hôm nay.',
     ];
 
     $validator = Validator::make($request->all(), $rules, $messages);
@@ -335,17 +374,11 @@ class AccountController extends Controller
       $job->wards = $request->ward_name;
       $job->location_detail = $request->location_detail;
       $job->company_website = $request->company_website;
+      $job->expiration_date = $request->expiration_date ? $request->expiration_date : null;
       $job->status = "0";
       $job->save();
 
-      $admin = User::where('role', 'admin')->first();
-      // Gửi thông báo
-      if ($admin) {
-        $admin->notify(new NewJobNotification($job));
-      }
-
       session()->flash('toastr', ['success' => 'Thêm việc làm thành công']);
-      // session()->flash('success','Thêm việc làm thành công');
 
       return response()->json([
         'status' => true,
@@ -359,13 +392,25 @@ class AccountController extends Controller
     }
   }
 
-  public function myJobs()
+  public function myJobs(Request $request)
   {
 
-    $jobs = Job::where('user_id', Auth::user()->id)
-      ->with('jobType')
-      ->orderBy('created_at', 'DESC')
-      ->paginate(10);
+    $jobQuery = Job::where('user_id', Auth::user()->id)
+      ->with('jobType', 'applications')
+      ->orderBy('created_at', 'DESC');
+
+    if (!empty($request->keyword)) {
+      $jobQuery->where('title', 'like', '%' . $request->keyword . '%');
+    }
+
+    $jobs = $jobQuery->paginate(10);
+
+    foreach ($jobs as $job) {
+      if ($job->applications->count() >= $job->vacancy && $job->status == 1) {
+        $job->status = 3;
+        $job->save();
+      }
+    }
 
     return view('front.account.job.my-jobs', [
       'jobs' => $jobs,
@@ -403,8 +448,8 @@ class AccountController extends Controller
       'jobType' => 'required',
       'vacancy' => 'required|integer',
       'level' => 'required|max:50',
-      'keywords' => 'required',
       'company_name' => 'required|min:3|max:75',
+      'expiration_date' => 'nullable|date|after:today',
     ];
 
     $messages = [
@@ -417,10 +462,10 @@ class AccountController extends Controller
       'vacancy.integer' => 'Số lượng tuyển phải là một số nguyên.',
       'level.required' => 'Vị trí cần tuyển không được để trống.',
       'level.max' => 'Vị trí cần tuyển không được dài hơn 50 ký tự.',
-      'keywords.required' => 'Từ khóa không được để trống.',
       'company_name.required' => 'Tên công ty không được để trống.',
       'company_name.min' => 'Tên công ty phải có ít nhất 3 ký tự.',
       'company_name.max' => 'Tên công ty không được dài hơn 75 ký tự.',
+      'expiration_date.after' => 'Ngày hết hạn phải là một ngày sau hôm nay.',
     ];
 
     $validator = Validator::make($request->all(), $rules, $messages);
@@ -434,24 +479,33 @@ class AccountController extends Controller
       $job->user_id = Auth::user()->id;
       $job->vacancy = $request->vacancy;
       $job->salary = $request->salary;
-      $job->job_level = $request->level;
+      $levelsArray = explode(',', $request->level);
+      $job->job_level = implode(', ', array_map('trim', $levelsArray));
       $job->description = $request->description;
       $job->benefits = $request->benefits;
       $job->responsibility = $request->responsibility;
       $job->qualifications = $request->qualifications;
-      $job->keywords = $request->keywords;
+      $keywordsString = $request->keywords;
+      if (trim($keywordsString) === '') {
+        $job->keywords = '';
+      } else {
+        $keywordsString = trim($keywordsString, '[]"');
+        $keywordsArray = explode(',', $keywordsString);
+        $keywordsArray = array_map('trim', $keywordsArray);
+        $job->keywords = implode(', ', $keywordsArray);
+      }
       $job->experience = $request->experience;
       $job->company_name = $request->company_name;
-      $job->province = $request->province_name;
-      $job->district = $request->district_name;
-      $job->wards = $request->ward_name;
+      $job->province = $request->province_name ? $request->province_name : $job->province;
+      $job->district = $request->district_name ? $request->district_name : $job->district;
+      $job->wards = $request->ward_name ? $request->ward_name : $job->wards;
       $job->location_detail = $request->location_detail;
       $job->company_website = $request->company_website;
+      $job->expiration_date = $request->expiration_date ? $request->expiration_date : null;
       $job->save();
 
 
       session()->flash('toastr', ['success' => 'Việc làm đã được lưu']);
-      // session()->flash('success','Việc làm đã được lưu');
 
       return response()->json([
         'status' => true,
@@ -467,25 +521,20 @@ class AccountController extends Controller
 
   public function deleteJob(Request $request)
   {
-
     $job = Job::where([
       'user_id' => Auth::user()->id,
-      'id' => $request->jobId,
+      'id' => $request->id,
     ])->first();
 
     if ($job == null) {
-      session()->flash('toastr', ['error' => 'Công việc không tìm thấy hoặc đã bị xoá']);
-      return response()->json([
-        'status' => true,
-      ]);
+      return redirect()->route('account.myJobs')->with('toastr', ['error' => 'Không tìm thấy công việc']);
     }
 
-    Job::where('id', $request->jobId)->delete();
+    JobApplication::where('job_id', $job->id)->delete();
 
-    session()->flash('toastr', ['success' => 'Xoá thành công']);
-    return response()->json([
-      'status' => true,
-    ]);
+    $job->delete();
+
+    return redirect()->route('account.myJobs')->with('toastr', ['success' => 'Xoá việc làm thành công']);
   }
 
   public function myJobApplication(Request $request)
@@ -494,9 +543,7 @@ class AccountController extends Controller
       ->with(['job', 'job.jobType', 'job.applications'])
       ->orderBy('created_at', 'DESC');
 
-    // Nếu người dùng nhập từ khóa tìm kiếm
     if (!empty($request->keyword)) {
-      // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
       $jobApplicationsQuery->whereHas('job', function ($query) use ($request) {
         $query->where('title', 'like', '%' . $request->keyword . '%');
       });
@@ -504,11 +551,18 @@ class AccountController extends Controller
 
     $jobApplications = $jobApplicationsQuery->paginate(10);
 
+    foreach ($jobApplications as $jobApplication) {
+      $job = $jobApplication->job;
+      if ($job && $job->applications->count() >= $job->vacancy) {
+        $job->status = 3;
+        $job->save();
+      }
+    }
+
     return view('front.account.job.my-job-application', [
       'jobApplications' => $jobApplications
     ]);
   }
-
 
   public function removeJobs(Request $request)
   {
@@ -522,32 +576,34 @@ class AccountController extends Controller
     }
 
     $jobApplication->delete();
+
+    DB::table('notifications_employer')->insert([
+      'employer_id' => $jobApplication->employer_id,
+      'job_notification_id' => $jobApplication->job_id,
+      'user_id' => Auth::user()->id,
+      'type' => 'canceled',
+      'created_at' => now(),
+      'updated_at' => now(),
+    ]);
+
     return redirect()->route('account.myJobApplication')->with('toastr', ['success' => 'Huỷ ứng tuyển công việc thành công']);
   }
 
-
   public function savedJobs(Request $request)
   {
-    // $jobApplications = JobApplication::where('user_id', Auth::user()->id)
-    //                 ->with(['job','job.jobType','job.applications'])
-    //                 ->paginate(10);
 
     $savedJobsQuery = SavedJob::where('user_id', Auth::user()->id)
       ->with(['job', 'job.jobType', 'job.applications'])
       ->orderBy('created_at', 'DESC');
 
-    // Nếu người dùng nhập từ khóa tìm kiếm
     if (!empty($request->keyword)) {
-      // Kết hợp với bảng jobs để tìm theo tiêu đề công việc
       $savedJobsQuery->whereHas('job', function ($query) use ($request) {
         $query->where('title', 'like', '%' . $request->keyword . '%');
       });
     }
 
-    // Phân trang kết quả tìm kiếm
     $savedJobs = $savedJobsQuery->paginate(8);
 
-    // Trả về view với kết quả tìm kiếm
     return view('front.account.job.saved-jobs', [
       'savedJobs' => $savedJobs,
     ]);
@@ -706,5 +762,34 @@ class AccountController extends Controller
     ]);
 
     return redirect()->route('account.login')->with('success', 'Cập nhật mật khẩu thành công.');
+  }
+
+  public function notification()
+  {
+    $notifications = DB::table('notifications_user')
+      ->join('job_applications', 'notifications_user.job_notification_id', '=', 'job_applications.id')
+      ->join('jobs', 'job_applications.job_id', '=', 'jobs.id')
+      ->join('users as employer', 'jobs.user_id', '=', 'employer.id')
+      ->where('notifications_user.user_id', auth()->id())
+      ->orderBy('notifications_user.created_at', 'desc')
+      ->select(
+        'notifications_user.*',
+        'employer.fullname as employer_name',
+        'employer.image as employer_image',
+        'jobs.title as job_title'
+      )
+      ->paginate(9);
+
+    return view('front.account.notification', compact('notifications'));
+  }
+
+  public function notificationEmployer()
+  {
+    $notifications_employer = NotificationEmployer::with(['users', 'jobs'])
+      ->where('employer_id', auth()->id())
+      ->orderBy('created_at', 'desc')
+      ->paginate(9);
+
+    return view('front.account.notificationEmployer', compact('notifications_employer'));
   }
 }

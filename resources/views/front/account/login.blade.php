@@ -3,22 +3,8 @@
 @section('main')
 <section class="section-5">
     <div class="container my-5">
-        <div class="py-lg-2">&nbsp;</div>
-
-        @if(Session::has('success'))
-        <div class="alert alert-success">
-            <p class="mb-0 pb-0">{{ Session::get('success') }}</p>
-        </div>
-        @endif
-
-        @if(Session::has('error'))
-        <div class="alert alert-danger">
-            <p class="mb-0 pb-0">{{ Session::get('error') }}</p>
-        </div>
-        @endif
-
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-5">
+        <div class="row d-flex">
+            <div class="col-md-6 my-5">
                 <div class="card shadow border-0 p-5">
                     <h1 class="h3">Đăng nhập</h1>
                     <form action="{{ route('account.authenticate') }}" method="post">
@@ -59,8 +45,10 @@
                     <p>Bạn muốn tìm một công việc? <a  href="{{ route("account.registration") }}">Đăng ký</a></p>
                 </div>
             </div>
+            <div class="col-md-6 my-5">
+                <h1>Welcome</h1>
+            </div>
         </div>
-        <div class="py-lg-5">&nbsp;</div>
     </div>
 </section>
 @endsection
