@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -27,4 +28,15 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    public function render($request, Throwable $exception)
+    {
+        // Kiểm tra nếu là HttpException và mã lỗi là 404
+        if ($exception instanceof HttpException && $exception->getStatusCode() === 404) {
+            return response()->view('errors.404_front', [], 404);
+        }
+
+        // Gọi phương thức render gốc nếu không phải lỗi 404
+        return parent::render($request, $exception);
+    }
+    
 }

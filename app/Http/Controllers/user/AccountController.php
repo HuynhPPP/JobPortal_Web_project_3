@@ -106,7 +106,7 @@ class AccountController extends Controller
         $user = Auth::user();
         if ($user->role === 'admin') {
           // Nếu là admin, chuyển hướng đến trang admin
-          return redirect()->route('admin.dashboard');
+          return redirect()->route('admin.home');
         } else
           session()->flash('toastr', ['success' => 'Chào mừng bạn đến với website tìm kiếm việc làm']);
         // toastr()->success('Chào mừng bạn đến với website tìm kiếm việc làm');
