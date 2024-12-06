@@ -27,7 +27,7 @@ class JobController extends Controller
   public function editJob($id)
   {
     if (!ctype_digit($id)) {
-      return view("errors.404_admin");
+      return view("errors.404");
     }
     $job = Job::with('jobType')->findOrFail($id);
     $jobTypes = JobType::orderBy('name', 'ASC')->get();

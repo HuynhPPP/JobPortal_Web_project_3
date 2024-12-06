@@ -30,19 +30,14 @@
       <div class="row g-0 justify-content-center w-100 m-xxl-5 px-xxl-4 m-3">
         <div class="col-xl-4 col-lg-5 col-md-6">
           <div class="card overflow-hidden text-center h-100 p-xxl-4 p-3 mb-0">
-            <a href="index.html" class="auth-brand mb-3">
-              <img src="{{ asset('admin/images/logo-dark.png') }}" alt="dark logo" height="24" class="logo-dark">
-              <img src="{{ asset('admin/images/logo.png') }}" alt="logo light" height="24" class="logo-light">
-            </a>
-
             <div class="mx-auto text-center">
               <h3 class="fw-semibold mb-2">Ooop's ! </h3>
               <img src="{{ asset('admin/images/error/error-404.png') }}" alt="error 403 img" height="180"
                 class="my-3">
               <h2 class="fw-bold mt-3 text-primary lh-base">Không tìm thấy trang !</h2>
               <h4 class="fw-bold mt-2 text-dark lh-base">Trang này không có sẵn</h4>
-              <a href="{{ route('admin.home') }}" class="btn btn-primary">Về trang chủ <i
-                  class="ti ti-home ms-1"></i></a>
+              <a href="#"onclick="window.history.back();" class="btn btn-primary">Trở về<i
+                  class="ti ti-arrow ms-1"></i></a>
             </div>
           </div>
         </div>

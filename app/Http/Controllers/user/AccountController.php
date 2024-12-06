@@ -429,7 +429,7 @@ class AccountController extends Controller
     ])->first();
 
     if ($job == null) {
-      return view('errors.404_front');
+      return view('errors.404');
     }
 
     return view('front.account.job.edit', [
