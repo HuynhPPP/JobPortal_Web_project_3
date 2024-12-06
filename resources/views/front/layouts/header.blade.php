@@ -38,12 +38,18 @@
               @endif
           </ul>
           @if (Auth::check())
-            <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
-              khoản</a>
+              @if (Auth::user()->role === 'user')
+                <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
+                  khoản</a>
+              @elseif (Auth::user()->role === 'admin')
+                <a class="btn btn-outline-primary me-3" href="{{ route('admin.home') }}" type="submit">Trang quản trị viên</a>
+              @endif
           @else
             <a class="btn btn-outline-primary me-3" href="{{ route('account.login') }}" type="submit">Đăng nhập</a>
           @endif
           @if (Auth::check() && Auth::user()->role === 'employer')
+            <a class="btn btn-outline-primary me-3" href="{{ route('account.profile') }}" type="submit">Thông tin tài
+            khoản</a>
             <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Đăng bài tuyển dụng</a>
           @endif
       </div>
