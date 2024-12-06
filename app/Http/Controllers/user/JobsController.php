@@ -80,7 +80,7 @@ class JobsController extends Controller
         ])->with(['jobType','career','user'])->first();
 
         if ($job == null) {
-            abort(404);
+            return view('errors.404_front');
         }
 
         $count = 0; 
@@ -117,7 +117,7 @@ class JobsController extends Controller
         ])->with(['jobType','career','user'])->first();
 
         if ($job == null) {
-            abort(404);
+            return view('errors.404_front');
         }
 
         $applicationCount = JobApplication::where('job_id', $id)->count();
