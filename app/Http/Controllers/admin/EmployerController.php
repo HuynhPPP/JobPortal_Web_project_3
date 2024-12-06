@@ -24,7 +24,7 @@ class EmployerController extends Controller
   public function editEmployer($id)
   {
     if (!ctype_digit($id)) {
-      abort(404);
+      return view("errors.404_admin");
     }
     $employers = User::where('role', 'employer')->orderBy('updated_at', 'DESC')->paginate(5);
     $employer = User::where('role', 'employer')->findOrFail($id)->first();

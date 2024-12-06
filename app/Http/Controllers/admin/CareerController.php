@@ -66,7 +66,7 @@ class CareerController extends Controller
   public function getEditCareer($id)
   {
     if (!ctype_digit($id)) {
-      abort(404);
+      return view("errors.404_admin");
     }
     $careers = Career::orderBy('created_at', 'DESC')->paginate(5);
     $career = Career::findOrFail($id);

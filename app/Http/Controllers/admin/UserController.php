@@ -24,7 +24,7 @@ class UserController extends Controller
   public function editUser($id)
   {
     if (!ctype_digit($id)) {
-      abort(404);
+      return view("errors.404_admin");
     }
     $users = User::where('role', 'user')->orderBy('updated_at', 'DESC')->paginate(5);
     $user = User::where('role', 'user')->findOrFail($id)->first();
