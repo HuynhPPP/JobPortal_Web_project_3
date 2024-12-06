@@ -52,32 +52,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get("edit-job/{id}", "editJob")->name('admin.edit.job');
       Route::post("update-job/{id}", "updateJob")->name('admin.update.job');
     });
-    // Authenticated Routes
-    Route::group(['middleware' => 'auth'], function () {
-      Route::get('/profile', [AccountController::class, 'profile'])->name('account.profile');
-      Route::get('/notification', [AccountController::class, 'notification'])->name('account.notification');
-      Route::get('/notification-employer', [AccountController::class, 'notificationEmployer'])->name('account.notificationEmployer');
-      Route::put('/update-profile', [AccountController::class, 'updateProfile'])->name('account.updateProfile');
-      Route::put('/update-profile-company', [AccountController::class, 'updateProfileCompany'])->name('account.updateProfileCompany');
-      Route::get('/logout', [AccountController::class, 'logout'])->name('account.logout');
-      Route::post('/update-profile-pic', [AccountController::class, 'updateProfilePicture'])->name('account.updateProfilePicture');
-      Route::get('/create-job', [AccountController::class, 'createJob'])->name('account.createJob');
-      Route::post('/save-job', [AccountController::class, 'saveJob'])->name('account.saveJob');
-      Route::get('/my-job', [AccountController::class, 'myJobs'])->name('account.myJobs');
-      Route::get('/my-job/edit/{jobId}', [AccountController::class, 'editJob'])->name('account.editJob');
-      Route::post('/update-job/{jobId}', [AccountController::class, 'updateJob'])->name('account.updateJob');
-      Route::post('/delete-job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
-      Route::get('/my-job-application', [AccountController::class, 'myJobApplication'])->name('account.myJobApplication');
-
-      Route::post('/remove-job-application', [AccountController::class, 'removeJobs'])->name('account.removeJobs');
-      Route::get('/saved-job', [AccountController::class, 'savedJobs'])->name('account.savedJobs');
-      Route::post('/remove-saved-job', [AccountController::class, 'removeSavedJob'])->name('account.removeSavedJob');
-      Route::post('/update-password', [AccountController::class, 'updatePassword'])->name('account.updatePassword');
-
-      Route::post('/process-application/{id}', [JobsController::class, 'processApplication'])->name('process.application');
-      Route::delete('/notifications/{id}', [JobsController::class, 'destroy'])->name('notifications.destroy');
-      Route::delete('/notifications_employer/{id}', [JobsController::class, 'delete_notification_Employer'])->name('notifications.destroyEmployer');
-    });
+    
     Route::controller(UserController::class)->group(function () {
       Route::get("user", "getUser")->name('admin.user');
       Route::get("edit-user/{id}", "editUser")->name('admin.edit.user');
